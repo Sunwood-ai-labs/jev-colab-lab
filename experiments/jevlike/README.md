@@ -54,7 +54,7 @@ Notebookを実行する場合は [`jevlike_t4_experiment.ipynb`](notebooks/jevli
 
 ローカルCPU smoke test と T4 実測の両方が成功済みです。T4結果は [`results/colab-t4-result.json`](results/colab-t4-result.json) に保存しています。Tesla T4 / compute capability 7.5 / float32 で、4 epoch学習、checkpoint再読込、初回推論、warmup、定常推論、peak VRAMを計測しました。
 
-実測値は [`results/colab-t4-result.json`](results/colab-t4-result.json) と一致させています。`first_post_load_batch_inference_seconds` は、学習後に同じプロセスでcheckpointを読み込み、評価2パスの前に最初のtest batchをforwardした時間です。Python起動・import・CUDA context初期化・依存インストールを含む真のprocess-cold測定ではありません。`colab-t4-blocker.json` は前回のADC未認証試行の履歴として残しています。
+実測値は [`results/colab-t4-result.json`](results/colab-t4-result.json) と一致させています。学習 **1.374秒**、checkpoint読み込み **0.00305秒**、first post-load batch推論 **0.000891秒**、定常推論 **p50 0.810ms / p95 0.936ms**、peak allocated VRAM **学習28.273MiB / 推論27.418MiB** です。test top-1 は **0.8125**、shuffled-context control は **0.1953** でした。`first_post_load_batch_inference_seconds` は、学習後に同じプロセスでcheckpointを読み込み、評価2パスの前に最初のtest batchをforwardした時間です。Python起動・import・CUDA context初期化・依存インストールを含む真のprocess-cold測定ではありません。`colab-t4-blocker.json` は前回のADC未認証試行の履歴として残しています。
 
 ## 結果の読み方
 
