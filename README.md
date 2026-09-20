@@ -4,7 +4,13 @@ Jev系のDecision ModelをGoogle Colabで実行し、候補の確率を直接返
 
 ## 状態
 
-2026-09-20: 作業フォルダ・元資料・実験計画を準備。モデル取得、環境構築、ノートブック作成、推論・学習・計測は未実施。
+2026-09-20: 公開リポジトリを作成し、Laya / Kev / Jevlike (T4候補)、SemIf / OpenJev NLI 4B (L4候補) の5つの独立タスクをLUNA MAXで作成。各タスクは専用git worktreeとブランチ、uv環境で準備・実行・計測を進める。実GPUでの成功はまだ未確認。
+
+公開先: https://github.com/Sunwood-ai-labs/jev-colab-lab
+
+実験成果物は `experiments/<slug>/` に保存し、各タスクのブランチへ随時commit/pushする。mainへの統合前は各ブランチを参照。元の会話原文はローカル専用で公開対象外。
+
+Google Colab CLIはWSL Ubuntu-24.04の既存環境を使用する。Pythonはuvを使う。開発は並列、GPU実行の同時数はColabの利用枠に従う。詳しい作業規約はAGENTS.md、対象一覧はexperiments/README.mdを参照。
 
 ## 実験の順番（元資料に基づく暫定計画）
 
