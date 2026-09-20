@@ -7,6 +7,7 @@ on:
       - 'README.md'
       - 'README.ja.md'
       - 'experiments/**'
+      - 'docs/**'
       - 'NOTICE.md'
       - 'LICENSE'
       - '.github/workflows/public-qa.yml'
@@ -15,6 +16,7 @@ on:
       - 'README.md'
       - 'README.ja.md'
       - 'experiments/**'
+      - 'docs/**'
       - 'NOTICE.md'
       - 'LICENSE'
       - '.github/workflows/public-qa.yml'
@@ -46,22 +48,11 @@ jobs:
         shell: bash
         run: |
           node --input-type=module <<'NODE'
+          import { execFileSync } from 'node:child_process'
           import fs from 'node:fs'
-          const files = [
-            'experiments/laya/results/laya-t4-result.json',
-            'experiments/kev/results/kev-t4-result.json',
-            'experiments/kev/results/kev-jevdash-level1-manifest.json',
-            'experiments/kev/results/kev-jevdash-level1-presentation-replay.json',
-            'experiments/jevlike/results/colab-t4-result.json',
-            'experiments/openjev-nli/results/colab-l4.json',
-            'experiments/openjev-nli/results/jevdash/manifest.json',
-            'experiments/openjev-nli/results/jevdash/openjev-nli-jevdash.json',
-            'experiments/semif/results/semif-l4-result-20260921.json',
-            'experiments/jevlike/notebooks/jevlike_t4_experiment.ipynb',
-            'experiments/laya/notebooks/laya_t4_benchmark.ipynb',
-            'experiments/semif/notebooks/semif_l4_experiment.ipynb',
-            'experiments/openjev-nli/notebooks/openjev_nli_l4.ipynb'
-          ]
+          const files = execFileSync('git', ['ls-files', '--', 'experiments'], { encoding: 'utf8' })
+            .split(/\r?\n/)
+            .filter((file) => file.endsWith('.json') || file.endsWith('.ipynb'))
           for (const file of files) JSON.parse(fs.readFileSync(file, 'utf8'))
           console.log('Parsed ' + files.length + ' JSON/notebook artifacts')
           NODE
@@ -71,7 +62,7 @@ jobs:
         shell: bash
         run: |
           if rg -n -i '(client_secret|access_token|refresh_token|BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY|bearer [A-Za-z0-9._-]{24,}|accounts\.google\.com/o/oauth2)' \
-            --glob '!*.lock' --glob '!*.ipynb' .; then
+            --glob '!*.lock' .; then
             echo 'Credential-shaped content found'
             exit 1
           fi
