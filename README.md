@@ -4,7 +4,7 @@ Jev系のDecision ModelをGoogle Colabで実行し、候補の確率を直接返
 
 ## 状態
 
-2026-09-21: Laya / Kev はColab T4、SemIf / OpenJev NLI 4B はColab L4で実測を完了し、成果物をmainへ統合済み。JevlikeはT4検証を進行中。各実験は専用git worktreeとブランチ、uv環境で実施。
+2026-09-21: Laya / Kev / Jevlike はColab T4、SemIf / OpenJev NLI 4B はColab L4で実測を完了し、全5実験の成果物をmainへ統合済み。各実験は専用git worktreeとブランチ、uv環境で実施。
 
 公開先: https://github.com/Sunwood-ai-labs/jev-colab-lab
 
@@ -16,9 +16,9 @@ Jev系のDecision ModelをGoogle Colabで実行し、候補の確率を直接返
 | Kev-0.5B | T4 成功 | [手順と実測](experiments/kev/README.md) |
 | SemIf 4B | L4 成功 | [手順と実測](experiments/semif/README.md) |
 | OpenJev NLI 4B | L4 成功 | [手順と実測](experiments/openjev-nli/README.md) |
-| Jevlike | T4 検証中 | `codex/jevlike-tiny-attention` ブランチ |
+| Jevlike | T4 成功（短い学習・推論） | [手順と実測](experiments/jevlike/README.md) |
 
-各実験の入力・精度・計測条件は異なり、速度の直接比較や汎化性能の評価ではない。統合時の軽量テストは8件通過（Laya 3 / OpenJev NLI 3 / SemIf 2）。GPU結果は各ディレクトリの保存済み実測JSONを参照。
+各実験の入力・精度・計測条件は異なり、速度の直接比較や汎化性能の評価ではない。統合時の軽量テストは計10件通過（Laya 3 / OpenJev NLI 3 / SemIf 2 / Jevlike 2）。GPU結果は各ディレクトリの保存済み実測JSONを参照。
 
 Google Colab CLIはWSL Ubuntu-24.04の既存環境を使用する。Pythonはuvを使う。開発は並列、GPU実行の同時数はColabの利用枠に従う。詳しい作業規約はAGENTS.md、対象一覧はexperiments/README.mdを参照。
 
