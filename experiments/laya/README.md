@@ -43,7 +43,7 @@ $wslScript = "/mnt/c/Users/makim/.codex/worktrees/8918/jev-colab-lab/experiments
 $wslResult = "/mnt/c/Users/makim/.codex/worktrees/8918/jev-colab-lab/experiments/laya/results/laya-t4-result.json"
 
 wsl.exe -d Ubuntu-24.04 -- /home/makim/.local/bin/colab --config /tmp/jev-laya-colab-session.json new --session jev-laya --gpu T4
-wsl.exe -d Ubuntu-24.04 -- /home/makim/.local/bin/colab --config /tmp/jev-laya-colab-session.json install --session jev-laya laya==0.3.4 'huggingface-hub>=0.20,<1' 'safetensors>=0.4,<1' 'transformers>=4.45,<5'
+wsl.exe -d Ubuntu-24.04 -- /home/makim/.local/bin/colab --config /tmp/jev-laya-colab-session.json install --session jev-laya laya==0.3.4 'huggingface-hub>=0.20,<2' 'safetensors>=0.4,<1' 'transformers>=4.45,<6'
 wsl.exe -d Ubuntu-24.04 -- /home/makim/.local/bin/colab --config /tmp/jev-laya-colab-session.json exec --session jev-laya --file $wslScript --timeout 1800
 wsl.exe -d Ubuntu-24.04 -- /home/makim/.local/bin/colab --config /tmp/jev-laya-colab-session.json download --session jev-laya /content/laya-t4-result.json $wslResult
 wsl.exe -d Ubuntu-24.04 -- /home/makim/.local/bin/colab --config /tmp/jev-laya-colab-session.json stop --session jev-laya
