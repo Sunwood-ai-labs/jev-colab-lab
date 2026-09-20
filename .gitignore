@@ -16,3 +16,7 @@ references/original-discussion.txt
 **/credentials*.json
 **/token*.json
 .ipynb_checkpoints/
+node_modules/
+docs/.vitepress/cache/
+docs/.vitepress/dist/
+*.log

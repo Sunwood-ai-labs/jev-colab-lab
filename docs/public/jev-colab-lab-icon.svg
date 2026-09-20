@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+  <title id="title">Jev Colab Lab</title>
+  <desc id="desc">A geometric decision graph over a GPU-inspired square.</desc>
+  <rect width="512" height="512" rx="112" fill="#0b1020"/>
+  <path d="M128 156h256M128 356h256M156 128v256M356 128v256" stroke="#1e3a5f" stroke-width="18" stroke-linecap="round"/>
+  <path d="M128 256h94l66-76h96M222 256l66 76h96" fill="none" stroke="#5eead4" stroke-width="20" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="128" cy="256" r="30" fill="#f59e0b"/>
+  <circle cx="288" cy="180" r="30" fill="#60a5fa"/>
+  <circle cx="288" cy="332" r="30" fill="#60a5fa"/>
+  <rect x="350" y="146" width="56" height="68" rx="16" fill="#14b8a6"/>
+  <rect x="350" y="298" width="56" height="68" rx="16" fill="#14b8a6"/>
+  <path d="M368 166v28M382 166v28M368 318v28M382 318v28" stroke="#0b1020" stroke-width="8" stroke-linecap="round"/>
+</svg>
