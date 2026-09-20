@@ -1,0 +1,37 @@
+{
+  "verified_at_utc": "2026-09-20T14:56:26Z",
+  "sources": [
+    {
+      "kind": "official_repository",
+      "url": "https://github.com/NandhaKishorM/laya",
+      "commit": "d113dca2512fb3eaca313534bc54c7162d87c1d4",
+      "claims_checked": [
+        "pip package and inference API",
+        "ModernBERT-large 421M base checkpoint",
+        "T4 latency claims",
+        "Apache-2.0 license"
+      ]
+    },
+    {
+      "kind": "official_model",
+      "url": "https://huggingface.co/convaiinnovations/laya",
+      "revision": "1c5edc17a7acd8701df6fc341c0d179f1c62c982",
+      "claims_checked": [
+        "model files and root checkpoint layout",
+        "ModernBERT-large encoder",
+        "Apache-2.0 metadata"
+      ]
+    },
+    {
+      "kind": "official_package_source",
+      "url": "https://github.com/NandhaKishorM/laya/blob/d113dca2512fb3eaca313534bc54c7162d87c1d4/pyproject.toml",
+      "package_version": "0.3.4",
+      "claims_checked": ["runtime dependencies", "Python compatibility"]
+    },
+    {
+      "kind": "backbone_repository",
+      "url": "https://github.com/AnswerDotAI/ModernBERT",
+      "claims_checked": ["ModernBERT official research repository", "Apache-2.0 code repository"]
+    }
+  ]
+}
