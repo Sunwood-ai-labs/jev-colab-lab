@@ -58,6 +58,22 @@ $COLAB --auth adc --config "$CFG" stop --session jev-kev
 
 ノートブックを実行する場合は `t4_inference.py` を `/content/` にuploadした後、`kev_t4_inference.ipynb` を `colab exec --file` で送ります。最終的には結果回収後に必ず `stop` します。
 
+## JevDash実機プレイ録画
+
+`run_jevdash_colab.py` は、固定した JevDash commit `eb2f92617bab5d5021a5e3cf5ef2bdaf8207d480` を一時cloneし、公式 Kev-0.5B adapterを実際のColab T4で同期推論します。Level 1、seed 42、60 FPS、8 simulation framesごとの1判断、最大1800 simulation framesで、MockJevAgent・救済ルール・fallback・選択リトライは使いません。質問は7アクションの選択だけで、危険度とジャンプ緊急度は照会せず `N/A` と表示します。
+
+実測結果は `died`、simulation 62 frames / 1.033333秒、8 decisions、Tesla T4です。録画時間はsimulation framesを60 FPSで換算し、同期Kev推論の待ち時間は動画時間に含めません。固定CLIの死亡ホールド30 framesとadapter終端静止120 framesを含むため、動画は `62 + 30 + 120 = 212 frames`、3.533333秒です。
+
+成果物はリポジトリ外の集約先 `C:\Prj\jev-colab-lab\.local\jevdash-videos\kev\` に保存します。
+
+- `kev-jevdash-level1-original-colab.mp4`: T4から回収した元録画。上書きしません。
+- `kev-jevdash-level1-presentation-replay.mp4`: 元録画のフレーム列・状態・trajectoryを変えず、上部metrics cardの表示だけを修正したローカルreplay。
+- `kev-jevdash-level1-presentation-replay.json`: model/game revision、全8判断、推論時間、元録画とreplayのSHA256、ffprobe/full decodeを含むsanitized JSON。
+- `kev-jevdash-level1-manifest.json`: 元録画とpresentation replayのSHA256、映像時間、フレーム数、trajectory SHA、状態一致を記録。
+- `first-presentation-replay.png` / `middle-presentation-replay.png` / `last-presentation-replay.png`: 目視確認済み代表フレーム。
+
+`replay_jevdash_video.py` は表示修正専用で、モデルやGPUを再実行しません。MP4とmodel weightsはリポジトリへコミットせず、再現コードとsanitized結果だけを管理します。今回のColab初回準備で発生した2件の実行エラーは `results/kev-jevdash-attempt1.json` と `results/kev-jevdash-attempt2.json` に保存しています。
+
 ## 記録する値
 
 結果JSONには、実GPU名・compute capability・VRAM、CUDA/Python/依存version、公式repoとHub revision、入力state・質問・選択肢、候補確率、float32精度、load/encode/初回/warmup/定常/separate時間、peak allocated/reserved VRAM、packedとseparateの確率差、エラーを保存します。`status=success` であり、かつ `hardware.name` がT4のときだけ実GPU成功として扱います。
