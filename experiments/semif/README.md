@@ -90,7 +90,7 @@ Colab の base image に残っている text-only 推論不要の `torchvision`�
 
 ## Notebook
 
-`notebooks/semif_l4_experiment.ipynb` は、リポジトリを Colab VM に配置して `experiments/semif` を開いた状態で、`uv sync --extra gpu --group dev --frozen` と runner を順に実行します。Notebook の生成 output はコミットせず、取得した sanitized JSON を一次結果として扱います。
+`notebooks/semif_l4_experiment.ipynb` は、リポジトリを Colab VM に配置して `experiments/semif` を開いた状態で、`uv sync --extra gpu --group dev --frozen`、optional media package の除去、fixture 検証、runner の順に実行します。Notebook の生成 output はコミットせず、取得した sanitized JSON を一次結果として扱います。
 
 ## 既知の境界
 

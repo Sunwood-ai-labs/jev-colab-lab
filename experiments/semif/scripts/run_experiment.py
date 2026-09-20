@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import importlib.metadata
 import platform
 import re
 import statistics
@@ -73,6 +74,28 @@ def device_metadata(torch: Any) -> dict[str, Any]:
         "compute_capability": f"{properties.major}.{properties.minor}",
         "device_count": int(torch.cuda.device_count()),
     }
+
+
+def dependency_versions() -> dict[str, str]:
+    packages = (
+        "semif-phase1",
+        "torch",
+        "transformers",
+        "accelerate",
+        "safetensors",
+        "huggingface-hub",
+        "tokenizers",
+        "numpy",
+        "sentencepiece",
+        "protobuf",
+    )
+    versions: dict[str, str] = {}
+    for package in packages:
+        try:
+            versions[package] = importlib.metadata.version(package)
+        except importlib.metadata.PackageNotFoundError:
+            versions[package] = "not-installed"
+    return versions
 
 
 def compact_output(result: dict[str, Any]) -> dict[str, Any]:
@@ -151,6 +174,7 @@ def run(args: argparse.Namespace) -> tuple[dict[str, Any], int]:
                 "transformers_version": transformers.__version__,
                 "cuda_runtime": torch.version.cuda,
                 "cuda_available": bool(torch.cuda.is_available()),
+                "dependencies": dependency_versions(),
             }
         )
         if not torch.cuda.is_available():

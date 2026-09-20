@@ -5,4 +5,5 @@ __pycache__/
 .uv_cache/
 results/*.tmp
 results/*-local.json
+results/*-notebook.json
 notebooks/*_output.ipynb
