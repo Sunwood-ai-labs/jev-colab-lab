@@ -1,0 +1,26 @@
+{
+  "verified_at": "2026-09-20",
+  "implementation": {
+    "repository": "https://github.com/jaredpalmer/kev",
+    "ref": "v0.1.0",
+    "commit": "ac67bf4e52d7bdc8420d8024c396df5585915d8c",
+    "license": "Apache-2.0"
+  },
+  "adapter": {
+    "repository": "https://huggingface.co/jaredpalmer/kev-0.5b",
+    "ref": "v0.1",
+    "commit": "edf1dc6d7f8d983c0adfd251e80a686e5539fc61",
+    "license": "Apache-2.0"
+  },
+  "base_model": {
+    "repository": "https://huggingface.co/Qwen/Qwen2.5-0.5B",
+    "ref": "main at verification time",
+    "commit": "060db6499f32faf8b98477b0a26969ef7d8b9987",
+    "license": "Apache-2.0"
+  },
+  "colab_cli": {
+    "repository": "https://github.com/googlecolab/google-colab-cli",
+    "execution": "WSL Ubuntu-24.04 via /home/makim/.local/bin/colab",
+    "requested_accelerator": "T4"
+  }
+}
