@@ -21,7 +21,7 @@ task専用のsession名とstate fileを1つずつ使い、Gitの外に置きま�
 
 ~~~bash
 CFG=/tmp/jev-semif-colab-session.json
-COLAB=/home/makim/.local/bin/colab
+COLAB=colab
 $COLAB --config "$CFG" new --session jev-semif --gpu L4
 ~~~
 

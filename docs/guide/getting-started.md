@@ -15,7 +15,8 @@ uv --version
 ## 2. Run model-free checks
 
 ~~~powershell
-uv run --no-project --with pytest pytest experiments/laya/tests experiments/jevlike/tests experiments/openjev-nli/tests experiments/semif/tests -q
+uv run --no-project --with pytest pytest experiments/laya/tests experiments/openjev-nli/tests experiments/semif/tests -q
+uv run --project experiments/jevlike --extra dev pytest experiments/jevlike/tests -q
 uv run --no-project python -m py_compile experiments/kev/t4_inference.py
 ~~~
 

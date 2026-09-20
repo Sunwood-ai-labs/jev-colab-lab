@@ -21,7 +21,7 @@ Use one task-specific session name and one task-specific state file. Keep both o
 
 ~~~bash
 CFG=/tmp/jev-semif-colab-session.json
-COLAB=/home/makim/.local/bin/colab
+COLAB=colab
 $COLAB --config "$CFG" new --session jev-semif --gpu L4
 ~~~
 

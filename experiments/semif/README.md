@@ -66,8 +66,8 @@ uv run --extra gpu python scripts/run_experiment.py `
 ```powershell
 $Repo = (Get-Location).Path
 $WslRepo = '/mnt/c' + ($Repo.Substring(2) -replace '\\','/')
-$Config = '/mnt/c/Users/makim/.codex/jev-semif-colab-state.json'
-$Colab = '/home/makim/.local/bin/colab'
+$Config = '/tmp/jev-semif-colab-state.json'
+$Colab = 'colab'
 
 wsl.exe -d Ubuntu-24.04 -- $Colab --auth=adc --config $Config new --session jev-semif --gpu L4
 wsl.exe -d Ubuntu-24.04 -- $Colab --auth=adc --config $Config install `
@@ -102,13 +102,15 @@ Colab の base image に残っている text-only 推論不要の `torchvision`�
 専用の Google Colab CLI session は `jev-semif-jevdash`、GPUはL4、状態ファイルはgit worktree外の専用state fileを使いました。実行後、結果をダウンロードしてから同sessionだけ停止済みです。再実行時の依存は次の通りです。
 
 ```powershell
-$Config = '/mnt/c/Users/makim/.codex/jev-semif-jevdash-colab-state.json'
-$Colab = '/home/makim/.local/bin/colab'
+$WslRepo = '/path/to/jev-colab-lab'
+$Config = '/tmp/jev-semif-jevdash-colab-state.json'
+$Colab = 'colab'
+$VideoRoot = '/path/to/external/jevdash-videos/semif'
 wsl.exe -d Ubuntu-24.04 -- $Colab --auth=adc --config $Config new --session jev-semif-jevdash --gpu L4
 wsl.exe -d Ubuntu-24.04 -- $Colab --auth=adc --config $Config install `
-  --session jev-semif-jevdash -r /mnt/c/Users/makim/.codex/worktrees/af67/jev-colab-lab/experiments/semif/requirements-semif-jevdash-colab.txt
+  --session jev-semif-jevdash -r "$WslRepo/experiments/semif/requirements-semif-jevdash-colab.txt"
 wsl.exe -d Ubuntu-24.04 -- $Colab --auth=adc --config $Config exec `
-  --session jev-semif-jevdash -f /mnt/c/Users/makim/.codex/worktrees/af67/jev-colab-lab/experiments/semif/scripts/jevdash_colab_entry.py --timeout 3600
+  --session jev-semif-jevdash -f "$WslRepo/experiments/semif/scripts/jevdash_colab_entry.py" --timeout 3600
 ```
 
 今回の実測は次の通りです。
@@ -125,7 +127,7 @@ wsl.exe -d Ubuntu-24.04 -- $Colab --auth=adc --config $Config exec `
 
 sanitized JSON、MP4、ffprobe、全デコード証跡、代表PNG、検証manifestは、git外の次のディレクトリに保存しています。
 
-`C:\Prj\jev-colab-lab\.local\jevdash-videos\semif\`
+`$VideoRoot`（git管理外）
 
 代表フレーム（0、900、1799）を目視し、ゲームviewport、7択確率バー、L4表示、60 FPS/8F契約、`DANGER / URGENCY: NOT MEASURED` の表示を確認しました。文字切れ・重なりはありません。終端フレームの画面表示は29.98 s、JSONの1800フレーム時間は30.00 sで、60 FPSのフレーム境界として整合します。danger/urgencyはモデル出力として推測・表示していません。
 

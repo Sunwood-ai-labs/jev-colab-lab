@@ -18,8 +18,22 @@ This directory contains five independent, pinned experiments. Each folder owns i
 - Synthetic or public fixtures are not representative accuracy benchmarks, and option probabilities are not automatically calibrated confidence.
 - Upstream implementation revisions, model revisions, licenses, and the Colab CLI are recorded in <code>source.json</code>, <code>source-manifest.json</code>, or <code>references/verified-sources.json</code>.
 
+## JevDash capture evidence
+
+The five model paths have a completed JevDash Level 1 capture set outside Git. These links are the public review conduits for the capture code and checked-in evidence; the MP4 files themselves are intentionally external and this repository does not claim a public video URL.
+
+| Model path | Public conduit | Evidence boundary |
+| --- | --- | --- |
+| Laya | [capture runner and README](laya/README.md) | Real T4 adapter path; fixed game revision and simulation-time labeling. |
+| Kev | [capture README](kev/README.md) | T4 trajectory plus state-preserving presentation replay; sanitized manifests live in `kev/results/`. |
+| Jevlike | [capture guide](jevlike/jevdash-capture.md) | T4 trajectory plus state-verified HUD-only replay; no extra model inference in the replay. |
+| SemIf | [capture README](semif/README.md) | Real L4 option-logit control; checked-in runner and fixed game marker. |
+| OpenJev NLI | [capture README and evidence](openjev-nli/README.md) | Real L4 NLI control; manifests, judgment log, representative frames, and decode evidence are checked in. |
+
+Treat the five captures as independent single episodes, not a ranking. Their video clock is simulation time with synchronous inference waits omitted. Where a presentation replay exists, it preserves the recorded trajectory and state and changes only the HUD rendering.
+
 ## Deferred work
 
 Nimble 9B, OpenJev 35B, and DiffusionGemma were outside the initial T4/L4 batch. They should receive their own folder and source manifest if they are resumed; do not silently mix them into an existing result.
 
-The Jevlike timing correction is tracked in a separate review task. Until that change is integrated into <code>main</code>, avoid comparing its earlier first-inference value with the other experiments.
+Jevlike timing fields retain their measurement boundary in the result schema. Avoid comparing any one experiment's first-inference field with another experiment's field unless the runner definitions and setup boundaries are equivalent.

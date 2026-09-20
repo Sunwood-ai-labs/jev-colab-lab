@@ -20,7 +20,7 @@
   },
   "colab_cli": {
     "repository": "https://github.com/googlecolab/google-colab-cli",
-    "execution": "WSL Ubuntu-24.04 via /home/makim/.local/bin/colab",
+    "execution": "WSL Ubuntu-24.04 via the colab CLI",
     "requested_accelerator": "T4"
   }
 }

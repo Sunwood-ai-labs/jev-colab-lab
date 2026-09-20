@@ -32,7 +32,10 @@ git clone https://github.com/Sunwood-ai-labs/jev-colab-lab.git
 Set-Location jev-colab-lab
 
 # Run the model-free helper and fixture tests with uv.
-uv run --no-project --with pytest pytest experiments/laya/tests experiments/jevlike/tests experiments/openjev-nli/tests experiments/semif/tests -q
+uv run --no-project --with pytest pytest experiments/laya/tests experiments/openjev-nli/tests experiments/semif/tests -q
+
+# Run the Jevlike regression suite with its declared torch dependency.
+uv run --project experiments/jevlike --extra dev pytest experiments/jevlike/tests -q
 
 # Check the Kev runner syntax without installing its model dependencies.
 uv run --no-project python -m py_compile experiments/kev/t4_inference.py
@@ -50,7 +53,15 @@ For a model-backed local smoke test, follow the experiment README and use that e
 | [SemIf / Qwen3.5-4B](experiments/semif/README.md) | Colab L4 | direct next-token option-logit readout | [runner](experiments/semif/scripts/run_experiment.py) · [L4 JSON](experiments/semif/results/semif-l4-result-20260921.json) |
 | [OpenJev NLI 4B](experiments/openjev-nli/README.md) | Colab L4 | entailment, contradiction, and neutral scores | [runner](experiments/openjev-nli/scripts/measure_openjev.py) · [L4 JSON](experiments/openjev-nli/results/colab-l4.json) |
 
-The checked-in JSON is the canonical evidence. The Jevlike timing follow-up is being reviewed in a separate task, so this landing page deliberately does not promote its earlier first-inference time as a cross-experiment fact.
+The checked-in JSON is the canonical evidence. Jevlike timing fields retain their measurement boundary in the result schema; this landing page does not use them as a cross-experiment comparison point.
+
+## 🎮 JevDash capture set
+
+The five model paths now have a completed JevDash Level 1 capture set outside Git. The public experiment pages link to the runners and sanitized evidence that can be reviewed here; the MP4 files themselves have no public URL in this repository and are intentionally kept out of Git.
+
+These are independent single-episode demonstrations, not a model ranking. Video time is simulation time with synchronous inference waits omitted. The Kev and Jevlike presentation replays preserve the recorded model trajectory and state, changing only the HUD rendering.
+
+Start from the [public capture evidence index](experiments/README.md#jevdash-capture-evidence) for the five experiment-specific conduits.
 
 ## 🧭 How to read the results
 

@@ -35,6 +35,7 @@ features:
   <div class="lab-card"><strong>T4 × 3</strong><p>Laya、Kev-0.5B、Jevlikeの短時間学習・推論。</p></div>
   <div class="lab-card"><strong>L4 × 2</strong><p>SemIfの直接option readoutとOpenJev NLI。</p></div>
   <div class="lab-card"><strong>結果セット × 5</strong><p>すべてchecked-in JSONと実験READMEへリンクします。</p></div>
+  <div class="lab-card"><strong>JevDash録画 × 5</strong><p>独立した単一episodeの録画セット。MP4はGit外です。</p></div>
 </div>
 
 5つの実験は意図的に異質です。このサイトはleaderboardではなく再現性のインデックスであり、fixture、readout、モデルサイズ、確率の意味が異なります。
@@ -48,5 +49,5 @@ features:
 
 <div class="tip custom-block">
   <p class="custom-block-title">現在の計測メモ</p>
-  <p>Jevlikeの計測修正は別タスクでレビュー中です。旧初回推論時間は、ここで実験間比較の値として扱っていません。</p>
+  <p>Jevlikeのtiming fieldはresult schemaの計測境界を保持し、実験間比較の値として扱っていません。</p>
 </div>

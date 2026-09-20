@@ -36,14 +36,14 @@ uv run --project experiments/kev python -m py_compile experiments/kev/t4_inferen
 CLIは共有設定と競合しない専用state fileを使います。`--config` はディレクトリではなくsession state fileです。まず WSL でCLIを確認します。
 
 ```bash
-/home/makim/.local/bin/colab --help
-/home/makim/.local/bin/colab --auth adc --config /tmp/jev-kev-colab-session.json sessions
+colab --help
+colab --auth adc --config /tmp/jev-kev-colab-session.json sessions
 ```
 
 専用セッションを作成し、依存を入れてスクリプトをuploadします。`--gpu T4` がquotaまたはentitlementで拒否された場合は、同じタスクで無限再試行しません。
 
 ```bash
-COLAB=/home/makim/.local/bin/colab
+COLAB=colab
 CFG=/tmp/jev-kev-colab-session.json
 $COLAB --auth adc --config "$CFG" new --session jev-kev --gpu T4
 $COLAB --auth adc --config "$CFG" upload experiments/kev/requirements-colab.txt /content/requirements-colab.txt
@@ -62,9 +62,9 @@ $COLAB --auth adc --config "$CFG" stop --session jev-kev
 
 `run_jevdash_colab.py` は、固定した JevDash commit `eb2f92617bab5d5021a5e3cf5ef2bdaf8207d480` を一時cloneし、公式 Kev-0.5B adapterを実際のColab T4で同期推論します。Level 1、seed 42、60 FPS、8 simulation framesごとの1判断、最大1800 simulation framesで、MockJevAgent・救済ルール・fallback・選択リトライは使いません。質問は7アクションの選択だけで、危険度とジャンプ緊急度は照会せず `N/A` と表示します。
 
-実測結果は `died`、simulation 62 frames / 1.033333秒、8 decisions、Tesla T4です。録画時間はsimulation framesを60 FPSで換算し、同期Kev推論の待ち時間は動画時間に含めません。固定CLIの死亡ホールド30 framesとadapter終端静止120 framesを含むため、動画は `62 + 30 + 120 = 212 frames`、3.533333秒です。
+実測結果は `died` のTesla T4 episodeです。録画時間はsimulation framesを60 FPSで換算し、同期Kev推論の待ち時間は動画時間に含めません。固定CLIの死亡ホールドとadapter終端静止を含む動画フレーム数はsanitized manifestに記録しています。
 
-成果物はリポジトリ外の集約先 `C:\Prj\jev-colab-lab\.local\jevdash-videos\kev\` に保存します。
+成果物はリポジトリ外の `VIDEO_ROOT` に保存します（例: `/path/to/external/jevdash-videos/kev`）。
 
 - `kev-jevdash-level1-original-colab.mp4`: T4から回収した元録画。上書きしません。
 - `kev-jevdash-level1-presentation-replay.mp4`: 元録画のフレーム列・状態・trajectoryを変えず、上部metrics cardの表示だけを修正したローカルreplay。

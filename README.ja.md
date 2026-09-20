@@ -32,7 +32,10 @@ git clone https://github.com/Sunwood-ai-labs/jev-colab-lab.git
 Set-Location jev-colab-lab
 
 # uvで補助関数・fixtureのテストを実行
-uv run --no-project --with pytest pytest experiments/laya/tests experiments/jevlike/tests experiments/openjev-nli/tests experiments/semif/tests -q
+uv run --no-project --with pytest pytest experiments/laya/tests experiments/openjev-nli/tests experiments/semif/tests -q
+
+# Jevlikeの回帰テストは宣言済みtorch依存を含む環境で実行
+uv run --project experiments/jevlike --extra dev pytest experiments/jevlike/tests -q
 
 # Kev runnerの構文だけを確認（モデル依存はインストールしない）
 uv run --no-project python -m py_compile experiments/kev/t4_inference.py
@@ -50,7 +53,15 @@ uv run --no-project python -m py_compile experiments/kev/t4_inference.py
 | [SemIf / Qwen3.5-4B](experiments/semif/README.md) | Colab L4 | 次トークンlogitの直接option readout | [runner](experiments/semif/scripts/run_experiment.py) · [L4 JSON](experiments/semif/results/semif-l4-result-20260921.json) |
 | [OpenJev NLI 4B](experiments/openjev-nli/README.md) | Colab L4 | entailment・contradiction・neutral | [runner](experiments/openjev-nli/scripts/measure_openjev.py) · [L4 JSON](experiments/openjev-nli/results/colab-l4.json) |
 
-コミット済みJSONを各実験のcanonicalな証跡とします。Jevlikeの計測修正は別タスクでレビュー中のため、このREADMEでは旧初回推論時間を実験間比較の確定値として掲載していません。
+コミット済みJSONを各実験のcanonicalな証跡とします。Jevlikeのtiming fieldはresult schemaに計測境界を残していますが、このREADMEでは実験間比較の値として扱いません。
+
+## 🎮 JevDash録画セット
+
+5つのモデル経路でJevDash Level 1の録画セットをGit外に完成させています。公開実験ページから、ここで確認できるrunnerとsanitizedな証跡へ導線を張っています。MP4本体はこのリポジトリに公開URLがなく、意図的にGitへ入れていません。
+
+これはモデルランキングではなく、独立した単一episodeの実演です。動画時間は同期推論の待ち時間を除いたsimulation timeです。KevとJevlikeのpresentation replayは、記録済みのモデル軌跡と状態を維持し、HUD描画だけを補正しています。
+
+5実験の公開導線は[録画証跡インデックス](experiments/README.md#jevdash-capture-evidence)から確認できます。
 
 ## 🧭 結果の読み方
 

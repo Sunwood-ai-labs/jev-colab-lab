@@ -20,11 +20,13 @@ Python環境とパッケージ操作は `uv` を使います。上流コード�
 
 ```powershell
 cd experiments/jevlike
-uv venv --python 3.11 C:\Users\makim\AppData\Local\Temp\jevlike-venv-20260920
-uv pip install --python C:\Users\makim\AppData\Local\Temp\jevlike-venv-20260920\Scripts\python.exe -e .
-uv pip install --python C:\Users\makim\AppData\Local\Temp\jevlike-venv-20260920\Scripts\python.exe pytest
-& C:\Users\makim\AppData\Local\Temp\jevlike-venv-20260920\Scripts\python.exe -m pytest -q tests
-& C:\Users\makim\AppData\Local\Temp\jevlike-venv-20260920\Scripts\python.exe scripts/run_experiment.py --device cpu --output-dir results/local-cpu --skip-install
+$venv = Join-Path $env:TEMP 'jevlike-venv'
+$venvPython = Join-Path $venv 'Scripts/python.exe'
+uv venv --python 3.11 $venv
+uv pip install --python $venvPython -e .
+uv pip install --python $venvPython pytest
+& $venvPython -m pytest -q tests
+& $venvPython scripts/run_experiment.py --device cpu --output-dir results/local-cpu --skip-install
 ```
 
 `--skip-install` は、同じ仮想環境へ先に上流パッケージをインストールした場合だけ指定します。通常は省略すれば、スクリプト自身が `uv pip install` を実行します。
@@ -34,18 +36,18 @@ uv pip install --python C:\Users\makim\AppData\Local\Temp\jevlike-venv-20260920\
 Colab CLI は Windows ではなく WSL の Linux 側で実行します。CLIのセッション状態はリポジトリ外の専用ファイルに置き、他タスクのセッション名や状態を使いません。
 
 ```bash
-cd /mnt/c/Users/makim/.codex/worktrees/7ce8/jev-colab-lab
+cd /path/to/jev-colab-lab
 mkdir -p /tmp/jevlike-colab
-/home/makim/.local/bin/colab --auth adc --config /tmp/jevlike-colab/session.json \
+colab --auth adc --config /tmp/jevlike-colab/session.json \
   run --gpu T4 --session jev-jevlike --timeout 1800 \
-  /mnt/c/Users/makim/.codex/worktrees/7ce8/jev-colab-lab/experiments/jevlike/scripts/run_experiment.py \
+  /path/to/jev-colab-lab/experiments/jevlike/scripts/run_experiment.py \
   --device cuda --output-dir /content/jevlike-results
 ```
 
 `colab run` は成功・失敗を問わず通常はセッションを解放します。手動で `colab new` を使った場合は、結果回収後に必ず次を実行します。
 
 ```bash
-/home/makim/.local/bin/colab --auth adc --config /tmp/jevlike-colab/session.json stop -s jev-jevlike
+colab --auth adc --config /tmp/jevlike-colab/session.json stop -s jev-jevlike
 ```
 
 Notebookを実行する場合は [`jevlike_t4_experiment.ipynb`](notebooks/jevlike_t4_experiment.ipynb) を Colab CLI の `exec -f` に渡します。Notebookは同じ計測ラッパーをimmutableなgit commitから取得します。ネットワークやcommit取得ができない環境では上の `colab run` を使ってください。
@@ -54,7 +56,7 @@ Notebookを実行する場合は [`jevlike_t4_experiment.ipynb`](notebooks/jevli
 
 ローカルCPU smoke test と T4 実測の両方が成功済みです。T4結果は [`results/colab-t4-result.json`](results/colab-t4-result.json) に保存しています。Tesla T4 / compute capability 7.5 / float32 で、4 epoch学習、checkpoint再読込、初回推論、warmup、定常推論、peak VRAMを計測しました。
 
-実測値は [`results/colab-t4-result.json`](results/colab-t4-result.json) と一致させています。学習 **1.374秒**、checkpoint読み込み **0.00305秒**、first post-load batch推論 **0.000891秒**、定常推論 **p50 0.810ms / p95 0.936ms**、peak allocated VRAM **学習28.273MiB / 推論27.418MiB** です。test top-1 は **0.8125**、shuffled-context control は **0.1953** でした。`first_post_load_batch_inference_seconds` は、学習後に同じプロセスでcheckpointを読み込み、評価2パスの前に最初のtest batchをforwardした時間です。Python起動・import・CUDA context初期化・依存インストールを含む真のprocess-cold測定ではありません。`colab-t4-blocker.json` は前回のADC未認証試行の履歴として残しています。
+実測値は [`results/colab-t4-result.json`](results/colab-t4-result.json) に保存しています。学習、checkpoint再読込後の初回batch、warmup、定常推論、peak VRAM、test top-1、shuffled-context controlを、測定境界とともに記録しています。`first_post_load_batch_inference_seconds` は同一プロセス内のcheckpoint再読込後に測る値であり、Python起動・import・CUDA context初期化・依存インストールを含むprocess-cold測定ではありません。実験間の初回推論比較には使わないでください。`colab-t4-blocker.json` は前回のADC未認証試行の履歴として残しています。
 
 ## 結果の読み方
 
