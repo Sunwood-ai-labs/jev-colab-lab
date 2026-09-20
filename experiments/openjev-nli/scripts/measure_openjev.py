@@ -173,6 +173,20 @@ def make_environment(torch: Any, transformers: Any, hub: Any) -> dict[str, Any]:
 def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     remote_dataset = Path(DEFAULT_REMOTE_DATASET)
     dataset_default = str(remote_dataset if remote_dataset.exists() else Path(DEFAULT_LOCAL_DATASET))
+    if argv is None:
+        # colab exec runs the file through IPython, which injects its own
+        # ``-f <kernel.json>`` arguments into sys.argv.
+        raw_argv = list(sys.argv[1:])
+        argv = []
+        skip_next = False
+        for argument in raw_argv:
+            if skip_next:
+                skip_next = False
+                continue
+            if argument == "-f":
+                skip_next = True
+                continue
+            argv.append(argument)
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--dataset", default=dataset_default)
     parser.add_argument("--output", default=DEFAULT_OUTPUT if remote_dataset.exists() else "results/openjev-nli-result.json")
