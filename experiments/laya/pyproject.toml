@@ -7,6 +7,8 @@ dependencies = [
     "laya==0.3.4",
     "huggingface-hub>=0.20,<2",
     "numpy>=1.20,<3",
+    "pydantic>=2.7,<3",
+    "pygame>=2.6,<3",
     "safetensors>=0.4,<1",
     "torch>=2.0,<3",
     "transformers>=4.45,<6",

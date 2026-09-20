@@ -64,3 +64,27 @@ wsl.exe -d Ubuntu-24.04 -- /home/makim/.local/bin/colab --config /tmp/jev-laya-c
 - `output`: 選択肢、scoreの段階、noul確率を含むLayaの実出力
 
 `--require-cuda` を指定するとGPUに配置できなかった場合はエラーJSONを残して非ゼロ終了します。CPU smoke test、quota不足、認証失敗をColab T4成功として報告しません。
+
+## JevDash実モデル録画
+
+`adapter/runner.py` は、`Sunwood-ai-labs/jevdash` の固定commit `eb2f92617bab5d5021a5e3cf5ef2bdaf8207d480` を変更せずに参照し、Level 1をseed 42で実行します。LayaはCUDA上で同期的に8シミュレーションフレームごとに1回だけ呼び、7候補のargmax actionだけをゲームへ渡します。モック、live Jev、ルールfallback、成功プレイの選別はありません。
+
+Layaへ渡すstateは固定ゲームの `JevObservation.model_dump()` 全体です。各判断のJSONに観測、候補、全確率、入力token数、512-token context内の保持token数、truncation有無、推論時間を記録します。danger/urgencyはLayaのaction-only questionでは計測せず、HUD/JSONでも `UNMEASURED` と表示します。
+
+動画はゲームの60 FPSシミュレーションフレームを録画します。Laya推論待ちを含むwall-clock実時間ではありません。死亡・クリア・1800フレーム上限の後に120フレームの静止終端を追加します。録画時の画面にはモデル名、GPU、`MODEL DECISION`、`SIM TIME ... inference waits omitted` を表示します。
+
+実行は必ず独立したColab sessionで行い、ゲームclone・runner・動画・JSONをVM内で完結させてから回収します。session stateはgit外の専用ファイルにしてください。
+
+```powershell
+$cfg = "/tmp/jev-laya-jevdash-session.json"
+$runner = "/mnt/c/Users/makim/.codex/worktrees/8918/jev-colab-lab/experiments/laya/adapter/runner.py"
+
+wsl.exe -d Ubuntu-24.04 -- /home/makim/.local/bin/colab --auth adc --config $cfg new --session jev-laya-jevdash --gpu T4
+# Upload the fixed game source archive and adapter files, then install with uv.
+wsl.exe -d Ubuntu-24.04 -- /home/makim/.local/bin/colab --auth adc --config $cfg install --session jev-laya-jevdash laya==0.3.4 pygame pydantic
+# Execute the uploaded runner with SDL_VIDEODRIVER=dummy and --video/--json under /content.
+# Download all files before stopping only this session.
+wsl.exe -d Ubuntu-24.04 -- /home/makim/.local/bin/colab --auth adc --config $cfg stop --session jev-laya-jevdash
+```
+
+FFmpegの `ffprobe`、全フレームdecode、代表3フレームの目視確認を実行結果に添えます。重み・認証情報・session metadataは成果物へコピーしません。
