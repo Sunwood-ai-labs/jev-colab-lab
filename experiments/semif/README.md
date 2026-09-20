@@ -28,7 +28,8 @@ TheoLeeCJ/SemIf（旧 OpenJev）の direct 実装を、AlexWortega/openjev の N
 | `scripts/colab_entry.py` | CLI でアップロードした runner を実行する薄い entry point |
 | `requirements-colab.txt` | Colab 用の uv 管理依存固定 |
 | `notebooks/semif_l4_experiment.ipynb` | 同じ runner を使う再現用 notebook（出力なしで保存） |
-| `results/` | sanitized な実測 JSON を保存する場所 |
+| `results/semif-l4-result-20260921.json` | 全依存 version を含む canonical な L4 実測 |
+| `results/semif-l4-failure-20260920.json` | optional package 不整合を修正する前の sanitized failure evidence |
 
 結果 JSON には、モデル id/revision、SemIf commit、入力 fixture、候補 logits/probabilities、prompt hash、load/forward/warmup/steady の時間、GPU 名・精度・依存バージョン、peak allocated/reserved VRAM、エラーを保存します。秘密情報や model weights は含めません。
 
