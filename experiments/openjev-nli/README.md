@@ -87,3 +87,32 @@ $COLAB $AUTH --config "$STATE" stop --session jev-openjev-nli
 実行環境はPython 3.13.15、Torch 2.11.0+cu128、Transformers 5.15.0、huggingface-hub 1.29.0、Accelerate 1.14.0です。初回実行ではColab UI外の`HF_TOKEN` secret取得警告が出ましたが、モデルは公開・非gatedであり、認証情報を使わず完了しています。
 
 L4実行が成功したため、quota・認証・モデル互換性の未解決blockerはありません。fixtureは動作確認用の5問であり、公開ベンチマークや本家Jevとの性能比較ではありません。
+
+## JevDash Level 1 実モデルプレイ録画
+
+固定した[JeVDash commit `eb2f92617bab5d5021a5e3cf5ef2bdaf8207d480`](https://github.com/Sunwood-ai-labs/jevdash/tree/eb2f92617bab5d5021a5e3cf5ef2bdaf8207d480)をgit外の隔離cloneとしてColab VM内へ取得し、ゲームの`cli.run_play`と同じLevel 1の物理・敵衝突・カメラ・HUD描画順をrunnerから呼び出します。ゲームclone自体は変更しません。
+
+- adapter: `adapter/openjev_nli.py`
+- runner: `runner/run_jevdash_openjev.py`
+- action mapping: `noop`, `right`, `right_run`, `right_jump`, `right_run_jump`, `jump`, `left`
+- 8シミュレーションフレームごとに、7仮説を同期推論し、NLI `entailment`最大をそのまま適用
+- mock、ルールfallback、danger/urgencyの捏造なし。失敗はJSONの`status: error`に記録
+- 60 FPS動画時間はシミュレーションフレームだけで、モデル推論待ちのwall-clock時間は含めない。HUDにも明記
+- 死亡・クリア後は指定どおり120静止フレームを追加。20〜60秒にするための延長はしない
+
+```bash
+cd /mnt/c/Users/makim/.codex/worktrees/f190/jev-colab-lab/experiments/openjev-nli
+COLAB=/home/makim/.local/bin/colab
+AUTH=--auth=adc
+STATE=/tmp/jev-openjev-nli-jevdash-colab-state.json
+
+$COLAB $AUTH --config "$STATE" new --session jev-openjev-nli-jevdash --gpu L4
+$COLAB $AUTH --config "$STATE" upload adapter/openjev_nli.py /content/openjev_nli_adapter.py --session jev-openjev-nli-jevdash
+$COLAB $AUTH --config "$STATE" exec --session jev-openjev-nli-jevdash --file scripts/install_colab_dependencies.py --timeout 600
+$COLAB $AUTH --config "$STATE" exec --session jev-openjev-nli-jevdash --file runner/run_jevdash_openjev.py --timeout 3600
+$COLAB $AUTH --config "$STATE" download /content/openjev-nli-jevdash.mp4 /mnt/c/Prj/jev-colab-lab/.local/jevdash-videos/openjev-nli/openjev-nli-jevdash.mp4 --session jev-openjev-nli-jevdash
+$COLAB $AUTH --config "$STATE" download /content/openjev-nli-jevdash.json /mnt/c/Prj/jev-colab-lab/.local/jevdash-videos/openjev-nli/openjev-nli-jevdash.json --session jev-openjev-nli-jevdash
+$COLAB $AUTH --config "$STATE" stop --session jev-openjev-nli-jevdash
+```
+
+MP4は大容量のためgit外の`C:\Prj\jev-colab-lab\.local\jevdash-videos\openjev-nli\`へ回収し、JSONはこの実験の`results/`にも保存します。代表PNG、`ffprobe`出力、全フレームdecode検証も同じslug配下へ残します。
