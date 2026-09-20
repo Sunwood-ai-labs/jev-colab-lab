@@ -1,0 +1,738 @@
+{
+  "schema": "jev-colab-lab/kev-jevdash-episode-v1",
+  "status": "died",
+  "started_at_utc": "2026-09-20T15:40:36.161237+00:00",
+  "seed": 42,
+  "level": 1,
+  "fps": 60,
+  "frames_per_decision": 8,
+  "max_simulation_frames": 1800,
+  "terminal_hold_frames_requested": 120,
+  "video_time_basis": "simulation_frames_at_60fps; synchronous Kev inference waits are omitted from video time",
+  "model_driven": true,
+  "fallback_used": false,
+  "errors": [],
+  "completed_at_utc": "2026-09-20T15:40:49.037772+00:00",
+  "wall_clock_s": 12.876562476999993,
+  "game": {
+    "repository": "https://github.com/Sunwood-ai-labs/jevdash.git",
+    "ref": "main at verification time",
+    "commit": "eb2f92617bab5d5021a5e3cf5ef2bdaf8207d480"
+  },
+  "game_ref_note": "fixed commit used in isolated clone; C:/Prj/jevdash was not touched",
+  "kev": {
+    "name": "Kev-0.5B",
+    "training_source": "Official jaredpalmer/kev-0.5b v0.1 research adapter; six public sources (Banking77, AG News, MNLI, BoolQ, SST-5, Yelp), not trained on JevDash.",
+    "implementation": {
+      "repository": "https://github.com/jaredpalmer/kev.git",
+      "ref": "v0.1.0",
+      "commit": "ac67bf4e52d7bdc8420d8024c396df5585915d8c"
+    },
+    "model_sources": {
+      "adapter": {
+        "repo": "jaredpalmer/kev-0.5b",
+        "revision": "edf1dc6d7f8d983c0adfd251e80a686e5539fc61",
+        "path": "/content/kev-experiment/models/kev-0.5b"
+      },
+      "base": {
+        "repo": "Qwen/Qwen2.5-0.5B",
+        "revision": "060db6499f32faf8b98477b0a26969ef7d8b9987",
+        "path": "/content/kev-experiment/models/qwen2.5-0.5b"
+      },
+      "adapter_files": [
+        {
+          "file": "adapter_config.json",
+          "bytes": 1286,
+          "sha256": "f7eff412dd2bbc91eed95ace6c7be9820c15444feee1b0410ede565a58acf9c0"
+        },
+        {
+          "file": "adapter_model.safetensors",
+          "bytes": 35235088,
+          "sha256": "04facd5e97cebce2f00c6525136ff21ac96623c3a9e44b4c590e138dd7587318"
+        },
+        {
+          "file": "head.pt",
+          "bytes": 1839295,
+          "sha256": "0d59bd4608e38f32b4f86c85eb29e8187e14f2117ca99fe765e799b290c52a66"
+        },
+        {
+          "file": "tokenizer.json",
+          "bytes": 11421896,
+          "sha256": "9c5ae00e602b8860cbd784ba82a8aa14e8feecec692e7076590d014d7b7fdafa"
+        }
+      ],
+      "base_files": [
+        {
+          "file": "config.json",
+          "bytes": 681,
+          "sha256": "479dcf0c5286339e41ad3992cd08ae88a467c4187587936248e2b7c96283484b"
+        },
+        {
+          "file": "model.safetensors",
+          "bytes": 988097824,
+          "sha256": "88c142557820ccad55bb59756bfcfcf891de9cc6202816bd346445188a0ed342"
+        },
+        {
+          "file": "tokenizer.json",
+          "bytes": 7031645,
+          "sha256": "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539"
+        }
+      ]
+    },
+    "gpu": "Tesla T4",
+    "device": "cuda"
+  },
+  "patches": {
+    "game_renderer": "fixed commit + metadata overlay",
+    "agent": "synchronous Kev adapter"
+  },
+  "episode": {
+    "outcome": "died",
+    "simulation_frames": 62,
+    "simulation_time_s": 1.0333333333333334,
+    "decision_count": 8,
+    "progress_pixels": 96.0,
+    "score": 0,
+    "coins": 0,
+    "terminal_hold_frames_appended_by_adapter": 120,
+    "terminal_hold_frames_upstream_cli": 30,
+    "expected_video_frames": 212
+  },
+  "inference": {
+    "total_wait_s": 1.0168871199998648,
+    "min_ms": 112.31351700001824,
+    "mean_ms": 127.1108899999831,
+    "max_ms": 161.3250819999621
+  },
+  "video": {
+    "path": "C:\\Prj\\jev-colab-lab\\.local\\jevdash-videos\\kev\\kev-jevdash-level1-presentation-replay.mp4",
+    "sha256": "6871450a0f3928aa744a3c070d434ea9e5f3613b4fcbdfe07d76aba862e0c2ca",
+    "frames_from_recorder": 212,
+    "fps": 60,
+    "duration_s": 3.533333,
+    "ffmpeg": "/usr/bin/ffmpeg",
+    "ffprobe_decode": {
+      "probe": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1280,
+            "height": 720,
+            "pix_fmt": "yuv420p",
+            "r_frame_rate": "60/1",
+            "duration": "3.533333",
+            "nb_read_frames": "212"
+          }
+        ]
+      },
+      "full_decode": {
+        "returncode": 0,
+        "stderr": ""
+      }
+    },
+    "representative_frames": [
+      {
+        "name": "first",
+        "frame": 0,
+        "path": "C:\\Prj\\jev-colab-lab\\.local\\jevdash-videos\\kev\\first-presentation-replay.png",
+        "sha256": "a07ffbc630c07e3a8210766f1ab908d08561f9b5d7c51fee20324b7ba93569d8"
+      },
+      {
+        "name": "middle",
+        "frame": 106,
+        "path": "C:\\Prj\\jev-colab-lab\\.local\\jevdash-videos\\kev\\middle-presentation-replay.png",
+        "sha256": "36a796d8032635a5efe6dd8370038fb486497987e3dd0759842de42f41826ca6"
+      },
+      {
+        "name": "last",
+        "frame": 211,
+        "path": "C:\\Prj\\jev-colab-lab\\.local\\jevdash-videos\\kev\\last-presentation-replay.png",
+        "sha256": "a8466dbbfe3fbaee83623b9b4ac550fe9fde67fa226dbbc5c91ee85665c31b80"
+      }
+    ],
+    "frames_from_replay": 212,
+    "expected_frames": 212,
+    "source_colab_video": "C:\\Prj\\jev-colab-lab\\.local\\jevdash-videos\\kev\\kev-jevdash-level1-original-colab.mp4",
+    "source_colab_sha256": "80e40fd3617ab5560cc9f1ed0ffb98c4c03bd932a86261fa70d8cee6afdf15f2",
+    "source_colab_frames": 212
+  },
+  "decisions": [
+    {
+      "decision_index": 0,
+      "simulation_frame": 0,
+      "simulation_time_s": 0.0,
+      "inference_ms": 161.3250819999621,
+      "action": "left",
+      "probabilities": {
+        "noop": 0.11304713040590286,
+        "right": 0.08614377677440643,
+        "right_run": 0.10738346725702286,
+        "right_jump": 0.12971879541873932,
+        "right_run_jump": 0.18230575323104858,
+        "jump": 0.13171689212322235,
+        "left": 0.2496841996908188
+      },
+      "observation": {
+        "objective": "Reach the goal flag in Level 1-1 without dying.",
+        "player": {
+          "x": 96.0,
+          "y": 480.0,
+          "vx": 0.0,
+          "vy": 0.0,
+          "grounded": false,
+          "jumping": false,
+          "airborne_frames": 0,
+          "running": false
+        },
+        "hazard": {
+          "enemy_ahead": false,
+          "nearest_enemy": null,
+          "jump_must_start_now": false,
+          "in_danger_zone": false
+        },
+        "terrain": {
+          "obstacle_ahead": false,
+          "obstacle_distance_tiles": null,
+          "obstacle_height_tiles": 0,
+          "gap_ahead": false,
+          "gap_distance_tiles": null,
+          "gap_width_tiles": 0,
+          "clear_forward_tiles": 12
+        },
+        "episode": {
+          "score": 0,
+          "coins": 0,
+          "lives": 3,
+          "progress_pixels": 96.0,
+          "goal_distance_pixels": 4128.0,
+          "stalled_frames": 0,
+          "is_dead": false,
+          "has_won": false
+        },
+        "local_grid": [
+          "...........",
+          "...........",
+          "...........",
+          "..P........",
+          "...........",
+          "...........",
+          "###########"
+        ]
+      },
+      "queried_outputs": [
+        "action"
+      ],
+      "unqueried_outputs": {
+        "danger_score": null,
+        "jump_urgency": null
+      }
+    },
+    {
+      "decision_index": 1,
+      "simulation_frame": 8,
+      "simulation_time_s": 0.13333333333333333,
+      "inference_ms": 145.96918899997036,
+      "action": "left",
+      "probabilities": {
+        "noop": 0.10566038638353348,
+        "right": 0.08151751011610031,
+        "right_run": 0.1065812036395073,
+        "right_jump": 0.12646830081939697,
+        "right_run_jump": 0.18118534982204437,
+        "jump": 0.12911850214004517,
+        "left": 0.2694687247276306
+      },
+      "observation": {
+        "objective": "Reach the goal flag in Level 1-1 without dying.",
+        "player": {
+          "x": 71.7,
+          "y": 507.0,
+          "vx": -4.0,
+          "vy": 6.0,
+          "grounded": false,
+          "jumping": false,
+          "airborne_frames": 8,
+          "running": false
+        },
+        "hazard": {
+          "enemy_ahead": false,
+          "nearest_enemy": null,
+          "jump_must_start_now": false,
+          "in_danger_zone": false
+        },
+        "terrain": {
+          "obstacle_ahead": false,
+          "obstacle_distance_tiles": null,
+          "obstacle_height_tiles": 0,
+          "gap_ahead": false,
+          "gap_distance_tiles": null,
+          "gap_width_tiles": 0,
+          "clear_forward_tiles": 12
+        },
+        "episode": {
+          "score": 0,
+          "coins": 0,
+          "lives": 3,
+          "progress_pixels": 96.0,
+          "goal_distance_pixels": 4152.3,
+          "stalled_frames": 8,
+          "is_dead": false,
+          "has_won": false
+        },
+        "local_grid": [
+          "...........",
+          "...........",
+          "...........",
+          "..P........",
+          "...........",
+          "...........",
+          "###########"
+        ]
+      },
+      "queried_outputs": [
+        "action"
+      ],
+      "unqueried_outputs": {
+        "danger_score": null,
+        "jump_urgency": null
+      }
+    },
+    {
+      "decision_index": 2,
+      "simulation_frame": 16,
+      "simulation_time_s": 0.26666666666666666,
+      "inference_ms": 115.2373890000149,
+      "action": "left",
+      "probabilities": {
+        "noop": 0.11599444597959518,
+        "right": 0.08266240358352661,
+        "right_run": 0.1137470081448555,
+        "right_jump": 0.13074462115764618,
+        "right_run_jump": 0.173844113945961,
+        "jump": 0.12744148075580597,
+        "left": 0.255565881729126
+      },
+      "observation": {
+        "objective": "Reach the goal flag in Level 1-1 without dying.",
+        "player": {
+          "x": 39.7,
+          "y": 540.0,
+          "vx": -4.0,
+          "vy": 0.0,
+          "grounded": true,
+          "jumping": false,
+          "airborne_frames": 0,
+          "running": false
+        },
+        "hazard": {
+          "enemy_ahead": false,
+          "nearest_enemy": null,
+          "jump_must_start_now": false,
+          "in_danger_zone": false
+        },
+        "terrain": {
+          "obstacle_ahead": false,
+          "obstacle_distance_tiles": null,
+          "obstacle_height_tiles": 0,
+          "gap_ahead": false,
+          "gap_distance_tiles": null,
+          "gap_width_tiles": 0,
+          "clear_forward_tiles": 12
+        },
+        "episode": {
+          "score": 0,
+          "coins": 0,
+          "lives": 3,
+          "progress_pixels": 96.0,
+          "goal_distance_pixels": 4184.3,
+          "stalled_frames": 16,
+          "is_dead": false,
+          "has_won": false
+        },
+        "local_grid": [
+          "...........",
+          "...........",
+          "...........",
+          "..P........",
+          "...........",
+          ".##########",
+          ".##########"
+        ]
+      },
+      "queried_outputs": [
+        "action"
+      ],
+      "unqueried_outputs": {
+        "danger_score": null,
+        "jump_urgency": null
+      }
+    },
+    {
+      "decision_index": 3,
+      "simulation_frame": 24,
+      "simulation_time_s": 0.4,
+      "inference_ms": 115.35974099996338,
+      "action": "left",
+      "probabilities": {
+        "noop": 0.12957267463207245,
+        "right": 0.08099997043609619,
+        "right_run": 0.10720278322696686,
+        "right_jump": 0.1280750036239624,
+        "right_run_jump": 0.17273643612861633,
+        "jump": 0.12561355531215668,
+        "left": 0.25579962134361267
+      },
+      "observation": {
+        "objective": "Reach the goal flag in Level 1-1 without dying.",
+        "player": {
+          "x": 7.7,
+          "y": 540.0,
+          "vx": -4.0,
+          "vy": 0.0,
+          "grounded": true,
+          "jumping": false,
+          "airborne_frames": 0,
+          "running": false
+        },
+        "hazard": {
+          "enemy_ahead": false,
+          "nearest_enemy": null,
+          "jump_must_start_now": false,
+          "in_danger_zone": false
+        },
+        "terrain": {
+          "obstacle_ahead": false,
+          "obstacle_distance_tiles": null,
+          "obstacle_height_tiles": 0,
+          "gap_ahead": false,
+          "gap_distance_tiles": null,
+          "gap_width_tiles": 0,
+          "clear_forward_tiles": 12
+        },
+        "episode": {
+          "score": 0,
+          "coins": 0,
+          "lives": 3,
+          "progress_pixels": 96.0,
+          "goal_distance_pixels": 4216.3,
+          "stalled_frames": 24,
+          "is_dead": false,
+          "has_won": false
+        },
+        "local_grid": [
+          "...........",
+          "...........",
+          "...........",
+          "..P........",
+          "...........",
+          "..#########",
+          "..#########"
+        ]
+      },
+      "queried_outputs": [
+        "action"
+      ],
+      "unqueried_outputs": {
+        "danger_score": null,
+        "jump_urgency": null
+      }
+    },
+    {
+      "decision_index": 4,
+      "simulation_frame": 32,
+      "simulation_time_s": 0.5333333333333333,
+      "inference_ms": 112.31351700001824,
+      "action": "left",
+      "probabilities": {
+        "noop": 0.11346520483493805,
+        "right": 0.07979384064674377,
+        "right_run": 0.10699000954627991,
+        "right_jump": 0.1320965588092804,
+        "right_run_jump": 0.17573146522045135,
+        "jump": 0.12861326336860657,
+        "left": 0.26330962777137756
+      },
+      "observation": {
+        "objective": "Reach the goal flag in Level 1-1 without dying.",
+        "player": {
+          "x": -24.3,
+          "y": 540.0,
+          "vx": -4.0,
+          "vy": 0.0,
+          "grounded": true,
+          "jumping": false,
+          "airborne_frames": 0,
+          "running": false
+        },
+        "hazard": {
+          "enemy_ahead": false,
+          "nearest_enemy": null,
+          "jump_must_start_now": false,
+          "in_danger_zone": false
+        },
+        "terrain": {
+          "obstacle_ahead": false,
+          "obstacle_distance_tiles": null,
+          "obstacle_height_tiles": 0,
+          "gap_ahead": false,
+          "gap_distance_tiles": null,
+          "gap_width_tiles": 0,
+          "clear_forward_tiles": 12
+        },
+        "episode": {
+          "score": 0,
+          "coins": 0,
+          "lives": 3,
+          "progress_pixels": 96.0,
+          "goal_distance_pixels": 4248.3,
+          "stalled_frames": 32,
+          "is_dead": false,
+          "has_won": false
+        },
+        "local_grid": [
+          "...........",
+          "...........",
+          "...........",
+          "..P........",
+          "...........",
+          "...########",
+          "...########"
+        ]
+      },
+      "queried_outputs": [
+        "action"
+      ],
+      "unqueried_outputs": {
+        "danger_score": null,
+        "jump_urgency": null
+      }
+    },
+    {
+      "decision_index": 5,
+      "simulation_frame": 40,
+      "simulation_time_s": 0.6666666666666666,
+      "inference_ms": 121.2368500000025,
+      "action": "left",
+      "probabilities": {
+        "noop": 0.11166084557771683,
+        "right": 0.08098485320806503,
+        "right_run": 0.10758743435144424,
+        "right_jump": 0.12189992517232895,
+        "right_run_jump": 0.1782044917345047,
+        "jump": 0.12741732597351074,
+        "left": 0.2722450792789459
+      },
+      "observation": {
+        "objective": "Reach the goal flag in Level 1-1 without dying.",
+        "player": {
+          "x": -56.3,
+          "y": 567.0,
+          "vx": -4.0,
+          "vy": 6.0,
+          "grounded": false,
+          "jumping": false,
+          "airborne_frames": 8,
+          "running": false
+        },
+        "hazard": {
+          "enemy_ahead": false,
+          "nearest_enemy": null,
+          "jump_must_start_now": false,
+          "in_danger_zone": false
+        },
+        "terrain": {
+          "obstacle_ahead": false,
+          "obstacle_distance_tiles": null,
+          "obstacle_height_tiles": 0,
+          "gap_ahead": true,
+          "gap_distance_tiles": 1.0,
+          "gap_width_tiles": 1,
+          "clear_forward_tiles": 0
+        },
+        "episode": {
+          "score": 0,
+          "coins": 0,
+          "lives": 3,
+          "progress_pixels": 96.0,
+          "goal_distance_pixels": 4280.3,
+          "stalled_frames": 40,
+          "is_dead": false,
+          "has_won": false
+        },
+        "local_grid": [
+          "...........",
+          "...........",
+          "...........",
+          "..P........",
+          "....#######",
+          "....#######",
+          "....#######"
+        ]
+      },
+      "queried_outputs": [
+        "action"
+      ],
+      "unqueried_outputs": {
+        "danger_score": null,
+        "jump_urgency": null
+      }
+    },
+    {
+      "decision_index": 6,
+      "simulation_frame": 48,
+      "simulation_time_s": 0.8,
+      "inference_ms": 123.85159599995177,
+      "action": "left",
+      "probabilities": {
+        "noop": 0.11629442870616913,
+        "right": 0.08432158827781677,
+        "right_run": 0.10714632272720337,
+        "right_jump": 0.13248588144779205,
+        "right_run_jump": 0.17991875112056732,
+        "jump": 0.1258600801229477,
+        "left": 0.2539728879928589
+      },
+      "observation": {
+        "objective": "Reach the goal flag in Level 1-1 without dying.",
+        "player": {
+          "x": -88.3,
+          "y": 642.0,
+          "vx": -4.0,
+          "vy": 12.0,
+          "grounded": false,
+          "jumping": false,
+          "airborne_frames": 16,
+          "running": false
+        },
+        "hazard": {
+          "enemy_ahead": false,
+          "nearest_enemy": null,
+          "jump_must_start_now": false,
+          "in_danger_zone": false
+        },
+        "terrain": {
+          "obstacle_ahead": false,
+          "obstacle_distance_tiles": null,
+          "obstacle_height_tiles": 0,
+          "gap_ahead": true,
+          "gap_distance_tiles": 1.0,
+          "gap_width_tiles": 2,
+          "clear_forward_tiles": 0
+        },
+        "episode": {
+          "score": 0,
+          "coins": 0,
+          "lives": 3,
+          "progress_pixels": 96.0,
+          "goal_distance_pixels": 4312.3,
+          "stalled_frames": 48,
+          "is_dead": false,
+          "has_won": false
+        },
+        "local_grid": [
+          "...........",
+          ".....######",
+          ".....######",
+          "..P..######",
+          ".....######",
+          "...........",
+          "..........."
+        ]
+      },
+      "queried_outputs": [
+        "action"
+      ],
+      "unqueried_outputs": {
+        "danger_score": null,
+        "jump_urgency": null
+      }
+    },
+    {
+      "decision_index": 7,
+      "simulation_frame": 56,
+      "simulation_time_s": 0.9333333333333333,
+      "inference_ms": 121.59375599998157,
+      "action": "left",
+      "probabilities": {
+        "noop": 0.11973265558481216,
+        "right": 0.08464932441711426,
+        "right_run": 0.1057237833738327,
+        "right_jump": 0.12748420238494873,
+        "right_run_jump": 0.18345344066619873,
+        "jump": 0.12807920575141907,
+        "left": 0.25087735056877136
+      },
+      "observation": {
+        "objective": "Reach the goal flag in Level 1-1 without dying.",
+        "player": {
+          "x": -120.3,
+          "y": 738.0,
+          "vx": -4.0,
+          "vy": 12.0,
+          "grounded": false,
+          "jumping": false,
+          "airborne_frames": 24,
+          "running": false
+        },
+        "hazard": {
+          "enemy_ahead": false,
+          "nearest_enemy": null,
+          "jump_must_start_now": false,
+          "in_danger_zone": false
+        },
+        "terrain": {
+          "obstacle_ahead": false,
+          "obstacle_distance_tiles": null,
+          "obstacle_height_tiles": 0,
+          "gap_ahead": true,
+          "gap_distance_tiles": 1.0,
+          "gap_width_tiles": 3,
+          "clear_forward_tiles": 0
+        },
+        "episode": {
+          "score": 0,
+          "coins": 0,
+          "lives": 3,
+          "progress_pixels": 96.0,
+          "goal_distance_pixels": 4344.3,
+          "stalled_frames": 56,
+          "is_dead": false,
+          "has_won": false
+        },
+        "local_grid": [
+          "......#####",
+          "......#####",
+          "...........",
+          "..P........",
+          "...........",
+          "...........",
+          "..........."
+        ]
+      },
+      "queried_outputs": [
+        "action"
+      ],
+      "unqueried_outputs": {
+        "danger_score": null,
+        "jump_urgency": null
+      }
+    }
+  ],
+  "replay": {
+    "type": "display_only_replay",
+    "source": "Colab T4 MP4 retained as kev-jevdash-level1-colab-raw.mp4",
+    "physics_and_model_unchanged": true,
+    "frame_sequence_unchanged": true,
+    "hud_patch": "redrew the complete metrics card with latency, DANGER/URGENCY N/A, and PROGRESS in separate columns",
+    "trajectory_sha256": "0dfc9f5b9c3a1a8e5c4a3199879bd39f7c52589d224d9b27729e7118f6431e4c",
+    "terminal_frame_breakdown": {
+      "simulation_frames": 62,
+      "upstream_death_or_clear_hold_frames": 30,
+      "adapter_terminal_hold_frames": 120,
+      "total_source_frames": 212,
+      "total_replay_frames": 212
+    }
+  }
+}

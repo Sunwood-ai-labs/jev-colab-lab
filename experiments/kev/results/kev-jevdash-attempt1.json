@@ -1,0 +1,23 @@
+{
+  "schema": "jev-colab-lab/kev-jevdash-episode-v1",
+  "status": "error",
+  "started_at_utc": "2026-09-20T15:38:01.298600+00:00",
+  "seed": 42,
+  "level": 1,
+  "fps": 60,
+  "frames_per_decision": 8,
+  "max_simulation_frames": 1800,
+  "terminal_hold_frames_requested": 120,
+  "video_time_basis": "simulation_frames_at_60fps; synchronous Kev inference waits are omitted from video time",
+  "model_driven": true,
+  "fallback_used": false,
+  "errors": [
+    {
+      "type": "ModuleNotFoundError",
+      "message": "No module named 't4_inference'",
+      "traceback": "Traceback (most recent call last):\n  File \"/tmp/ipykernel_1112/1681708135.py\", line 457, in main\n    import t4_inference\nModuleNotFoundError: No module named 't4_inference'\n"
+    }
+  ],
+  "completed_at_utc": "2026-09-20T15:38:06.753357+00:00",
+  "wall_clock_s": 5.454780769000024
+}

@@ -1,0 +1,23 @@
+{
+  "schema": "jev-colab-lab/kev-jevdash-episode-v1",
+  "status": "error",
+  "started_at_utc": "2026-09-20T15:39:13.648889+00:00",
+  "seed": 42,
+  "level": 1,
+  "fps": 60,
+  "frames_per_decision": 8,
+  "max_simulation_frames": 1800,
+  "terminal_hold_frames_requested": 120,
+  "video_time_basis": "simulation_frames_at_60fps; synchronous Kev inference waits are omitted from video time",
+  "model_driven": true,
+  "fallback_used": false,
+  "errors": [
+    {
+      "type": "ModuleNotFoundError",
+      "message": "No module named 'kev_platformer'",
+      "traceback": "Traceback (most recent call last):\n  File \"/tmp/ipykernel_1112/1681708135.py\", line 477, in main\n    cli.run_play(\n    ~~~~~~~~~~~~^\n        mode=\"live\",\n        ^^^^^^^^^^^^\n    ...<3 lines>...\n        max_frames=MAX_SIMULATION_FRAMES,\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n    )\n    ^\n  File \"/content/jevdash-fixed/src/jev_platformer/cli.py\", line 188, in run_play\n    async_agent.request_decision(obs)\n    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^\n  File \"/tmp/ipykernel_1112/1681708135.py\", line 238, in request_decision\n    self.latest_decision = self.live_agent.adapter.decide(obs, self.next_frame)\n                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^\n  File \"/tmp/ipykernel_1112/1681708135.py\", line 186, in decide\n    from kev_platformer.controller.mock_agent import DecisionResult\nModuleNotFoundError: No module named 'kev_platformer'\n"
+    }
+  ],
+  "completed_at_utc": "2026-09-20T15:39:59.657460+00:00",
+  "wall_clock_s": 46.008594261999974
+}
