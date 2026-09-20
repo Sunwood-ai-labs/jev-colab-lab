@@ -26,7 +26,11 @@ TheoLeeCJ/SemIf（旧 OpenJev）の direct 実装を、AlexWortega/openjev の N
 | `scripts/run_experiment.py` | load / first inference / warmup / steady-state / peak CUDA memory を測る runner |
 | `scripts/validate_fixture.py` | モデルをロードしない fixture 検証 |
 | `scripts/colab_entry.py` | CLI でアップロードした runner を実行する薄い entry point |
+| `scripts/jevdash_play.py` | 固定 JevDash を SemIf の7択 action logitsで同期操作し、動画とsanitized JSONを出す runner |
+| `scripts/jevdash_colab_entry.py` | 専用 `jev-semif-jevdash` session 用の薄い entry point |
+| `data/jevdash-commit.txt` | 収録対象の固定 JevDash commit marker |
 | `requirements-colab.txt` | Colab 用の uv 管理依存固定 |
+| `requirements-semif-jevdash-colab.txt` | JevDash収録用のtorch / transformers / pygame / SemIf固定依存 |
 | `notebooks/semif_l4_experiment.ipynb` | 同じ runner を使う再現用 notebook（出力なしで保存） |
 | `results/semif-l4-result-20260921.json` | 全依存 version を含む canonical な L4 実測 |
 | `results/semif-l4-failure-20260920.json` | optional package 不整合を修正する前の sanitized failure evidence |
@@ -88,6 +92,42 @@ wsl.exe -d Ubuntu-24.04 -- $Colab --auth=adc --config $Config stop --session jev
 Colab の base image に残っている text-only 推論不要の `torchvision`、`torchaudio`、`librosa` が、固定した `torch` と不整合な場合があります。上の isolated session 内の console でだけ `uv pip uninstall` し、kernel を再起動します。これは共有ホストや別 session には影響しません。
 
 実際の GPU 成功条件は、JSON の `status == "success"`、`runtime.gpu.name` に `L4` が含まれること、`errors == []`、`metrics.peak_vram` が存在することです。`status == "failed"` の場合はエラーを保存しても GPU 成功とは報告しません。
+
+## JevDashを実モデルで収録した実測
+
+固定した公開ゲーム <https://github.com/Sunwood-ai-labs/jevdash> の commit `eb2f92617bab5d5021a5e3cf5ef2bdaf8207d480` を `git archive` で Colab VM に配置し、ゲーム本体は変更せずに収録しました。モデルは SemIf commit `ca3ba65f142967030ecb453346e94d6f476a69df` の direct readout と、Qwen/Qwen3.5-4B revision `851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a` です。
+
+実行条件は Level 1、seed 42、simulation 60 FPS、8 frames/decision、最大1800 simulation frames、clear/death時の静止終端120 framesです。各decisionは現在の `JevObservation` をJSON stateとして7つの固定 action (`noop`, `right`, `right_run`, `right_jump`, `right_run_jump`, `jump`, `left`) に直接scoreし、`argmax`だけを次の8フレームへ同期適用します。mock agent、live gateway、fallback、ゲーム物理の変更はありません。動画時間はsimulation frameだけで数え、モデル推論待ち時間は動画時間に加えていません。
+
+専用の Google Colab CLI session は `jev-semif-jevdash`、GPUはL4、状態ファイルはgit worktree外の専用state fileを使いました。実行後、結果をダウンロードしてから同sessionだけ停止済みです。再実行時の依存は次の通りです。
+
+```powershell
+$Config = '/mnt/c/Users/makim/.codex/jev-semif-jevdash-colab-state.json'
+$Colab = '/home/makim/.local/bin/colab'
+wsl.exe -d Ubuntu-24.04 -- $Colab --auth=adc --config $Config new --session jev-semif-jevdash --gpu L4
+wsl.exe -d Ubuntu-24.04 -- $Colab --auth=adc --config $Config install `
+  --session jev-semif-jevdash -r /mnt/c/Users/makim/.codex/worktrees/af67/jev-colab-lab/experiments/semif/requirements-semif-jevdash-colab.txt
+wsl.exe -d Ubuntu-24.04 -- $Colab --auth=adc --config $Config exec `
+  --session jev-semif-jevdash -f /mnt/c/Users/makim/.codex/worktrees/af67/jev-colab-lab/experiments/semif/scripts/jevdash_colab_entry.py --timeout 3600
+```
+
+今回の実測は次の通りです。
+
+| 項目 | 実測 |
+| --- | --- |
+| GPU / Python / torch | NVIDIA L4 / 3.13.15 / 2.10.0+cu128 |
+| runner status / outcome | `completed` / `timeout`（モデル・runnerエラーではない） |
+| simulation / decision | 1800 frames / 225 decisions |
+| 最終 progress / score / coins | 486 px / 0 / 0 |
+| model load / inference wall | 57.9945 s / 42.2283 s |
+| video | H.264 yuv420p、1280×720、60 FPS、1800 frames、30.000 s |
+| terminal static frames | 0（clear/deathではなくtimeoutのため） |
+
+sanitized JSON、MP4、ffprobe、全デコード証跡、代表PNG、検証manifestは、git外の次のディレクトリに保存しています。
+
+`C:\Prj\jev-colab-lab\.local\jevdash-videos\semif\`
+
+代表フレーム（0、900、1799）を目視し、ゲームviewport、7択確率バー、L4表示、60 FPS/8F契約、`DANGER / URGENCY: NOT MEASURED` の表示を確認しました。文字切れ・重なりはありません。終端フレームの画面表示は29.98 s、JSONの1800フレーム時間は30.00 sで、60 FPSのフレーム境界として整合します。danger/urgencyはモデル出力として推測・表示していません。
 
 ## Notebook
 
