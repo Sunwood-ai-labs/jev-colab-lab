@@ -116,3 +116,20 @@ $COLAB $AUTH --config "$STATE" stop --session jev-openjev-nli-jevdash
 ```
 
 MP4は大容量のためgit外の`C:\Prj\jev-colab-lab\.local\jevdash-videos\openjev-nli\`へ回収し、JSONはこの実験の`results/`にも保存します。代表PNG、`ffprobe`出力、全フレームdecode検証も同じslug配下へ残します。
+
+### 実測結果（2026-09-21）
+
+実GPUのOpenJev NLI 4Bで225回の同期判断を行い、Level 1を1800物理フレームまで再生しました。死亡・クリアには到達せず`timeout`（進行486px、score 0、coins 0）となりました。これは失敗を隠さず残した実モデル軌跡で、短く死亡するような物理改変・救済・プレイ選別は行っていません。
+
+| 項目 | 実測 |
+| --- | --- |
+| GPU / dtype | NVIDIA L4 / bfloat16 |
+| model revision | `b32265f4700df7c02532933c9a4ff258a449d7ac` |
+| game commit | `eb2f92617bab5d5021a5e3cf5ef2bdaf8207d480` |
+| 判断 / trajectory | 225回 / 1800行 |
+| 動画 | H.264, 1280×720, 60fps, 1920 frames, 32.0秒 |
+| 構成 | 1800 physics frames + 120 static terminal frames |
+| full decode | `ffmpeg_exit_code=0`、全1920 frames読出し |
+| MP4 SHA-256 | `f980420d8f0cfa904bcb498ebcba8d6e81a6cbdfab308eb6826473fa5113240f` |
+
+全1575 NLI probability rowsの合計は0.99999988〜1.00000011、trajectoryへ適用したactionとの不一致は0件でした。最終episode JSON、225行のjudgment log、manifest、ffprobe/decode証拠は[results/jevdash](results/jevdash)に保存し、MP4と代表PNGは指定のgit外slugへ回収済みです。Colab session `jev-openjev-nli-jevdash`は回収後に停止し、専用state fileも削除しました。
