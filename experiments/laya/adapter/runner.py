@@ -46,9 +46,9 @@ from jev_platformer.ui.renderer import GameRenderer
 from jev_platformer.ui.video_recorder import VideoRecorder
 
 try:
-    from .laya_agent import GAME_ACTIONS, LayaActionAdapter
+    from .laya_agent import ACTION_QUESTION, GAME_ACTIONS, LayaActionAdapter
 except ImportError:
-    from laya_agent import GAME_ACTIONS, LayaActionAdapter
+    from laya_agent import ACTION_QUESTION, GAME_ACTIONS, LayaActionAdapter
 
 
 GAME_COMMIT = "eb2f92617bab5d5021a5e3cf5ef2bdaf8207d480"
