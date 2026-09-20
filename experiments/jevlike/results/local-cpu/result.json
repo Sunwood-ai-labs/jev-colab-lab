@@ -1,0 +1,137 @@
+{
+  "status": "success",
+  "generated_at_utc": "2026-09-20T14:50:19Z",
+  "source": {
+    "repository": "https://github.com/vinnylarouge/jevlike.git",
+    "commit": "94f5fd1b0b11d52bbdfdf4e0ee6aa96b568f8452",
+    "license": "MIT",
+    "verified_checkout": "detached checkout verified at runtime"
+  },
+  "environment": {
+    "python": "3.11.16",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "torch": "2.14.0",
+    "numpy": "2.4.6",
+    "jevlike": "0.1.0",
+    "uv": true,
+    "device": "cpu",
+    "cuda_available": false,
+    "torch_cuda_version": null,
+    "gpu_name": null,
+    "gpu_compute_capability": null,
+    "gpu_total_memory_bytes": null
+  },
+  "experiment": {
+    "encoder": "tiny",
+    "precision": "float32",
+    "seed": 17,
+    "train_examples": 512,
+    "validation_examples": 128,
+    "test_examples": 128,
+    "epochs": 4,
+    "batch_size": 64,
+    "learning_rate": 0.002,
+    "width": 64,
+    "rank": 64,
+    "context_tokens": 192,
+    "option_tokens": 32,
+    "warmup_repetitions": 3,
+    "steady_repetitions": 20
+  },
+  "timings": {
+    "data_generation_seconds": 0.19428609999886248,
+    "training_seconds": 18.240808200003812,
+    "checkpoint_load_seconds": 0.010779100004583597,
+    "first_batch_inference_seconds": 0.21402759999909904,
+    "warmup_ms": {
+      "count": 3,
+      "min_ms": 178.79499999980908,
+      "p50_ms": 214.9061999953119,
+      "p95_ms": 234.0191999974195,
+      "max_ms": 234.0191999974195
+    },
+    "steady_state_ms": {
+      "count": 20,
+      "min_ms": 52.94750000757631,
+      "p50_ms": 123.72855000285199,
+      "p95_ms": 270.04249999299645,
+      "max_ms": 296.9080000038957
+    },
+    "upstream_checkout_seconds": 2.1098663000011584,
+    "uv_install_seconds": 0.0
+  },
+  "peak_vram": {
+    "training": null,
+    "inference": null
+  },
+  "metrics": {
+    "test": {
+      "top1": 0.8125,
+      "top3": 0.9921875,
+      "ece": 0.10034548491239548,
+      "examples": 128
+    },
+    "shuffled_context_control": {
+      "top1": 0.1953125,
+      "top3": 0.6796875,
+      "ece": 0.4683064220007509,
+      "examples": 128
+    },
+    "first_batch_shape": {
+      "batch": 64,
+      "options_with_padding": 8
+    }
+  },
+  "prediction": {
+    "context": "Choose the exact badge amber badger. Badge: amber badger.",
+    "options": [
+      {
+        "option": "azure crane",
+        "probability": 0.40448784828186035
+      },
+      {
+        "option": "amber badger",
+        "probability": 0.5839235782623291
+      },
+      {
+        "option": "gold heron",
+        "probability": 0.011588568799197674
+      }
+    ],
+    "probability_sum": 0.9999999953433871
+  },
+  "upstream_training_logs": [
+    {
+      "epoch": 1,
+      "train_nll": 1.485892727971077,
+      "validation_nll": 1.385028600692749,
+      "device": "cpu"
+    },
+    {
+      "epoch": 2,
+      "train_nll": 1.3296256363391876,
+      "validation_nll": 1.1250912547111511,
+      "device": "cpu"
+    },
+    {
+      "epoch": 3,
+      "train_nll": 0.9722670912742615,
+      "validation_nll": 0.728898823261261,
+      "device": "cpu"
+    },
+    {
+      "epoch": 4,
+      "train_nll": 0.6386003941297531,
+      "validation_nll": 0.5174380540847778,
+      "device": "cpu"
+    }
+  ],
+  "artifacts": {
+    "checkpoint": "tiny_scorer.pt",
+    "data_directory": "data"
+  },
+  "runtime_options": {
+    "device_requested": "cpu",
+    "skip_install": true
+  }
+}

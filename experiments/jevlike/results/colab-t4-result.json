@@ -1,0 +1,143 @@
+{
+  "status": "success",
+  "generated_at_utc": "2026-09-20T15:05:28Z",
+  "source": {
+    "repository": "https://github.com/vinnylarouge/jevlike.git",
+    "commit": "94f5fd1b0b11d52bbdfdf4e0ee6aa96b568f8452",
+    "license": "MIT",
+    "verified_checkout": "detached checkout verified at runtime"
+  },
+  "environment": {
+    "python": "3.13.15",
+    "platform": "Linux-6.6.122+-x86_64-with-glibc2.39",
+    "torch": "2.11.0+cu128",
+    "numpy": "2.1.3",
+    "jevlike": "0.1.0",
+    "uv": true,
+    "device": "cuda",
+    "cuda_available": true,
+    "torch_cuda_version": "12.8",
+    "gpu_name": "Tesla T4",
+    "gpu_compute_capability": "7.5",
+    "gpu_total_memory_bytes": 15637086208
+  },
+  "experiment": {
+    "encoder": "tiny",
+    "precision": "float32",
+    "seed": 17,
+    "train_examples": 512,
+    "validation_examples": 128,
+    "test_examples": 128,
+    "epochs": 4,
+    "batch_size": 64,
+    "learning_rate": 0.002,
+    "width": 64,
+    "rank": 64,
+    "context_tokens": 192,
+    "option_tokens": 32,
+    "warmup_repetitions": 3,
+    "steady_repetitions": 20
+  },
+  "timings": {
+    "data_generation_seconds": 0.01890815299998394,
+    "training_seconds": 1.782231568000043,
+    "checkpoint_load_seconds": 0.004093565000061972,
+    "first_batch_inference_seconds": 0.0009220279999908598,
+    "warmup_ms": {
+      "count": 3,
+      "min_ms": 0.8025160000215692,
+      "p50_ms": 0.8051129999557816,
+      "p95_ms": 0.8116940000491013,
+      "max_ms": 0.8116940000491013
+    },
+    "steady_state_ms": {
+      "count": 20,
+      "min_ms": 0.7609849999425933,
+      "p50_ms": 0.8129789999884451,
+      "p95_ms": 0.9281280000550396,
+      "max_ms": 0.9452190000729388
+    },
+    "upstream_checkout_seconds": 1.3945787390000532,
+    "uv_install_seconds": 1.80695321099995
+  },
+  "peak_vram": {
+    "training": {
+      "max_memory_allocated_bytes": 29646336,
+      "max_memory_reserved_bytes": 46137344
+    },
+    "inference": {
+      "max_memory_allocated_bytes": 28750336,
+      "max_memory_reserved_bytes": 46137344
+    }
+  },
+  "metrics": {
+    "test": {
+      "top1": 0.8125,
+      "top3": 0.9921875,
+      "ece": 0.1003454988822341,
+      "examples": 128
+    },
+    "shuffled_context_control": {
+      "top1": 0.1953125,
+      "top3": 0.6796875,
+      "ece": 0.46830642269924283,
+      "examples": 128
+    },
+    "first_batch_shape": {
+      "batch": 64,
+      "options_with_padding": 8
+    }
+  },
+  "prediction": {
+    "context": "Choose the exact badge amber badger. Badge: amber badger.",
+    "options": [
+      {
+        "option": "azure crane",
+        "probability": 0.4044877290725708
+      },
+      {
+        "option": "amber badger",
+        "probability": 0.5839236974716187
+      },
+      {
+        "option": "gold heron",
+        "probability": 0.011588560417294502
+      }
+    ],
+    "probability_sum": 0.999999986961484
+  },
+  "upstream_training_logs": [
+    {
+      "epoch": 1,
+      "train_nll": 1.4858927428722382,
+      "validation_nll": 1.3850285410881042,
+      "device": "cuda"
+    },
+    {
+      "epoch": 2,
+      "train_nll": 1.329625591635704,
+      "validation_nll": 1.125091314315796,
+      "device": "cuda"
+    },
+    {
+      "epoch": 3,
+      "train_nll": 0.9722670912742615,
+      "validation_nll": 0.7288988828659058,
+      "device": "cuda"
+    },
+    {
+      "epoch": 4,
+      "train_nll": 0.6386003941297531,
+      "validation_nll": 0.5174380838871002,
+      "device": "cuda"
+    }
+  ],
+  "artifacts": {
+    "checkpoint": "tiny_scorer.pt",
+    "data_directory": "data"
+  },
+  "runtime_options": {
+    "device_requested": "auto",
+    "skip_install": false
+  }
+}

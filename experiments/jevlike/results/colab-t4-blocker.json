@@ -1,0 +1,12 @@
+{
+  "status": "blocked",
+  "blocked_at": "2026-09-20",
+  "target": "Google Colab T4 short training and inference",
+  "observed": "The official Colab CLI requested ADC authorization before listing sessions. No Colab VM was allocated and no other task session was stopped.",
+  "cli_version": "0.6.0",
+  "session_name": "jev-jevlike",
+  "config_path": "/tmp/jevlike-colab-20260920/session.json",
+  "required_user_action": "In WSL Ubuntu-24.04, run gcloud auth application-default login with the Colab CLI scopes, complete the browser consent, then rerun the documented colab run command.",
+  "scope_command": "gcloud auth application-default login --scopes=openid,https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/userinfo.email,https://www.googleapis.com/auth/colaboratory",
+  "credential_handling": "No authorization code, token, URL state, or credential file contents were saved."
+}
