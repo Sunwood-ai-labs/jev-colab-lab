@@ -1,4 +1,5 @@
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -27,6 +28,11 @@ def test_notebook_is_valid_and_uses_cuda_runner():
     )
     assert "--device', 'cuda" in code
     assert "run_experiment.py" in code
+    match = re.search(
+        r"raw\.githubusercontent\.com/Sunwood-ai-labs/jev-colab-lab/([^/]+)/experiments/jevlike/scripts/run_experiment\.py",
+        code,
+    )
+    assert match and re.fullmatch(r"[0-9a-f]{40}", match.group(1))
 
 
 def test_best_state_snapshot_clones_parameter_storage():
