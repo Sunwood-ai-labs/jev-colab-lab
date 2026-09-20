@@ -43,14 +43,15 @@ Colab CLIはLinux/macOS向けで、WindowsホストではWSLから実行しま�
 ```bash
 cd /mnt/c/Users/makim/.codex/worktrees/f190/jev-colab-lab/experiments/openjev-nli
 COLAB=/home/makim/.local/bin/colab
+AUTH=--auth=adc
 STATE=/tmp/jev-openjev-nli-colab-state.json
 
-$COLAB --config "$STATE" new --session jev-openjev-nli --gpu L4
-$COLAB --config "$STATE" upload data/fixture.json /content/openjev-nli-fixture.json --session jev-openjev-nli
-$COLAB --config "$STATE" exec --session jev-openjev-nli --file scripts/install_colab_dependencies.py --timeout 600
-$COLAB --config "$STATE" exec --session jev-openjev-nli --file scripts/measure_openjev.py --timeout 1800
-$COLAB --config "$STATE" download /content/openjev-nli-result.json results/colab-l4.json --session jev-openjev-nli
-$COLAB --config "$STATE" stop --session jev-openjev-nli
+$COLAB $AUTH --config "$STATE" new --session jev-openjev-nli --gpu L4
+$COLAB $AUTH --config "$STATE" upload data/fixture.json /content/openjev-nli-fixture.json --session jev-openjev-nli
+$COLAB $AUTH --config "$STATE" exec --session jev-openjev-nli --file scripts/install_colab_dependencies.py --timeout 600
+$COLAB $AUTH --config "$STATE" exec --session jev-openjev-nli --file scripts/measure_openjev.py --timeout 1800
+$COLAB $AUTH --config "$STATE" download /content/openjev-nli-result.json results/colab-l4.json --session jev-openjev-nli
+$COLAB $AUTH --config "$STATE" stop --session jev-openjev-nli
 ```
 
 `new`がquota/authで失敗した場合は、同じsessionを繰り返し作成しません。準備済みコードと阻害要因を記録し、課金やGPU変更は行いません。実GPU結果がない場合、ローカル検証をColab成功とは報告しません。
@@ -69,4 +70,20 @@ $COLAB --config "$STATE" stop --session jev-openjev-nli
 
 ## 状態
 
-初期状態では資材作成とローカルテストを完了し、L4実測結果を`results/colab-l4.json`へ回収した時点でこの欄を更新します。quota・認証・モデル互換性などで実GPUが阻害された場合は、推測で成功扱いせず、エラーJSONと具体的条件を残します。
+2026-09-20に、専用session `jev-openjev-nli` で実L4実行を完了し、session停止後に結果を回収しました。[`results/colab-l4.json`](results/colab-l4.json)が唯一の実測JSONです。
+
+| 測定 | 結果 |
+| --- | ---: |
+| GPU | NVIDIA L4（22.03 GiB） |
+| dtype / device | bfloat16 / cuda:0 |
+| load（取得・ロード込み） | 51,832.4028 ms |
+| first inference | 1,290.0469 ms |
+| single pair 定常平均 / p50 / p95 | 213.6877 / 213.5644 / 214.9477 ms |
+| 3 hypotheses batch 定常平均 / p50 / p95 | 216.3447 / 213.4359 / 230.5303 ms |
+| 15 pairs batch 定常平均 / p50 / p95 | 255.3123 / 254.4055 / 257.9754 ms |
+| 定常ピークreserved VRAM（1 / 3 / 15 pairs） | 8.545 / 8.701 / 9.609 GiB |
+| fixture decision accuracy | 5/5（1.0、合成fixture限定） |
+
+実行環境はPython 3.13.15、Torch 2.11.0+cu128、Transformers 5.15.0、huggingface-hub 1.29.0、Accelerate 1.14.0です。初回実行ではColab UI外の`HF_TOKEN` secret取得警告が出ましたが、モデルは公開・非gatedであり、認証情報を使わず完了しています。
+
+L4実行が成功したため、quota・認証・モデル互換性の未解決blockerはありません。fixtureは動作確認用の5問であり、公開ベンチマークや本家Jevとの性能比較ではありません。
