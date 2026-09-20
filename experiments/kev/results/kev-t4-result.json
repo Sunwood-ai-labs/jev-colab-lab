@@ -1,0 +1,241 @@
+{
+  "schema": "jev-colab-lab/kev-t4-result-v1",
+  "started_at_utc": "2026-09-20T14:54:59.301870+00:00",
+  "status": "success",
+  "errors": [],
+  "completed_at_utc": "2026-09-20T14:55:07.229842+00:00",
+  "requested_gpu": "T4",
+  "hardware": {
+    "name": "Tesla T4",
+    "capability": [
+      7,
+      5
+    ],
+    "total_memory_mb": 14912.688,
+    "torch_cuda": "12.8"
+  },
+  "environment": {
+    "python": "3.13.15 (main, Aug  6 2026, 11:06:22) [GCC 13.3.0]",
+    "platform": "Linux-6.6.122+-x86_64-with-glibc2.39",
+    "packages": {
+      "torch": "2.11.0+cu128",
+      "transformers": "4.57.6",
+      "peft": "0.20.0",
+      "accelerate": "1.15.0",
+      "huggingface_hub": "0.36.2",
+      "numpy": "2.5.3"
+    }
+  },
+  "sources": {
+    "upstream": {
+      "repository": "https://github.com/jaredpalmer/kev.git",
+      "ref": "v0.1.0",
+      "commit": "ac67bf4e52d7bdc8420d8024c396df5585915d8c"
+    },
+    "models": {
+      "adapter": {
+        "repo": "jaredpalmer/kev-0.5b",
+        "revision": "edf1dc6d7f8d983c0adfd251e80a686e5539fc61",
+        "path": "/content/kev-experiment/models/kev-0.5b"
+      },
+      "base": {
+        "repo": "Qwen/Qwen2.5-0.5B",
+        "revision": "060db6499f32faf8b98477b0a26969ef7d8b9987",
+        "path": "/content/kev-experiment/models/qwen2.5-0.5b"
+      },
+      "adapter_files": [
+        {
+          "file": "adapter_config.json",
+          "bytes": 1286,
+          "sha256": "f7eff412dd2bbc91eed95ace6c7be9820c15444feee1b0410ede565a58acf9c0"
+        },
+        {
+          "file": "adapter_model.safetensors",
+          "bytes": 35235088,
+          "sha256": "04facd5e97cebce2f00c6525136ff21ac96623c3a9e44b4c590e138dd7587318"
+        },
+        {
+          "file": "head.pt",
+          "bytes": 1839295,
+          "sha256": "0d59bd4608e38f32b4f86c85eb29e8187e14f2117ca99fe765e799b290c52a66"
+        },
+        {
+          "file": "tokenizer.json",
+          "bytes": 11421896,
+          "sha256": "9c5ae00e602b8860cbd784ba82a8aa14e8feecec692e7076590d014d7b7fdafa"
+        }
+      ],
+      "base_files": [
+        {
+          "file": "config.json",
+          "bytes": 681,
+          "sha256": "479dcf0c5286339e41ad3992cd08ae88a467c4187587936248e2b7c96283484b"
+        },
+        {
+          "file": "model.safetensors",
+          "bytes": 988097824,
+          "sha256": "88c142557820ccad55bb59756bfcfcf891de9cc6202816bd346445188a0ed342"
+        },
+        {
+          "file": "tokenizer.json",
+          "bytes": 7031645,
+          "sha256": "c0382117ea329cdf097041132f6d735924b697924d6f6fc3945713e96ce87539"
+        }
+      ]
+    }
+  },
+  "input": {
+    "request": {
+      "state": {
+        "ticket": {
+          "channel": "email",
+          "body": "My shoes arrived two weeks late and in the wrong size. I also see two charges on my card."
+        }
+      },
+      "model": "kev-0.5b",
+      "questions": {
+        "department": {
+          "type": "choice",
+          "instructions": "Which team should handle this request?",
+          "criteria": {
+            "returns": "Exchanges, refunds, wrong or damaged items",
+            "shipping": "Delivery status, delays, or lost packages",
+            "billing": "Charges, invoices, or payment problems"
+          }
+        },
+        "escalate": {
+          "type": "noul",
+          "instructions": "Does this require urgent human attention?"
+        },
+        "frustration": {
+          "type": "score",
+          "instructions": "How frustrated is the customer?",
+          "criteria": [
+            "Calm",
+            "Frustrated",
+            "Very angry"
+          ]
+        }
+      }
+    },
+    "rendered_state": "ticket:\n  channel: email\n  body: My shoes arrived two weeks late and in the wrong size. I also see two charges on my card.",
+    "question_count": 3,
+    "encoded_tokens": 114,
+    "state_tokens": 32,
+    "branch_token_counts": [
+      3,
+      2,
+      3
+    ]
+  },
+  "precision": "float32",
+  "iterations": {
+    "warmup": {
+      "n": 2,
+      "mean_s": 0.06305830849998983,
+      "min_s": 0.06289877000000388,
+      "median_s": 0.06321784699997579,
+      "p95_s": 0.06321784699997579,
+      "max_s": 0.06321784699997579
+    },
+    "steady": {
+      "n": 10,
+      "mean_s": 0.05011691610000071,
+      "min_s": 0.04728577700001324,
+      "median_s": 0.048452671999996255,
+      "p95_s": 0.06090604700000313,
+      "max_s": 0.06090604700000313
+    },
+    "first_inference_s": 0.7025571839999998,
+    "encode_s": 0.29466273299999557,
+    "load_s": 1.9682205459999977,
+    "separate_question_s": {
+      "n": 3,
+      "mean_s": 0.048806403333325456,
+      "min_s": 0.04794607100001258,
+      "median_s": 0.047976302999984455,
+      "p95_s": 0.05049683599997934,
+      "max_s": 0.05049683599997934
+    }
+  },
+  "memory": {
+    "after_load": {
+      "allocated_mb": 1921.838,
+      "reserved_mb": 2086.0,
+      "peak_allocated_mb": 1955.4,
+      "peak_reserved_mb": 2086.0
+    },
+    "inference": {
+      "allocated_mb": 1930.963,
+      "reserved_mb": 2106.0,
+      "peak_allocated_mb": 1946.746,
+      "peak_reserved_mb": 2106.0
+    }
+  },
+  "outputs": {
+    "answers": {
+      "department": {
+        "type": "choice",
+        "choice": "returns",
+        "confidence": 0.77,
+        "probabilities": {
+          "returns": 0.85,
+          "shipping": 0.1,
+          "billing": 0.05
+        }
+      },
+      "escalate": {
+        "type": "noul",
+        "noul": 0.65
+      },
+      "frustration": {
+        "type": "score",
+        "score": 0.9,
+        "legend": {
+          "0": "Calm",
+          "1": "Frustrated",
+          "2": "Very angry"
+        },
+        "probabilities": {
+          "0": 0.26,
+          "1": 0.59,
+          "2": 0.15
+        },
+        "confidence": 0.8
+      }
+    },
+    "probabilities": [
+      [
+        0.8493166565895081,
+        0.10415325313806534,
+        0.04653014615178108
+      ],
+      [
+        0.3545180559158325,
+        0.6454819440841675
+      ],
+      [
+        0.2562892436981201,
+        0.59111088514328,
+        0.15259987115859985
+      ]
+    ],
+    "packed_vs_separate_max_abs_probability_difference": 4.172325134277344e-07,
+    "separate_probabilities": [
+      [
+        0.8493164777755737,
+        0.10415367037057877,
+        0.04652984067797661
+      ],
+      [
+        0.35451796650886536,
+        0.6454820036888123
+      ],
+      [
+        0.256289541721344,
+        0.5911105871200562,
+        0.15259987115859985
+      ]
+    ]
+  }
+}
