@@ -19,7 +19,7 @@
     "ref": "main at verification time",
     "commit": "eb2f92617bab5d5021a5e3cf5ef2bdaf8207d480"
   },
-  "game_ref_note": "fixed commit used in isolated clone; C:/Prj/jevdash was not touched",
+  "game_ref_note": "fixed commit used in isolated clone; the local JevDash checkout was not touched",
   "kev": {
     "name": "Kev-0.5B",
     "training_source": "Official jaredpalmer/kev-0.5b v0.1 research adapter; six public sources (Banking77, AG News, MNLI, BoolQ, SST-5, Yelp), not trained on JevDash.",

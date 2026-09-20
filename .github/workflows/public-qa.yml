@@ -1,0 +1,69 @@
+name: Public QA
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'README.md'
+      - 'README.ja.md'
+      - 'experiments/**'
+      - 'docs/**'
+      - 'NOTICE.md'
+      - 'LICENSE'
+      - '.github/workflows/public-qa.yml'
+  pull_request:
+    paths:
+      - 'README.md'
+      - 'README.ja.md'
+      - 'experiments/**'
+      - 'docs/**'
+      - 'NOTICE.md'
+      - 'LICENSE'
+      - '.github/workflows/public-qa.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - name: Run model-free tests
+        run: uv run --no-project --with pytest pytest experiments/laya/tests experiments/openjev-nli/tests experiments/semif/tests -q
+      - name: Run Jevlike regression tests with declared dependencies
+        run: uv run --project experiments/jevlike --extra dev pytest experiments/jevlike/tests -q
+      - name: Check runner syntax
+        run: uv run --no-project python -m py_compile experiments/kev/t4_inference.py
+      - name: Parse committed JSON and notebooks
+        shell: bash
+        run: |
+          node --input-type=module <<'NODE'
+          import { execFileSync } from 'node:child_process'
+          import fs from 'node:fs'
+          const files = execFileSync('git', ['ls-files', '--', 'experiments'], { encoding: 'utf8' })
+            .split(/\r?\n/)
+            .filter((file) => file.endsWith('.json') || file.endsWith('.ipynb'))
+          for (const file of files) JSON.parse(fs.readFileSync(file, 'utf8'))
+          console.log('Parsed ' + files.length + ' JSON/notebook artifacts')
+          NODE
+      - name: Check whitespace
+        run: git diff --check
+      - name: Scan for credential-shaped content
+        shell: bash
+        run: |
+          if rg -n -i '(client_secret|access_token|refresh_token|BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY|bearer [A-Za-z0-9._-]{24,}|accounts\.google\.com/o/oauth2)' \
+            --glob '!*.lock' .; then
+            echo 'Credential-shaped content found'
+            exit 1
+          fi
+          echo 'Credential-shaped content scan passed'

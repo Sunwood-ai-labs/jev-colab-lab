@@ -1,59 +1,112 @@
-# Jev Google Colab Lab
+<div align="center">
+  <img src="https://raw.githubusercontent.com/Sunwood-ai-labs/jev-colab-lab/main/docs/public/jev-colab-lab-icon.svg" alt="Jev Colab Lab icon" width="96">
+  <h1>Jev Colab Lab</h1>
+  <p>Reproducible Google Colab GPU experiments for decision-model inference</p>
+</div>
 
-Jev系のDecision ModelをGoogle Colabで実行し、候補の確率を直接返す使い方と、通常のLLMによる文章生成との違いを検証する実験用フォルダ。
+<p align="center">
+  <a href="https://sunwood-ai-labs.github.io/jev-colab-lab/">Documentation</a> ·
+  <a href="https://github.com/Sunwood-ai-labs/jev-colab-lab">Repository</a>
+</p>
 
-## 状態
+<p align="center">
+  <a href="https://github.com/Sunwood-ai-labs/jev-colab-lab/actions/workflows/public-qa.yml"><img src="https://github.com/Sunwood-ai-labs/jev-colab-lab/actions/workflows/public-qa.yml/badge.svg" alt="Public QA"></a>
+  <a href="https://github.com/Sunwood-ai-labs/jev-colab-lab/actions/workflows/docs.yml"><img src="https://github.com/Sunwood-ai-labs/jev-colab-lab/actions/workflows/docs.yml/badge.svg" alt="Docs build"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-0b1020.svg" alt="MIT license"></a>
+</p>
 
-2026-09-21: Laya / Kev / Jevlike はColab T4、SemIf / OpenJev NLI 4B はColab L4で実測を完了し、全5実験の成果物をmainへ統合済み。各実験は専用git worktreeとブランチ、uv環境で実施。
+<p align="center"><strong>English</strong> · <a href="README.ja.md">日本語</a></p>
 
-公開先: https://github.com/Sunwood-ai-labs/jev-colab-lab
+## 🔭 What this repository is
 
-実験成果物は `experiments/<slug>/` に保存し、各タスクで一区切りごとに検証・commit・push・mainへのマージまで行う。未統合の進行中成果物は各ブランチを参照。元の会話原文はローカル専用で公開対象外。
+This repository records small, reproducible experiments that run Jev-like decision-model paths on Google Colab GPUs. Each experiment keeps its runner, notebook, pinned upstream revisions, sanitized inputs, and result JSON together under <code>experiments/&lt;slug&gt;/</code>.
 
-| 実験 | 実GPU検証 | 成果物 |
-| --- | --- | --- |
-| Laya | T4 成功 | [手順と実測](experiments/laya/README.md) |
-| Kev-0.5B | T4 成功 | [手順と実測](experiments/kev/README.md) |
-| SemIf 4B | L4 成功 | [手順と実測](experiments/semif/README.md) |
-| OpenJev NLI 4B | L4 成功 | [手順と実測](experiments/openjev-nli/README.md) |
-| Jevlike | T4 成功（短い学習・推論） | [手順と実測](experiments/jevlike/README.md) |
+The current snapshot contains five integrated GPU result sets: Laya, Kev-0.5B, Jevlike tiny option-attention, SemIf 4B, and OpenJev NLI 4B. They target different model paths and fixtures, so their probabilities, accuracy, latency, and VRAM values are not a common benchmark.
 
-各実験の入力・精度・計測条件は異なり、速度の直接比較や汎化性能の評価ではない。統合時の軽量テストは計10件通過（Laya 3 / OpenJev NLI 3 / SemIf 2 / Jevlike 2）。GPU結果は各ディレクトリの保存済み実測JSONを参照。
+## 🚀 Quick start
 
-Google Colab CLIはWSL Ubuntu-24.04の既存環境を使用する。Pythonはuvを使う。開発は並列、GPU実行の同時数はColabの利用枠に従う。詳しい作業規約はAGENTS.md、対象一覧はexperiments/README.mdを参照。
+The repository is documentation-first: local checks do not download model weights.
 
-## 実験の順番（元資料に基づく暫定計画）
+~~~powershell
+git clone https://github.com/Sunwood-ai-labs/jev-colab-lab.git
+Set-Location jev-colab-lab
 
-1. Laya
-2. Kev-0.5B
-3. Jevlike
-4. SemIf / OpenJev NLI（別々の実装として扱う）
-5. Bespoke Nimble
-6. DiffusionGemma系
+# Run the model-free helper and fixture tests with uv.
+uv run --no-project --with pytest pytest experiments/laya/tests experiments/openjev-nli/tests experiments/semif/tests -q
 
-各実装の公式リポジトリ、ライセンス、利用可能な重み、依存関係、GPU要件を一次情報で確認してから実行する。元資料の性能値・VRAM目安・アーキテクチャ情報は、この作業では未検証。
+# Run the Jevlike regression suite with its declared torch dependency.
+uv run --project experiments/jevlike --extra dev pytest experiments/jevlike/tests -q
 
-## 比較したいこと
+# Check the Kev runner syntax without installing its model dependencies.
+uv run --no-project python -m py_compile experiments/kev/t4_inference.py
+~~~
 
-- 同じ入力・質問・選択肢に対する回答と候補確率
-- 正解付き共通データでの正答率。確率の校正は正答率とは分けて評価
-- モデル読み込み時間、初回推論、ウォームアップ後の推論時間
-- GPUの種類、精度・量子化、入力長、バッチサイズごとのピークVRAM
-- 単一質問と複数質問の挙動
-- 通常のLLMによる回答生成との出力形式・処理時間・扱いやすさの違い
+For a model-backed local smoke test, follow the experiment README and use that experiment's <code>uv</code> project. A local CPU run is never reported as a Colab GPU result.
 
-## フォルダ
+## 🧪 Experiment catalog
 
-| パス | 用途 |
-| --- | --- |
-| references/original-discussion.txt | ユーザー提供の調査・会話原文 |
-| notebooks/ | Colab用ノートブック |
-| data/ | 共通の入力・質問・選択肢・正解データ |
-| results/ | 実行ログ、計測結果、出力例 |
-| scripts/ | 実行・計測・集計の補助スクリプト |
+| Experiment | Target | Measurement focus | Evidence |
+| --- | --- | --- | --- |
+| [Laya / ModernBERT](experiments/laya/README.md) | Colab T4 | choice, score, and noul decision outputs | [runner](experiments/laya/scripts/benchmark_laya.py) · [T4 JSON](experiments/laya/results/laya-t4-result.json) |
+| [Kev-0.5B](experiments/kev/README.md) | Colab T4 | packed/separate option probabilities and latency | [runner](experiments/kev/t4_inference.py) · [T4 JSON](experiments/kev/results/kev-t4-result.json) |
+| [Jevlike](experiments/jevlike/README.md) | Colab T4 | short synthetic training, held-out test, shuffled-context control | [runner](experiments/jevlike/scripts/run_experiment.py) · [T4 JSON](experiments/jevlike/results/colab-t4-result.json) |
+| [SemIf / Qwen3.5-4B](experiments/semif/README.md) | Colab L4 | direct next-token option-logit readout | [runner](experiments/semif/scripts/run_experiment.py) · [L4 JSON](experiments/semif/results/semif-l4-result-20260921.json) |
+| [OpenJev NLI 4B](experiments/openjev-nli/README.md) | Colab L4 | entailment, contradiction, and neutral scores | [runner](experiments/openjev-nli/scripts/measure_openjev.py) · [L4 JSON](experiments/openjev-nli/results/colab-l4.json) |
 
-## 最初の実験
+The checked-in JSON is the canonical evidence. Jevlike timing fields retain their measurement boundary in the result schema; this landing page does not use them as a cross-experiment comparison point.
 
-Layaの公式情報と実行条件を確認し、利用可能なColab GPU上で最小の推論例を動かす。入力、質問、選択肢、出力、所要時間、ピークVRAM、環境情報を保存する。実行できない場合もエラーと条件を記録する。
+## 🎮 JevDash capture set
 
-各実行では日時、実装名、リポジトリURLとcommit、モデルIDとrevision、GPU、依存バージョン、精度、入力条件、ウォームアップ・反復回数を記録し、結果の再現性を確保する。
+The five model paths now have a completed JevDash Level 1 capture set outside Git. The public experiment pages link to the runners and sanitized evidence that can be reviewed here; the MP4 files themselves have no public URL in this repository and are intentionally kept out of Git.
+
+These are independent single-episode demonstrations, not a model ranking. Video time is simulation time with synchronous inference waits omitted. The Kev and Jevlike presentation replays preserve the recorded model trajectory and state, changing only the HUD rendering.
+
+Start from the [public capture evidence index](experiments/README.md#jevdash-capture-evidence) for the five experiment-specific conduits.
+
+## 🧭 How to read the results
+
+- <code>status=success</code> or <code>status=ok</code> is meaningful only together with the recorded GPU and runtime fields.
+- Model loading, first inference, warmup, steady-state inference, and peak VRAM are separate measurements where the runner supports them.
+- Conditional option scores are not automatically calibrated confidence, and a fixture accuracy is not a generalization claim.
+- Failure JSON files remain useful evidence of dependency or authentication blockers; they are not successful GPU runs.
+- Inputs are synthetic or sanitized. Credentials, OAuth links, session metadata, and model weights are intentionally excluded.
+
+## 🛠️ Reproduce a Colab run
+
+The official Colab CLI currently runs on Linux and macOS, not Windows. On a Windows host, use WSL Ubuntu and keep the CLI state outside this repository:
+
+~~~bash
+uv tool install google-colab-cli
+colab --help
+~~~
+
+Each experiment README gives the target accelerator, a unique <code>jev-&lt;slug&gt;</code> session name, an isolated session-state file, the upload/execute/download flow, and the required stop or ephemeral-run cleanup. GPU quota, entitlement, and authentication can still block a run; record that condition once instead of retrying indefinitely.
+
+## 🗂️ Repository map
+
+~~~text
+experiments/<slug>/
+├── README.md                 # experiment-specific scope and reproduction
+├── notebooks/                # Colab CLI notebooks where applicable
+├── results/                  # sanitized measurements and blocker records
+├── scripts/                  # runners and fixture validators
+└── tests/                    # model-free helper tests where applicable
+docs/                         # published bilingual guide
+.github/workflows/            # docs deployment and public QA
+NOTICE.md                     # upstream source and license boundaries
+~~~
+
+## 🧱 Scope and limitations
+
+This is a research record, not the private TypeSafe Jev model, a production decision service, or a claim that the listed implementations are equivalent. Nimble 9B, OpenJev 35B, and DiffusionGemma remain deferred. See the [full guide](https://sunwood-ai-labs.github.io/jev-colab-lab/) for measurement semantics, source revisions, and troubleshooting.
+
+## ⚖️ License and sources
+
+Original repository glue code and documentation are released under the [MIT License](LICENSE). Upstream implementations, model weights, and their licenses remain separate; see [NOTICE.md](NOTICE.md) and each experiment's pinned source manifest. No model weights are stored in this repository.
+
+## 📚 More documentation
+
+- [English docs](https://sunwood-ai-labs.github.io/jev-colab-lab/)
+- [日本語 docs](https://sunwood-ai-labs.github.io/jev-colab-lab/ja/)
+- [Experiment index](experiments/README.md)
+- [Contribution and operating rules](AGENTS.md)

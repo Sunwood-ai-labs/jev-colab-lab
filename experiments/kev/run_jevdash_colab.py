@@ -511,7 +511,7 @@ def main() -> int:
                 "completed_at_utc": utc_now(),
                 "wall_clock_s": time.perf_counter() - started,
                 "game": game_source,
-                "game_ref_note": "fixed commit used in isolated clone; C:/Prj/jevdash was not touched",
+                "game_ref_note": "fixed commit used in isolated clone; the local JevDash checkout was not touched",
                 "kev": {
                     "name": MODEL_NAME,
                     "training_source": MODEL_TRAINING_SOURCE,

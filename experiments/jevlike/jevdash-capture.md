@@ -22,9 +22,10 @@ Jevlikeは事前学習済みの汎用モデルではありません。upstream�
 WindowsホストではWSL Ubuntu-24.04の既存CLIを使います。認証済みのADCを使い、他タスクと異なるsession/configを指定します。
 
 ```bash
-COLAB=/home/makim/.local/bin/colab
+COLAB=colab
 CFG=/tmp/jev-jevlike-jevdash-session.json
-ROOT=/mnt/c/Users/makim/.codex/worktrees/7ce8/jev-colab-lab
+ROOT=/path/to/jev-colab-lab
+VIDEO_ROOT=/path/to/external/jevdash-videos/jevlike
 
 $COLAB --auth adc --config "$CFG" sessions
 $COLAB --auth adc --config "$CFG" new --session jev-jevlike-jevdash --gpu T4
@@ -32,10 +33,10 @@ $COLAB --auth adc --config "$CFG" exec --session jev-jevlike-jevdash \
   --file "$ROOT/experiments/jevlike/adapter/jevdash_colab_runner.py" --timeout 1800
 $COLAB --auth adc --config "$CFG" download --session jev-jevlike-jevdash \
   /content/jevlike-jevdash-output/jevdash-jevlike-episode.json \
-  /mnt/c/Prj/jev-colab-lab/.local/jevdash-videos/jevlike/original-colab/jevdash-jevlike-original-colab.json
+  "$VIDEO_ROOT/original-colab/jevdash-jevlike-original-colab.json"
 $COLAB --auth adc --config "$CFG" download --session jev-jevlike-jevdash \
   /content/jevlike-jevdash-output/jevdash-jevlike.mp4 \
-  /mnt/c/Prj/jev-colab-lab/.local/jevdash-videos/jevlike/original-colab/jevdash-jevlike-original-colab.mp4
+  "$VIDEO_ROOT/original-colab/jevdash-jevlike-original-colab.mp4"
 $COLAB --auth adc --config "$CFG" stop --session jev-jevlike-jevdash
 ```
 
@@ -53,7 +54,7 @@ Colab T4での元録画は `death` 終端、物理216フレーム、終端hold12
 
 元の判断・actionを変更せず、固定ゲームを同じaction列で再生し、216物理フレームと120 holdフレームの x/y/vx/vy/progress、action、dead/won、hold フラグを全件照合したうえでHUDだけを補正再描画しました。これは追加のJevlike推論ではありません。補正内容は、終端hold中のsimulation time固定とHUDフッターの2行折り返しです。
 
-納品物は `C:\Prj\jev-colab-lab\.local\jevdash-videos\jevlike\`（git管理外）です。
+納品物はリポジトリ外の `VIDEO_ROOT`（git管理外）です。
 
 - `original-colab/jevdash-jevlike-original-colab.mp4`: Colab T4の元録画
 - `presentation-replay/jevdash-jevlike-presentation-replay.mp4`: 状態照合済みの補正再描画
@@ -74,11 +75,11 @@ ffmpeg -v error -i presentation-replay/jevdash-jevlike-presentation-replay.mp4 -
 ```powershell
 uv run --no-project --python experiments/jevlike/.venv/Scripts/python.exe `
   experiments/jevlike/adapter/jevdash_replay.py `
-  --source-episode C:/Prj/jev-colab-lab/.local/jevdash-videos/jevlike/original-colab/jevdash-jevlike-original-colab.json `
-  --source-video C:/Prj/jev-colab-lab/.local/jevdash-videos/jevlike/original-colab/jevdash-jevlike-original-colab.mp4 `
-  --game-root C:/path/to/jevdash-fixed-eb2f926 `
-  --output-video C:/Prj/jev-colab-lab/.local/jevdash-videos/jevlike/presentation-replay/jevdash-jevlike-presentation-replay.mp4 `
-  --output-episode C:/Prj/jev-colab-lab/.local/jevdash-videos/jevlike/presentation-replay/jevdash-jevlike-presentation-replay.json
+  --source-episode <VIDEO_ROOT>/original-colab/jevdash-jevlike-original-colab.json `
+  --source-video <VIDEO_ROOT>/original-colab/jevdash-jevlike-original-colab.mp4 `
+  --game-root <path-to-fixed-jevdash-checkout> `
+  --output-video <VIDEO_ROOT>/presentation-replay/jevdash-jevlike-presentation-replay.mp4 `
+  --output-episode <VIDEO_ROOT>/presentation-replay/jevdash-jevlike-presentation-replay.json
 ```
 
 代表PNGは各成果物ディレクトリの `frames/` に置き、HUD・ゲーム画面・終端状態を目視確認します。

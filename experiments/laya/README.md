@@ -39,14 +39,16 @@ uv run --project experiments/laya python experiments/laya/scripts/benchmark_laya
 WindowsホストからWSLの公式Colab CLIを使います。`--config` は他タスクと共有しない、git外のsession stateファイルです。セッション名も専用の `jev-laya` に固定します。
 
 ```powershell
-$wslScript = "/mnt/c/Users/makim/.codex/worktrees/8918/jev-colab-lab/experiments/laya/scripts/benchmark_laya.py"
-$wslResult = "/mnt/c/Users/makim/.codex/worktrees/8918/jev-colab-lab/experiments/laya/results/laya-t4-result.json"
+$wslRepo = "/path/to/jev-colab-lab"
+$wslScript = "$wslRepo/experiments/laya/scripts/benchmark_laya.py"
+$wslResult = "$wslRepo/experiments/laya/results/laya-t4-result.json"
+$colab = "colab"
 
-wsl.exe -d Ubuntu-24.04 -- /home/makim/.local/bin/colab --config /tmp/jev-laya-colab-session.json new --session jev-laya --gpu T4
-wsl.exe -d Ubuntu-24.04 -- /home/makim/.local/bin/colab --config /tmp/jev-laya-colab-session.json install --session jev-laya laya==0.3.4 'huggingface-hub>=0.20,<2' 'safetensors>=0.4,<1' 'transformers>=4.45,<6'
-wsl.exe -d Ubuntu-24.04 -- /home/makim/.local/bin/colab --config /tmp/jev-laya-colab-session.json exec --session jev-laya --file $wslScript --timeout 1800
-wsl.exe -d Ubuntu-24.04 -- /home/makim/.local/bin/colab --config /tmp/jev-laya-colab-session.json download --session jev-laya /content/laya-t4-result.json $wslResult
-wsl.exe -d Ubuntu-24.04 -- /home/makim/.local/bin/colab --config /tmp/jev-laya-colab-session.json stop --session jev-laya
+wsl.exe -d Ubuntu-24.04 -- $colab --config /tmp/jev-laya-colab-session.json new --session jev-laya --gpu T4
+wsl.exe -d Ubuntu-24.04 -- $colab --config /tmp/jev-laya-colab-session.json install --session jev-laya laya==0.3.4 'huggingface-hub>=0.20,<2' 'safetensors>=0.4,<1' 'transformers>=4.45,<6'
+wsl.exe -d Ubuntu-24.04 -- $colab --config /tmp/jev-laya-colab-session.json exec --session jev-laya --file $wslScript --timeout 1800
+wsl.exe -d Ubuntu-24.04 -- $colab --config /tmp/jev-laya-colab-session.json download --session jev-laya /content/laya-t4-result.json $wslResult
+wsl.exe -d Ubuntu-24.04 -- $colab --config /tmp/jev-laya-colab-session.json stop --session jev-laya
 ```
 
 `benchmark_laya.py` は `laya==0.3.4` などの依存がColab VMに存在することを前提にしています。quota不足や認証失敗で `new` が作れない場合は、再試行を繰り返さず、その条件を結果として記録します。
@@ -77,14 +79,16 @@ Layaへ渡すstateは固定ゲームの `JevObservation.model_dump()` 全体で�
 
 ```powershell
 $cfg = "/tmp/jev-laya-jevdash-session.json"
-$runner = "/mnt/c/Users/makim/.codex/worktrees/8918/jev-colab-lab/experiments/laya/adapter/runner.py"
+$wslRepo = "/path/to/jev-colab-lab"
+$runner = "$wslRepo/experiments/laya/adapter/runner.py"
+$colab = "colab"
 
-wsl.exe -d Ubuntu-24.04 -- /home/makim/.local/bin/colab --auth adc --config $cfg new --session jev-laya-jevdash --gpu T4
+wsl.exe -d Ubuntu-24.04 -- $colab --auth adc --config $cfg new --session jev-laya-jevdash --gpu T4
 # Upload the fixed game source archive and adapter files, then install with uv.
-wsl.exe -d Ubuntu-24.04 -- /home/makim/.local/bin/colab --auth adc --config $cfg install --session jev-laya-jevdash laya==0.3.4 pygame pydantic
+wsl.exe -d Ubuntu-24.04 -- $colab --auth adc --config $cfg install --session jev-laya-jevdash laya==0.3.4 pygame pydantic
 # Execute the uploaded runner with SDL_VIDEODRIVER=dummy and --video/--json under /content.
 # Download all files before stopping only this session.
-wsl.exe -d Ubuntu-24.04 -- /home/makim/.local/bin/colab --auth adc --config $cfg stop --session jev-laya-jevdash
+wsl.exe -d Ubuntu-24.04 -- $colab --auth adc --config $cfg stop --session jev-laya-jevdash
 ```
 
 FFmpegの `ffprobe`、全フレームdecode、代表3フレームの目視確認を実行結果に添えます。重み・認証情報・session metadataは成果物へコピーしません。

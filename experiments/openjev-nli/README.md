@@ -31,7 +31,7 @@ revisionを固定した理由は、モデルカードのmainが更新される�
 Python環境とコマンドは`uv`で管理します。ローカル検証はモデルをダウンロードせず、測定ヘルパーとfixtureの構造だけを確認します。
 
 ```powershell
-cd C:\Users\makim\.codex\worktrees\f190\jev-colab-lab\experiments\openjev-nli
+cd /path/to/jev-colab-lab/experiments/openjev-nli
 uv sync
 uv run python -m unittest discover -s tests -p "test_*.py"
 ```
@@ -41,8 +41,8 @@ uv run python -m unittest discover -s tests -p "test_*.py"
 Colab CLIはLinux/macOS向けで、WindowsホストではWSLから実行します。公式CLIは[`googlecolab/google-colab-cli`](https://github.com/googlecolab/google-colab-cli)です。`--config`はディレクトリではなく、セッション状態JSONファイルを指定します。
 
 ```bash
-cd /mnt/c/Users/makim/.codex/worktrees/f190/jev-colab-lab/experiments/openjev-nli
-COLAB=/home/makim/.local/bin/colab
+cd /path/to/jev-colab-lab/experiments/openjev-nli
+COLAB=colab
 AUTH=--auth=adc
 STATE=/tmp/jev-openjev-nli-colab-state.json
 
@@ -101,21 +101,22 @@ L4実行が成功したため、quota・認証・モデル互換性の未解決b
 - 死亡・クリア後は指定どおり120静止フレームを追加。20〜60秒にするための延長はしない
 
 ```bash
-cd /mnt/c/Users/makim/.codex/worktrees/f190/jev-colab-lab/experiments/openjev-nli
-COLAB=/home/makim/.local/bin/colab
+cd /path/to/jev-colab-lab/experiments/openjev-nli
+COLAB=colab
 AUTH=--auth=adc
 STATE=/tmp/jev-openjev-nli-jevdash-colab-state.json
+VIDEO_ROOT=/path/to/external/jevdash-videos/openjev-nli
 
 $COLAB $AUTH --config "$STATE" new --session jev-openjev-nli-jevdash --gpu L4
 $COLAB $AUTH --config "$STATE" upload adapter/openjev_nli.py /content/openjev_nli_adapter.py --session jev-openjev-nli-jevdash
 $COLAB $AUTH --config "$STATE" exec --session jev-openjev-nli-jevdash --file scripts/install_colab_dependencies.py --timeout 600
 $COLAB $AUTH --config "$STATE" exec --session jev-openjev-nli-jevdash --file runner/run_jevdash_openjev.py --timeout 3600
-$COLAB $AUTH --config "$STATE" download /content/openjev-nli-jevdash.mp4 /mnt/c/Prj/jev-colab-lab/.local/jevdash-videos/openjev-nli/openjev-nli-jevdash.mp4 --session jev-openjev-nli-jevdash
-$COLAB $AUTH --config "$STATE" download /content/openjev-nli-jevdash.json /mnt/c/Prj/jev-colab-lab/.local/jevdash-videos/openjev-nli/openjev-nli-jevdash.json --session jev-openjev-nli-jevdash
+$COLAB $AUTH --config "$STATE" download /content/openjev-nli-jevdash.mp4 "$VIDEO_ROOT/openjev-nli-jevdash.mp4" --session jev-openjev-nli-jevdash
+$COLAB $AUTH --config "$STATE" download /content/openjev-nli-jevdash.json "$VIDEO_ROOT/openjev-nli-jevdash.json" --session jev-openjev-nli-jevdash
 $COLAB $AUTH --config "$STATE" stop --session jev-openjev-nli-jevdash
 ```
 
-MP4は大容量のためgit外の`C:\Prj\jev-colab-lab\.local\jevdash-videos\openjev-nli\`へ回収し、JSONはこの実験の`results/`にも保存します。代表PNG、`ffprobe`出力、全フレームdecode検証も同じslug配下へ残します。
+MP4は大容量のためgit外の`VIDEO_ROOT`へ回収し、JSONはこの実験の`results/`にも保存します。代表PNG、`ffprobe`出力、全フレームdecode検証も同じslug配下へ残します。
 
 ### 実測結果（2026-09-21）
 
