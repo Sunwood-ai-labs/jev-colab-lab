@@ -1,6 +1,6 @@
 {
   "status": "success",
-  "generated_at_utc": "2026-09-20T15:05:28Z",
+  "generated_at_utc": "2026-09-20T15:22:53Z",
   "source": {
     "repository": "https://github.com/vinnylarouge/jevlike.git",
     "commit": "94f5fd1b0b11d52bbdfdf4e0ee6aa96b568f8452",
@@ -39,26 +39,31 @@
     "steady_repetitions": 20
   },
   "timings": {
-    "data_generation_seconds": 0.01890815299998394,
-    "training_seconds": 1.782231568000043,
-    "checkpoint_load_seconds": 0.004093565000061972,
-    "first_batch_inference_seconds": 0.0009220279999908598,
+    "data_generation_seconds": 0.01933783799995581,
+    "training_seconds": 1.3738257600000452,
+    "checkpoint_load_seconds": 0.0030548629999884724,
+    "first_post_load_batch_inference_seconds": 0.000891346000116755,
     "warmup_ms": {
       "count": 3,
-      "min_ms": 0.8025160000215692,
-      "p50_ms": 0.8051129999557816,
-      "p95_ms": 0.8116940000491013,
-      "max_ms": 0.8116940000491013
+      "min_ms": 0.8057029999690712,
+      "p50_ms": 0.8110300000225834,
+      "p95_ms": 0.8846650000577938,
+      "max_ms": 0.8846650000577938
     },
     "steady_state_ms": {
       "count": 20,
-      "min_ms": 0.7609849999425933,
-      "p50_ms": 0.8129789999884451,
-      "p95_ms": 0.9281280000550396,
-      "max_ms": 0.9452190000729388
+      "min_ms": 0.7781790000080946,
+      "p50_ms": 0.8095834999721774,
+      "p95_ms": 0.9355050001431664,
+      "max_ms": 1.1637150000751717
     },
-    "upstream_checkout_seconds": 1.3945787390000532,
-    "uv_install_seconds": 1.80695321099995
+    "upstream_checkout_seconds": 0.8721218590001172,
+    "uv_install_seconds": 1.8383744909999677
+  },
+  "measurement_semantics": {
+    "checkpoint_load": "Model construction and checkpoint loading after training in the same Python process.",
+    "first_post_load_batch_inference": "The first forward on the first test batch immediately after checkpoint loading and before evaluation; this is not a process-cold startup measurement.",
+    "true_process_cold": "Not measured. A true process-cold value would include Python imports, CUDA context initialization, package installation, and model loading from a fresh process."
   },
   "peak_vram": {
     "training": {
@@ -74,13 +79,13 @@
     "test": {
       "top1": 0.8125,
       "top3": 0.9921875,
-      "ece": 0.1003454988822341,
+      "ece": 0.10034550027921796,
       "examples": 128
     },
     "shuffled_context_control": {
       "top1": 0.1953125,
       "top3": 0.6796875,
-      "ece": 0.46830642269924283,
+      "ece": 0.46830640733242035,
       "examples": 128
     },
     "first_batch_shape": {
@@ -93,41 +98,41 @@
     "options": [
       {
         "option": "azure crane",
-        "probability": 0.4044877290725708
+        "probability": 0.4044879674911499
       },
       {
         "option": "amber badger",
-        "probability": 0.5839236974716187
+        "probability": 0.5839234590530396
       },
       {
         "option": "gold heron",
-        "probability": 0.011588560417294502
+        "probability": 0.0115885641425848
       }
     ],
-    "probability_sum": 0.999999986961484
+    "probability_sum": 0.9999999906867743
   },
   "upstream_training_logs": [
     {
       "epoch": 1,
-      "train_nll": 1.4858927428722382,
+      "train_nll": 1.4858927577733994,
       "validation_nll": 1.3850285410881042,
       "device": "cuda"
     },
     {
       "epoch": 2,
-      "train_nll": 1.329625591635704,
+      "train_nll": 1.3296256065368652,
       "validation_nll": 1.125091314315796,
       "device": "cuda"
     },
     {
       "epoch": 3,
-      "train_nll": 0.9722670912742615,
-      "validation_nll": 0.7288988828659058,
+      "train_nll": 0.9722670540213585,
+      "validation_nll": 0.7288988530635834,
       "device": "cuda"
     },
     {
       "epoch": 4,
-      "train_nll": 0.6386003941297531,
+      "train_nll": 0.6386003419756889,
       "validation_nll": 0.5174380838871002,
       "device": "cuda"
     }

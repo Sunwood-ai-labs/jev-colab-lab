@@ -147,6 +147,16 @@ def package_version(name: str) -> str | None:
         return None
 
 
+def snapshot_trainable_state(model: Any) -> dict[str, Any]:
+    """Copy trainable tensors so later optimizer updates cannot mutate a best state."""
+
+    return {
+        name: parameter.detach().cpu().clone()
+        for name, parameter in model.named_parameters()
+        if parameter.requires_grad
+    }
+
+
 def environment_info(torch: Any, device: Any) -> dict[str, Any]:
     info: dict[str, Any] = {
         "python": platform.python_version(),
@@ -250,11 +260,7 @@ def train_and_measure(args: argparse.Namespace, upstream_root: Path) -> dict[str
         train_nll = total / count
         if validation_nll < best_loss:
             best_loss = validation_nll
-            best_state = {
-                name: parameter.detach().cpu()
-                for name, parameter in model.named_parameters()
-                if parameter.requires_grad
-            }
+            best_state = snapshot_trainable_state(model)
         epoch_logs.append({
             "epoch": epoch + 1,
             "train_nll": train_nll,
@@ -281,9 +287,6 @@ def train_and_measure(args: argparse.Namespace, upstream_root: Path) -> dict[str
         collate_fn=loaded_collator,
     )
     loaded_model.eval()
-    test_metrics = metrics(loaded_model, test_loader, device)
-    shuffled_metrics = metrics(loaded_model, test_loader, device, shuffle_context=True)
-
     first_batch = move_batch(next(iter(test_loader)), device)
     if device.type == "cuda":
         torch.cuda.reset_peak_memory_stats(device)
@@ -312,6 +315,11 @@ def train_and_measure(args: argparse.Namespace, upstream_root: Path) -> dict[str
         synchronize(torch, device)
         steady_times.append((time.perf_counter() - started) * 1000.0)
     inference_vram = vram_stats(torch, device)
+
+    # Keep evaluation after the first post-load measurement. The evaluation
+    # helper performs two full passes and would otherwise warm the model first.
+    test_metrics = metrics(loaded_model, test_loader, device)
+    shuffled_metrics = metrics(loaded_model, test_loader, device, shuffle_context=True)
 
     prediction_context = "Choose the exact badge amber badger. Badge: amber badger."
     prediction_options = ["azure crane", "amber badger", "gold heron"]
@@ -355,9 +363,14 @@ def train_and_measure(args: argparse.Namespace, upstream_root: Path) -> dict[str
             "data_generation_seconds": data_seconds,
             "training_seconds": training_seconds,
             "checkpoint_load_seconds": load_seconds,
-            "first_batch_inference_seconds": first_inference_seconds,
+            "first_post_load_batch_inference_seconds": first_inference_seconds,
             "warmup_ms": percentiles(warmup_times),
             "steady_state_ms": percentiles(steady_times),
+        },
+        "measurement_semantics": {
+            "checkpoint_load": "Model construction and checkpoint loading after training in the same Python process.",
+            "first_post_load_batch_inference": "The first forward on the first test batch immediately after checkpoint loading and before evaluation; this is not a process-cold startup measurement.",
+            "true_process_cold": "Not measured. A true process-cold value would include Python imports, CUDA context initialization, package installation, and model loading from a fresh process.",
         },
         "peak_vram": {
             "training": training_vram,

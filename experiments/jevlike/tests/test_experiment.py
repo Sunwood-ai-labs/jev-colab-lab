@@ -1,8 +1,11 @@
 import json
+import re
+import sys
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
 
 
 def test_runner_is_valid_python_and_pins_official_commit():
@@ -25,3 +28,27 @@ def test_notebook_is_valid_and_uses_cuda_runner():
     )
     assert "--device', 'cuda" in code
     assert "run_experiment.py" in code
+    match = re.search(
+        r"raw\.githubusercontent\.com/Sunwood-ai-labs/jev-colab-lab/([^/]+)/experiments/jevlike/scripts/run_experiment\.py",
+        code,
+    )
+    assert match and re.fullmatch(r"[0-9a-f]{40}", match.group(1))
+
+
+def test_best_state_snapshot_clones_parameter_storage():
+    import torch
+
+    from scripts.run_experiment import snapshot_trainable_state
+
+    model = torch.nn.Linear(2, 2)
+    snapshot = snapshot_trainable_state(model)
+    with torch.no_grad():
+        model.weight.add_(1.0)
+    assert not torch.equal(snapshot["weight"], model.weight)
+
+
+def test_first_post_load_measurement_precedes_evaluation_passes():
+    source = (ROOT / "scripts" / "run_experiment.py").read_text(encoding="utf-8")
+    assert source.index("first_started =") < source.index("test_metrics = metrics")
+    assert "first_post_load_batch_inference_seconds" in source
+    assert "not a process-cold startup measurement" in source
