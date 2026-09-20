@@ -1,0 +1,22 @@
+[project]
+name = "jev-colab-laya-experiment"
+version = "0.1.0"
+description = "Reproducible T4 inference benchmark for the Laya decision model"
+requires-python = ">=3.10,<3.13"
+dependencies = [
+    "laya==0.3.4",
+    "huggingface-hub>=0.20,<2",
+    "numpy>=1.20,<3",
+    "safetensors>=0.4,<1",
+    "torch>=2.0,<3",
+    "transformers>=4.45,<6",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8,<9",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

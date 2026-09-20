@@ -1,0 +1,258 @@
+{
+  "schema": "jev-semif-l4-experiment-v1",
+  "status": "success",
+  "started_at_utc": "2026-09-20T14:56:42.795765Z",
+  "runtime": {
+    "label": "Google Colab GPU runtime",
+    "colab_cli": "google-colab-cli 0.6.0",
+    "session_name": "jev-semif",
+    "expected_gpu": "L4",
+    "python_version": "3.13.15",
+    "platform": "Linux-6.6.122+-x86_64-with-glibc2.39",
+    "executable": "python",
+    "torch_version": "2.10.0+cu128",
+    "transformers_version": "5.17.0",
+    "cuda_runtime": "12.8",
+    "cuda_available": true,
+    "gpu": {
+      "name": "NVIDIA L4",
+      "total_memory_bytes": 23659151360,
+      "multi_processor_count": 58,
+      "compute_capability": "8.9",
+      "device_count": 1
+    }
+  },
+  "source": {
+    "implementation": "TheoLeeCJ/SemIf direct native next-token logit readout",
+    "semif_repository": "https://github.com/TheoLeeCJ/semif",
+    "semif_commit": "ca3ba65f142967030ecb453346e94d6f476a69df",
+    "model_id": "Qwen/Qwen3.5-4B",
+    "model_repository": "https://huggingface.co/Qwen/Qwen3.5-4B",
+    "model_revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+    "model_license": "Apache-2.0 (upstream model card)",
+    "nli_comparison": "This is not AlexWortega/openjev; no NLI classifier head is used."
+  },
+  "options": {
+    "dtype": "bfloat16",
+    "max_input_tokens": 4096,
+    "warmup_iterations": 2,
+    "steady_repeats": 5,
+    "readout": "last-position full-vocabulary logits restricted to declared single-token A/B/C slots, then softmax",
+    "probability_semantics": "conditional option score; uncalibrated as decision confidence"
+  },
+  "inputs": [
+    {
+      "id": "support-1",
+      "state": "The deployment completed at 14:02 UTC. Health checks passed in all three zones. No rollback was initiated.",
+      "question": "Is there evidence that the deployment succeeded?",
+      "options": [
+        {
+          "id": "yes",
+          "description": "The deployment succeeded."
+        },
+        {
+          "id": "no",
+          "description": "The deployment did not succeed."
+        },
+        {
+          "id": "insufficient",
+          "description": "The evidence is insufficient to decide."
+        }
+      ]
+    },
+    {
+      "id": "route-1",
+      "state": "Customer asks to reset a forgotten password and says the reset email never arrived.",
+      "question": "Which queue should handle this request?",
+      "options": [
+        {
+          "id": "account_access",
+          "description": "Account access and authentication support."
+        },
+        {
+          "id": "billing",
+          "description": "Billing and payment support."
+        },
+        {
+          "id": "sales",
+          "description": "Sales and product evaluation."
+        }
+      ]
+    },
+    {
+      "id": "policy-1",
+      "state": "Policy: production deletion requires an approved change ticket. Request: list the names of files in the production backup; do not modify anything.",
+      "question": "Does the request require an approved change ticket under the stated policy?",
+      "options": [
+        {
+          "id": "required",
+          "description": "An approved change ticket is required."
+        },
+        {
+          "id": "not_required",
+          "description": "An approved change ticket is not required."
+        },
+        {
+          "id": "insufficient",
+          "description": "The evidence is insufficient to decide."
+        }
+      ]
+    }
+  ],
+  "outputs": [
+    {
+      "id": "support-1",
+      "option_ids": [
+        "yes",
+        "no",
+        "insufficient"
+      ],
+      "probabilities": [
+        0.9995804562084535,
+        0.0001583948436505987,
+        0.0002611489478959632
+      ],
+      "option_logits": [
+        28.0,
+        19.25,
+        19.75
+      ],
+      "input_tokens": 142,
+      "forward_seconds": 0.09020294299989473,
+      "total_seconds": 0.09263407399998869,
+      "prompt_sha256": "7ac35785358f0c656eeb741ca0a51f03e0133753a71e2879a18ad0ab56d0c024",
+      "prompt_version": "direct-options-v1",
+      "readout": "native full-vocabulary last-position logits restricted to declared answer slots",
+      "probability_status": "conditional option score; uncalibrated as decision confidence"
+    },
+    {
+      "id": "route-1",
+      "option_ids": [
+        "account_access",
+        "billing",
+        "sales"
+      ],
+      "probabilities": [
+        0.9999798389588899,
+        1.4738902057685174e-05,
+        5.422139052461843e-06
+      ],
+      "option_logits": [
+        28.5,
+        17.375,
+        16.375
+      ],
+      "input_tokens": 130,
+      "forward_seconds": 0.09068598299995756,
+      "total_seconds": 0.09309996000001775,
+      "prompt_sha256": "016267542103ab91422c425d2234ec7e1b9aef77f9d3e481b96db2de7cca470a",
+      "prompt_version": "direct-options-v1",
+      "readout": "native full-vocabulary last-position logits restricted to declared answer slots",
+      "probability_status": "conditional option score; uncalibrated as decision confidence"
+    },
+    {
+      "id": "policy-1",
+      "option_ids": [
+        "required",
+        "not_required",
+        "insufficient"
+      ],
+      "probabilities": [
+        0.05996336237659398,
+        0.9379848041952383,
+        0.0020518334281675963
+      ],
+      "option_logits": [
+        23.125,
+        25.875,
+        19.75
+      ],
+      "input_tokens": 154,
+      "forward_seconds": 0.09346532700010357,
+      "total_seconds": 0.09614684899997883,
+      "prompt_sha256": "6884fc4a9117b63369dd79e3042b92f92678f1e08dba2600e93d1da6754b1787",
+      "prompt_version": "direct-options-v1",
+      "readout": "native full-vocabulary last-position logits restricted to declared answer slots",
+      "probability_status": "conditional option score; uncalibrated as decision confidence"
+    }
+  ],
+  "metrics": {
+    "model_load_seconds": 42.96633762900001,
+    "first_inference_wall_seconds": 0.8286542270000155,
+    "first_inference_reported_seconds": 0.8285791880000488,
+    "first_forward_seconds": 0.7862585390000731,
+    "fixture_once_wall_seconds": 0.2819827999999234,
+    "warmup": [
+      {
+        "iteration": 1,
+        "wall_seconds": 0.0937717799999973,
+        "forward_seconds": 0.09119482599999174
+      },
+      {
+        "iteration": 2,
+        "wall_seconds": 0.09385193699995398,
+        "forward_seconds": 0.09133416899999247
+      }
+    ],
+    "steady_state": {
+      "repeats": 5,
+      "rows_per_repeat": 3,
+      "batches": [
+        {
+          "repeat": 1,
+          "rows": 3,
+          "wall_seconds": 0.2815908570000829,
+          "per_decision_seconds": 0.09386361900002764
+        },
+        {
+          "repeat": 2,
+          "rows": 3,
+          "wall_seconds": 0.28786027399996783,
+          "per_decision_seconds": 0.09595342466665595
+        },
+        {
+          "repeat": 3,
+          "rows": 3,
+          "wall_seconds": 0.2823795969998173,
+          "per_decision_seconds": 0.09412653233327244
+        },
+        {
+          "repeat": 4,
+          "rows": 3,
+          "wall_seconds": 0.28188646900002823,
+          "per_decision_seconds": 0.09396215633334275
+        },
+        {
+          "repeat": 5,
+          "rows": 3,
+          "wall_seconds": 0.2804704589998437,
+          "per_decision_seconds": 0.0934901529999479
+        }
+      ],
+      "mean_batch_seconds": 0.282837531199948,
+      "median_batch_seconds": 0.28188646900002823,
+      "mean_per_decision_seconds": 0.09427917706664933,
+      "median_per_decision_seconds": 0.09396215633334275
+    },
+    "peak_vram": {
+      "after_load": {
+        "allocated_bytes": 8411531264,
+        "reserved_bytes": 8422162432,
+        "max_allocated_bytes": 8411676672,
+        "max_reserved_bytes": 8422162432
+      },
+      "during_inference_after_reset": {
+        "allocated_bytes": 8420050944,
+        "reserved_bytes": 8493465600,
+        "max_allocated_bytes": 8473745408,
+        "max_reserved_bytes": 8493465600
+      },
+      "load_peak_allocated_bytes": 8411676672,
+      "load_peak_reserved_bytes": 8422162432,
+      "inference_peak_allocated_bytes": 8473745408,
+      "inference_peak_reserved_bytes": 8493465600
+    }
+  },
+  "errors": [],
+  "finished_at_utc": "2026-09-20T14:57:28.614395Z"
+}

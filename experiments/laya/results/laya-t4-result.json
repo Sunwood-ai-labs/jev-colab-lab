@@ -1,0 +1,313 @@
+{
+  "status": "ok",
+  "created_at_utc": "2026-09-20T14:53:36.542051Z",
+  "experiment": "jev-colab-lab/laya",
+  "execution": {
+    "host_platform": "Linux-6.6.122+-x86_64-with-glibc2.39",
+    "python": "3.13.15",
+    "requested_device": "cuda",
+    "actual_device": "cuda",
+    "seed": 0,
+    "warmup_repeats": 3,
+    "steady_repeats": 20
+  },
+  "source": {
+    "upstream_repository": "https://github.com/NandhaKishorM/laya",
+    "upstream_commit": "d113dca2512fb3eaca313534bc54c7162d87c1d4",
+    "model_id": "convaiinnovations/laya",
+    "model_revision": "1c5edc17a7acd8701df6fc341c0d179f1c62c982",
+    "model_files_fetched": [
+      "encoder/config.json",
+      "tokenizer/tokenizer.json",
+      "tokenizer/tokenizer_config.json",
+      "model.safetensors",
+      "rl_agent_config.json"
+    ],
+    "license": "Apache-2.0"
+  },
+  "model": {
+    "package": "laya",
+    "config": {
+      "encoder": "answerdotai/ModernBERT-large",
+      "head_layers": 2,
+      "max_len": 512,
+      "head_max_len": 192,
+      "max_prefixes": 6,
+      "act_costs": {
+        "escalate": 0.5
+      },
+      "cost_wrong_act": 3.0,
+      "amp_dtype": "bf16",
+      "model_name": "rl-agent",
+      "temperature": [
+        1.6369030475616455,
+        1.2514300346374512,
+        1.983399510383606
+      ],
+      "temperature_by_options": {
+        "choice:3-5": 1.7601518630981445,
+        "choice:6-10": 1.0000158548355103,
+        "score:3-5": 1.2514300346374512,
+        "noul:2": 1.983399510383606,
+        "choice:11+": 0.10058280825614929,
+        "choice:2": 1.9063563346862793
+      },
+      "training": {
+        "updates": 7313,
+        "epochs_completed": 1,
+        "hours": 1.96,
+        "world_size": 1,
+        "fine_tuned_from_checkpoint": true
+      }
+    },
+    "parameter_dtype": "torch.float32",
+    "autocast_dtype": "torch.float16",
+    "model_class": "DecisionModel"
+  },
+  "environment": {
+    "packages": {
+      "laya": "0.3.4",
+      "torch": "2.11.0+cu128",
+      "transformers": "5.16.1",
+      "huggingface-hub": "1.29.0",
+      "safetensors": "0.8.0",
+      "numpy": "2.1.3"
+    },
+    "torch_cuda_version": "12.8",
+    "gpu": {
+      "available": true,
+      "name": "Tesla T4",
+      "capability": [
+        7,
+        5
+      ],
+      "current_index": 0,
+      "total_memory_mb": 14912.6875
+    }
+  },
+  "timing_seconds": {
+    "snapshot_download": 11.221203324000044,
+    "agent_load": 22.95546246599997
+  },
+  "vram": {
+    "load_peak_mb": {
+      "allocated_mb": 1607.35791015625,
+      "reserved_mb": 1716.0,
+      "max_allocated_mb": 1607.35791015625,
+      "max_reserved_mb": 1716.0
+    }
+  },
+  "scenarios": {
+    "single": {
+      "question_count": 1,
+      "state": {
+        "ticket_id": "synthetic-001",
+        "subject": "Duplicate charge on invoice 4411",
+        "body": "We were billed twice for March. Please refund the duplicate today or we will cancel our plan."
+      },
+      "questions": {
+        "department": {
+          "type": "choice",
+          "instructions": "Which department should handle this request?",
+          "criteria": {
+            "billing": "invoices, payments, refunds",
+            "technical": "bugs, outages, system errors",
+            "sales": "pricing, new contracts",
+            "other": "everything else"
+          }
+        }
+      },
+      "output": {
+        "model": "laya-rl-agent",
+        "answers": {
+          "department": {
+            "type": "choice",
+            "choice": "billing",
+            "probabilities": {
+              "billing": 0.9254,
+              "technical": 0.026,
+              "sales": 0.0284,
+              "other": 0.0202
+            },
+            "confidence": 0.75,
+            "action": {
+              "act_probability": 1.0
+            }
+          }
+        },
+        "usage": {
+          "input_tokens": 93,
+          "output_tokens": 0
+        }
+      },
+      "deterministic_answers_across_repeats": true,
+      "warmup_repeats": 3,
+      "steady_repeats": 20,
+      "latency_ms": {
+        "first_inference": 983.812974999978,
+        "warmup": {
+          "count": 3,
+          "mean_ms": 35.56749533337703,
+          "min_ms": 34.40823400001136,
+          "median_ms": 36.1188020000327,
+          "p95_ms": 36.169785200081606,
+          "max_ms": 36.17545000008704
+        },
+        "steady": {
+          "count": 20,
+          "mean_ms": 36.165036500005954,
+          "min_ms": 33.97054000004118,
+          "median_ms": 34.660855500021626,
+          "p95_ms": 40.69811160009068,
+          "max_ms": 47.64841799999431
+        }
+      },
+      "vram": {
+        "baseline_after_first_mb": {
+          "allocated_mb": 1616.48291015625,
+          "reserved_mb": 2496.0,
+          "max_allocated_mb": 2323.41845703125,
+          "max_reserved_mb": 2496.0
+        },
+        "steady_peak_mb": {
+          "allocated_mb": 1616.48291015625,
+          "reserved_mb": 2516.0,
+          "max_allocated_mb": 2328.41845703125,
+          "max_reserved_mb": 2516.0
+        },
+        "steady_peak_delta_allocated_mb": 711.935546875
+      }
+    },
+    "batch": {
+      "question_count": 4,
+      "state": {
+        "ticket_id": "synthetic-001",
+        "subject": "Duplicate charge on invoice 4411",
+        "body": "We were billed twice for March. Please refund the duplicate today or we will cancel our plan."
+      },
+      "questions": {
+        "department": {
+          "type": "choice",
+          "instructions": "Which department should handle this request?",
+          "criteria": {
+            "billing": "invoices, payments, refunds",
+            "technical": "bugs, outages, system errors",
+            "sales": "pricing, new contracts",
+            "other": "everything else"
+          }
+        },
+        "urgency": {
+          "type": "score",
+          "instructions": "How urgent is this request?",
+          "criteria": [
+            "not urgent",
+            "soon",
+            "critical deadline or blocking issue"
+          ]
+        },
+        "churn_risk": {
+          "type": "noul",
+          "instructions": "Does the user threaten to cancel or leave?"
+        },
+        "refund_requested": {
+          "type": "noul",
+          "instructions": "Does the user explicitly request a refund?"
+        }
+      },
+      "output": {
+        "model": "laya-rl-agent",
+        "answers": {
+          "department": {
+            "type": "choice",
+            "choice": "billing",
+            "probabilities": {
+              "billing": 0.9253,
+              "technical": 0.026,
+              "sales": 0.0284,
+              "other": 0.0202
+            },
+            "confidence": 0.7498,
+            "action": {
+              "act_probability": 1.0
+            }
+          },
+          "urgency": {
+            "type": "score",
+            "score": 1.3538,
+            "legend": {
+              "0": "not urgent",
+              "1": "soon",
+              "2": "critical deadline or blocking issue"
+            },
+            "probabilities": {
+              "0": 0.1102,
+              "1": 0.4258,
+              "2": 0.464
+            },
+            "confidence": 0.1235,
+            "action": {
+              "act_probability": 1.0
+            }
+          },
+          "churn_risk": {
+            "type": "noul",
+            "noul": 0.7806,
+            "confidence": 0.7806,
+            "action": {
+              "act_probability": 1.0
+            }
+          },
+          "refund_requested": {
+            "type": "noul",
+            "noul": 0.8337,
+            "confidence": 0.8337,
+            "action": {
+              "act_probability": 1.0
+            }
+          }
+        },
+        "usage": {
+          "input_tokens": 336,
+          "output_tokens": 0
+        }
+      },
+      "deterministic_answers_across_repeats": true,
+      "warmup_repeats": 3,
+      "steady_repeats": 20,
+      "latency_ms": {
+        "first_inference": 78.7695529999155,
+        "warmup": {
+          "count": 3,
+          "mean_ms": 37.28000833329285,
+          "min_ms": 35.71709599998485,
+          "median_ms": 37.395816999946874,
+          "p95_ms": 38.59398249994683,
+          "max_ms": 38.72711199994683
+        },
+        "steady": {
+          "count": 20,
+          "mean_ms": 38.271456900008616,
+          "min_ms": 35.611248000009255,
+          "median_ms": 37.44849550002982,
+          "p95_ms": 43.67196729995726,
+          "max_ms": 45.428827000023375
+        }
+      },
+      "vram": {
+        "baseline_after_first_mb": {
+          "allocated_mb": 1616.48291015625,
+          "reserved_mb": 2516.0,
+          "max_allocated_mb": 2332.8115234375,
+          "max_reserved_mb": 2516.0
+        },
+        "steady_peak_mb": {
+          "allocated_mb": 1616.48291015625,
+          "reserved_mb": 2516.0,
+          "max_allocated_mb": 2332.8115234375,
+          "max_reserved_mb": 2516.0
+        },
+        "steady_peak_delta_allocated_mb": 716.32861328125
+      }
+    }
+  }
+}

@@ -1,0 +1,9 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.uv_cache/
+results/*.tmp
+results/*-local.json
+results/*-notebook.json
+notebooks/*_output.ipynb

@@ -1,0 +1,384 @@
+{
+  "schema_version": "1.0",
+  "status": "ok",
+  "experiment": "openjev-nli-4b-l4",
+  "created_at_utc": "2026-09-20T14:54:59Z",
+  "model": {
+    "id": "AlexWortega/openjev",
+    "revision": "b32265f4700df7c02532933c9a4ff258a449d7ac",
+    "subfolder": "qwen3.5-4b-nli",
+    "license": "MIT",
+    "base_model": "Qwen/Qwen3.5-4B",
+    "excluded": [
+      "qwen3.5-4b-nli-v2",
+      "qwen3.5-35b-a3b-nli"
+    ]
+  },
+  "measurement": {
+    "dataset": "/content/openjev-nli-fixture.json",
+    "max_length": 512,
+    "warmup_iterations": 1,
+    "steady_state_iterations": 10,
+    "all_pairs_iterations": 5,
+    "timed_region": "forward_only_on_already_tokenized_tensors",
+    "load_time_includes_model_download_if_cache_is_cold": true
+  },
+  "input": {
+    "item_count": 5,
+    "pair_count": 15,
+    "labels": [
+      "contradiction",
+      "entailment",
+      "neutral"
+    ]
+  },
+  "environment": {
+    "python": "3.13.15",
+    "platform": "Linux-6.6.122+-x86_64-with-glibc2.39",
+    "torch_version": "2.11.0+cu128",
+    "torch_cuda_version": "12.8",
+    "transformers_version": "5.15.0",
+    "huggingface_hub_version": "1.29.0",
+    "package_versions": {
+      "torch": "2.11.0+cu128",
+      "transformers": "5.15.0",
+      "huggingface-hub": "1.29.0",
+      "accelerate": "1.14.0",
+      "safetensors": "0.8.0",
+      "tokenizers": "0.22.2"
+    },
+    "gpu": {
+      "name": "NVIDIA L4",
+      "total_memory_bytes": 23659151360,
+      "major": 8,
+      "minor": 9,
+      "multi_processor_count": 58
+    }
+  },
+  "load": {
+    "elapsed_ms": 51832.4028,
+    "memory": {
+      "allocated_bytes": 9078575616,
+      "reserved_bytes": 9091153920,
+      "max_allocated_bytes": 9078576128,
+      "max_reserved_bytes": 9091153920
+    },
+    "model_device": "cuda:0",
+    "parameter_dtype": "torch.bfloat16"
+  },
+  "tokenization": {
+    "elapsed_ms": 2.2767,
+    "batch_size": 15,
+    "sequence_length": 39,
+    "total_tokens": 404
+  },
+  "first_inference": {
+    "elapsed_ms": 1290.0469,
+    "memory": {
+      "allocated_bytes": 9087106048,
+      "reserved_bytes": 9172942848,
+      "max_allocated_bytes": 9160913408,
+      "max_reserved_bytes": 9172942848
+    },
+    "pair_index": 0
+  },
+  "benchmarks": [
+    {
+      "name": "single_pair",
+      "batch_size": 1,
+      "iterations": 10,
+      "warmup_iterations": 1,
+      "timing_ms": {
+        "count": 10,
+        "min_ms": 213.0196,
+        "mean_ms": 213.6877,
+        "p50_ms": 213.5644,
+        "p95_ms": 214.9477,
+        "max_ms": 215.3759
+      },
+      "memory": {
+        "allocated_before_bytes": 9087106048,
+        "reserved_before_bytes": 9175040000,
+        "peak_allocated_bytes": 9160913920,
+        "peak_reserved_bytes": 9175040000,
+        "additional_peak_allocated_bytes": 73807872,
+        "additional_peak_reserved_bytes": 0
+      },
+      "sequence_length": 39
+    },
+    {
+      "name": "one_question_three_hypotheses",
+      "batch_size": 3,
+      "iterations": 10,
+      "warmup_iterations": 1,
+      "timing_ms": {
+        "count": 10,
+        "min_ms": 210.989,
+        "mean_ms": 216.3447,
+        "p50_ms": 213.4359,
+        "p95_ms": 230.5303,
+        "max_ms": 240.9277
+      },
+      "memory": {
+        "allocated_before_bytes": 9087106048,
+        "reserved_before_bytes": 9342812160,
+        "peak_allocated_bytes": 9310189056,
+        "peak_reserved_bytes": 9342812160,
+        "additional_peak_allocated_bytes": 223083008,
+        "additional_peak_reserved_bytes": 0
+      },
+      "sequence_length": 39
+    },
+    {
+      "name": "all_fixture_pairs",
+      "batch_size": 15,
+      "iterations": 5,
+      "warmup_iterations": 1,
+      "timing_ms": {
+        "count": 5,
+        "min_ms": 253.0027,
+        "mean_ms": 255.3123,
+        "p50_ms": 254.4055,
+        "p95_ms": 257.9754,
+        "max_ms": 258.3195
+      },
+      "memory": {
+        "allocated_before_bytes": 9087106048,
+        "reserved_before_bytes": 10317987840,
+        "peak_allocated_bytes": 10198500352,
+        "peak_reserved_bytes": 10317987840,
+        "additional_peak_allocated_bytes": 1111394304,
+        "additional_peak_reserved_bytes": 0
+      },
+      "sequence_length": 39
+    }
+  ],
+  "predictions": {
+    "pairs": [
+      {
+        "question_id": "library-sunday",
+        "candidate_index": 0,
+        "premise": "The library is closed on Sunday. Today is Sunday.",
+        "hypothesis": "The library is closed today.",
+        "probabilities": {
+          "contradiction": 0.00118098,
+          "entailment": 0.97759742,
+          "neutral": 0.0212216
+        }
+      },
+      {
+        "question_id": "library-sunday",
+        "candidate_index": 1,
+        "premise": "The library is closed on Sunday. Today is Sunday.",
+        "hypothesis": "The library is open today.",
+        "probabilities": {
+          "contradiction": 0.98663563,
+          "entailment": 0.00600588,
+          "neutral": 0.00735855
+        }
+      },
+      {
+        "question_id": "library-sunday",
+        "candidate_index": 2,
+        "premise": "The library is closed on Sunday. Today is Sunday.",
+        "hypothesis": "The library has a cafe.",
+        "probabilities": {
+          "contradiction": 0.13236202,
+          "entailment": 0.00452918,
+          "neutral": 0.86310881
+        }
+      },
+      {
+        "question_id": "train-duration",
+        "candidate_index": 0,
+        "premise": "A train leaves at 09:00 and arrives at 10:30.",
+        "hypothesis": "The train journey lasts 90 minutes.",
+        "probabilities": {
+          "contradiction": 0.50359559,
+          "entailment": 0.27811188,
+          "neutral": 0.21829253
+        }
+      },
+      {
+        "question_id": "train-duration",
+        "candidate_index": 1,
+        "premise": "A train leaves at 09:00 and arrives at 10:30.",
+        "hypothesis": "The train arrives before 10:00.",
+        "probabilities": {
+          "contradiction": 0.93226248,
+          "entailment": 0.02398571,
+          "neutral": 0.04375179
+        }
+      },
+      {
+        "question_id": "train-duration",
+        "candidate_index": 2,
+        "premise": "A train leaves at 09:00 and arrives at 10:30.",
+        "hypothesis": "The train is electric.",
+        "probabilities": {
+          "contradiction": 0.0068343,
+          "entailment": 0.00236187,
+          "neutral": 0.99080384
+        }
+      },
+      {
+        "question_id": "package-contents",
+        "candidate_index": 0,
+        "premise": "The package contains a red notebook and a blue pen.",
+        "hypothesis": "The package contains a red notebook.",
+        "probabilities": {
+          "contradiction": 0.00329375,
+          "entailment": 0.9721657,
+          "neutral": 0.02454055
+        }
+      },
+      {
+        "question_id": "package-contents",
+        "candidate_index": 1,
+        "premise": "The package contains a red notebook and a blue pen.",
+        "hypothesis": "The package contains no writing instruments.",
+        "probabilities": {
+          "contradiction": 0.99875367,
+          "entailment": 0.00035665,
+          "neutral": 0.00088965
+        }
+      },
+      {
+        "question_id": "package-contents",
+        "candidate_index": 2,
+        "premise": "The package contains a red notebook and a blue pen.",
+        "hypothesis": "The package weighs one kilogram.",
+        "probabilities": {
+          "contradiction": 0.05716036,
+          "entailment": 0.00212313,
+          "neutral": 0.94071662
+        }
+      },
+      {
+        "question_id": "bicycle",
+        "candidate_index": 0,
+        "premise": "Mika owns a bicycle and rides it to the park.",
+        "hypothesis": "Mika owns a bicycle.",
+        "probabilities": {
+          "contradiction": 0.00117139,
+          "entailment": 0.9849295,
+          "neutral": 0.01389915
+        }
+      },
+      {
+        "question_id": "bicycle",
+        "candidate_index": 1,
+        "premise": "Mika owns a bicycle and rides it to the park.",
+        "hypothesis": "Mika does not own a bicycle.",
+        "probabilities": {
+          "contradiction": 0.99819869,
+          "entailment": 0.00070338,
+          "neutral": 0.00109796
+        }
+      },
+      {
+        "question_id": "bicycle",
+        "candidate_index": 2,
+        "premise": "Mika owns a bicycle and rides it to the park.",
+        "hypothesis": "Mika owns a red bicycle.",
+        "probabilities": {
+          "contradiction": 0.0010152,
+          "entailment": 0.00103118,
+          "neutral": 0.99795353
+        }
+      },
+      {
+        "question_id": "square",
+        "candidate_index": 0,
+        "premise": "A square has four equal sides.",
+        "hypothesis": "A square has four equal sides.",
+        "probabilities": {
+          "contradiction": 0.00188619,
+          "entailment": 0.97706872,
+          "neutral": 0.02104507
+        }
+      },
+      {
+        "question_id": "square",
+        "candidate_index": 1,
+        "premise": "A square has four equal sides.",
+        "hypothesis": "A square has three sides.",
+        "probabilities": {
+          "contradiction": 0.98995054,
+          "entailment": 0.00195637,
+          "neutral": 0.00809312
+        }
+      },
+      {
+        "question_id": "square",
+        "candidate_index": 2,
+        "premise": "A square has four equal sides.",
+        "hypothesis": "A square is often used as a logo shape.",
+        "probabilities": {
+          "contradiction": 0.0010946,
+          "entailment": 0.00376129,
+          "neutral": 0.99514413
+        }
+      }
+    ],
+    "decisions": [
+      {
+        "question_id": "library-sunday",
+        "predicted_index": 0,
+        "gold_index": 0,
+        "correct": true,
+        "entailment_scores": [
+          0.97759742,
+          0.00600588,
+          0.00452918
+        ]
+      },
+      {
+        "question_id": "train-duration",
+        "predicted_index": 0,
+        "gold_index": 0,
+        "correct": true,
+        "entailment_scores": [
+          0.27811188,
+          0.02398571,
+          0.00236187
+        ]
+      },
+      {
+        "question_id": "package-contents",
+        "predicted_index": 0,
+        "gold_index": 0,
+        "correct": true,
+        "entailment_scores": [
+          0.9721657,
+          0.00035665,
+          0.00212313
+        ]
+      },
+      {
+        "question_id": "bicycle",
+        "predicted_index": 0,
+        "gold_index": 0,
+        "correct": true,
+        "entailment_scores": [
+          0.9849295,
+          0.00070338,
+          0.00103118
+        ]
+      },
+      {
+        "question_id": "square",
+        "predicted_index": 0,
+        "gold_index": 0,
+        "correct": true,
+        "entailment_scores": [
+          0.97706872,
+          0.00195637,
+          0.00376129
+        ]
+      }
+    ],
+    "accuracy": 1.0
+  },
+  "finished_at_utc": "2026-09-20T14:56:15Z"
+}
