@@ -12,6 +12,9 @@ dependencies = [
 [project.optional-dependencies]
 colab = [
   "accelerate>=1.7,<2",
+  "numpy>=1.26,<3",
+  "pygame>=2.6,<3",
+  "pydantic>=2.7,<3",
 ]
 
 [tool.uv]

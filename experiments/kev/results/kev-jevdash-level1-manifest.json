@@ -1,0 +1,32 @@
+{
+  "type": "jevdash_video_manifest",
+  "original_colab": {
+    "path": "C:\\Prj\\jev-colab-lab\\.local\\jevdash-videos\\kev\\kev-jevdash-level1-original-colab.mp4",
+    "sha256": "80e40fd3617ab5560cc9f1ed0ffb98c4c03bd932a86261fa70d8cee6afdf15f2",
+    "frames": 212,
+    "fps": "60/1",
+    "duration_s": 3.533333
+  },
+  "presentation_replay": {
+    "path": "C:\\Prj\\jev-colab-lab\\.local\\jevdash-videos\\kev\\kev-jevdash-level1-presentation-replay.mp4",
+    "sha256": "6871450a0f3928aa744a3c070d434ea9e5f3613b4fcbdfe07d76aba862e0c2ca",
+    "frames": 212,
+    "fps": "60/1",
+    "duration_s": 3.533333,
+    "full_decode": {
+      "returncode": 0,
+      "stderr": ""
+    }
+  },
+  "trajectory": {
+    "original_colab_sha256": "0dfc9f5b9c3a1a8e5c4a3199879bd39f7c52589d224d9b27729e7118f6431e4c",
+    "presentation_replay_sha256": "0dfc9f5b9c3a1a8e5c4a3199879bd39f7c52589d224d9b27729e7118f6431e4c",
+    "equal": true
+  },
+  "state_match": {
+    "status_equal": true,
+    "simulation_frames_equal": true,
+    "decision_count_equal": true,
+    "physics_and_model_unchanged": true
+  }
+}

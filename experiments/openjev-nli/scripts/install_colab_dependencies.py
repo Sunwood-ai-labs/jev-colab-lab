@@ -12,6 +12,9 @@ import sys
 PACKAGE_SPECS = (
     "accelerate>=1.7,<2",
     "huggingface-hub>=1.5,<2",
+    "numpy>=1.26,<3",
+    "pygame>=2.6,<3",
+    "pydantic>=2.7,<3",
     "safetensors>=0.5,<1",
     "transformers==5.15.0",
 )
@@ -38,7 +41,16 @@ def main() -> int:
         )
         return completed.returncode
 
-    package_names = ("accelerate", "huggingface-hub", "safetensors", "transformers", "torch")
+    package_names = (
+        "accelerate",
+        "huggingface-hub",
+        "numpy",
+        "pygame",
+        "pydantic",
+        "safetensors",
+        "transformers",
+        "torch",
+    )
     versions = {}
     for package in package_names:
         try:

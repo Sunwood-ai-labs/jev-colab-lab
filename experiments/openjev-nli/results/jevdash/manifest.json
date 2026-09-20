@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0",
+  "generated_at_utc": "2026-09-20T15:50:48.7696184Z",
+  "artifact_root": "C:\\Prj\\jev-colab-lab\\.local\\jevdash-videos\\openjev-nli",
+  "episode": {
+    "path": "C:\\Prj\\jev-colab-lab\\.local\\jevdash-videos\\openjev-nli\\episode.json",
+    "status": "ok",
+    "termination": {
+      "status": "timeout",
+      "simulation_frames": 1800,
+      "terminal_static_frames": 120,
+      "video_frames": 1920,
+      "simulation_duration_s": 30.0,
+      "video_duration_s": 32.0,
+      "progress_pixels": 486.0,
+      "score": 0,
+      "coins": 0,
+      "is_dead": false,
+      "has_won": false,
+      "decision_count": 225
+    },
+    "decision_count": 225,
+    "trajectory_rows": 1800,
+    "game_commit": "eb2f92617bab5d5021a5e3cf5ef2bdaf8207d480",
+    "model_revision": "b32265f4700df7c02532933c9a4ff258a449d7ac",
+    "gpu": "NVIDIA L4",
+    "dtype": "torch.bfloat16"
+  },
+  "judgment_log": {
+    "path": "C:\\Prj\\jev-colab-lab\\.local\\jevdash-videos\\openjev-nli\\judgment-log.jsonl",
+    "records": 225,
+    "probability_rows": 1575
+  },
+  "video": {
+    "path": "C:\\Prj\\jev-colab-lab\\.local\\jevdash-videos\\openjev-nli\\openjev-nli-jevdash.mp4",
+    "sha256": "f980420d8f0cfa904bcb498ebcba8d6e81a6cbdfab308eb6826473fa5113240f",
+    "bytes": 549001,
+    "ffprobe": {
+      "index": 0,
+      "codec_name": "h264",
+      "width": 1280,
+      "height": 720,
+      "pix_fmt": "yuv420p",
+      "r_frame_rate": "60/1",
+      "avg_frame_rate": "60/1",
+      "duration": "32.000000",
+      "nb_frames": "1920",
+      "nb_read_frames": "1920"
+    },
+    "full_decode_exit_code": 0,
+    "representative_frames": [
+      "C:\\Prj\\jev-colab-lab\\.local\\jevdash-videos\\openjev-nli\\frames\\initial.png",
+      "C:\\Prj\\jev-colab-lab\\.local\\jevdash-videos\\openjev-nli\\frames\\early.png",
+      "C:\\Prj\\jev-colab-lab\\.local\\jevdash-videos\\openjev-nli\\frames\\terminal.png"
+    ]
+  },
+  "timing_basis": "60 FPS simulation/video frames; synchronous model inference waits are omitted from playback time",
+  "stopping": {
+    "session_name": "jev-openjev-nli-jevdash",
+    "gpu_released": true,
+    "state_file_removed": true,
+    "physics_frames": 1800,
+    "terminal_static_frames": 120
+  }
+}

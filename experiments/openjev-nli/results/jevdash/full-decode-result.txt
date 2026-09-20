@@ -1,0 +1,2 @@
+ffmpeg_exit_code=0
+video=C:\Prj\jev-colab-lab\.local\jevdash-videos\openjev-nli\openjev-nli-jevdash.mp4
