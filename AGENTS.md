@@ -4,6 +4,7 @@
 - Each task works on its own git worktree and branch; never modify another task's worktree or force-push.
 - Scope files to experiments/<slug>/ (including notebooks, scripts, results, README). Do not modify root shared files from experiment tasks.
 - Commit and push meaningful milestones to origin on your own branch. The public remote is Sunwood-ai-labs/jev-colab-lab. Verify the remote SHA after pushing.
+- User-authorized integration: after each verified milestone, create a GitHub PR and merge it into main once checks pass; do not wait for other experiments. Attach the PR to your task. Use normal merge commits, respect branch protection, and verify MERGED status and commit reachability on remote main. Do not switch or edit the shared local main worktree. Already integrated changes need no duplicate PR.
 - Publish only reviewed code and sanitized results. Never commit credentials, OAuth links/codes, session metadata, private input, raw user conversation, or model weights. Keep notebook outputs sanitized.
 - Use the official Google Colab CLI https://github.com/googlecolab/google-colab-cli . It currently supports Linux/macOS, so use WSL on this Windows host. Do not claim Windows support.
 - Runtime isolation: use a unique session name jev-<slug> and a task-specific --config session state FILE outside git. Consult CLI help for exact syntax. Never stop/reuse another task's runtime. On quota exhaustion record the condition without repeatedly provisioning. Never purchase credits or upgrade plans.

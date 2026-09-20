@@ -4,11 +4,21 @@ Jev系のDecision ModelをGoogle Colabで実行し、候補の確率を直接返
 
 ## 状態
 
-2026-09-20: 公開リポジトリを作成し、Laya / Kev / Jevlike (T4候補)、SemIf / OpenJev NLI 4B (L4候補) の5つの独立タスクをLUNA MAXで作成。各タスクは専用git worktreeとブランチ、uv環境で準備・実行・計測を進める。実GPUでの成功はまだ未確認。
+2026-09-21: Laya / Kev はColab T4、SemIf / OpenJev NLI 4B はColab L4で実測を完了し、成果物をmainへ統合済み。JevlikeはT4検証を進行中。各実験は専用git worktreeとブランチ、uv環境で実施。
 
 公開先: https://github.com/Sunwood-ai-labs/jev-colab-lab
 
-実験成果物は `experiments/<slug>/` に保存し、各タスクのブランチへ随時commit/pushする。mainへの統合前は各ブランチを参照。元の会話原文はローカル専用で公開対象外。
+実験成果物は `experiments/<slug>/` に保存し、各タスクで一区切りごとに検証・commit・push・mainへのマージまで行う。未統合の進行中成果物は各ブランチを参照。元の会話原文はローカル専用で公開対象外。
+
+| 実験 | 実GPU検証 | 成果物 |
+| --- | --- | --- |
+| Laya | T4 成功 | [手順と実測](experiments/laya/README.md) |
+| Kev-0.5B | T4 成功 | [手順と実測](experiments/kev/README.md) |
+| SemIf 4B | L4 成功 | [手順と実測](experiments/semif/README.md) |
+| OpenJev NLI 4B | L4 成功 | [手順と実測](experiments/openjev-nli/README.md) |
+| Jevlike | T4 検証中 | `codex/jevlike-tiny-attention` ブランチ |
+
+各実験の入力・精度・計測条件は異なり、速度の直接比較や汎化性能の評価ではない。統合時の軽量テストは8件通過（Laya 3 / OpenJev NLI 3 / SemIf 2）。GPU結果は各ディレクトリの保存済み実測JSONを参照。
 
 Google Colab CLIはWSL Ubuntu-24.04の既存環境を使用する。Pythonはuvを使う。開発は並列、GPU実行の同時数はColabの利用枠に従う。詳しい作業規約はAGENTS.md、対象一覧はexperiments/README.mdを参照。
 
