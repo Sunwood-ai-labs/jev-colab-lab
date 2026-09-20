@@ -67,6 +67,10 @@ $Colab = '/home/makim/.local/bin/colab'
 wsl.exe -d Ubuntu-24.04 -- $Colab --auth=adc --config $Config new --session jev-semif --gpu L4
 wsl.exe -d Ubuntu-24.04 -- $Colab --auth=adc --config $Config install `
   --session jev-semif -r "$WslRepo/experiments/semif/requirements-colab.txt"
+$Prepare = 'uv pip uninstall --system torchvision torchaudio librosa'
+$Prepare | wsl.exe -d Ubuntu-24.04 -- $Colab --auth=adc --config $Config console --session jev-semif
+wsl.exe -d Ubuntu-24.04 -- $Colab --auth=adc --config $Config restart-kernel `
+  --session jev-semif
 wsl.exe -d Ubuntu-24.04 -- $Colab --auth=adc --config $Config upload `
   --session jev-semif "$WslRepo/experiments/semif/scripts/run_experiment.py" /content/semif-run-experiment.py
 wsl.exe -d Ubuntu-24.04 -- $Colab --auth=adc --config $Config upload `
@@ -79,6 +83,8 @@ wsl.exe -d Ubuntu-24.04 -- $Colab --auth=adc --config $Config stop --session jev
 ```
 
 `colab install` は公式 CLI が VM 上で `uv pip install` を使う経路です。L4 の quota/entitlement がない場合は別 GPU を勝手に要求せず、作成エラーを結果として記録します。実行後、結果をダウンロードできたことを確認してから必ず自分の `jev-semif` session だけを stop します。
+
+Colab の base image に残っている text-only 推論不要の `torchvision`、`torchaudio`、`librosa` が、固定した `torch` と不整合な場合があります。上の isolated session 内の console でだけ `uv pip uninstall` し、kernel を再起動します。これは共有ホストや別 session には影響しません。
 
 実際の GPU 成功条件は、JSON の `status == "success"`、`runtime.gpu.name` に `L4` が含まれること、`errors == []`、`metrics.peak_vram` が存在することです。`status == "failed"` の場合はエラーを保存しても GPU 成功とは報告しません。
 
