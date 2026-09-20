@@ -1,0 +1,72 @@
+name: Public QA
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'README.md'
+      - 'README.ja.md'
+      - 'experiments/**'
+      - 'NOTICE.md'
+      - 'LICENSE'
+      - '.github/workflows/public-qa.yml'
+  pull_request:
+    paths:
+      - 'README.md'
+      - 'README.ja.md'
+      - 'experiments/**'
+      - 'NOTICE.md'
+      - 'LICENSE'
+      - '.github/workflows/public-qa.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Set up uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+      - name: Run model-free tests
+        run: uv run --no-project --with pytest pytest experiments/laya/tests experiments/jevlike/tests experiments/openjev-nli/tests experiments/semif/tests -q
+      - name: Check runner syntax
+        run: uv run --no-project python -m py_compile experiments/kev/t4_inference.py
+      - name: Parse committed JSON and notebooks
+        shell: bash
+        run: |
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs'
+          const files = [
+            'experiments/laya/results/laya-t4-result.json',
+            'experiments/kev/results/kev-t4-result.json',
+            'experiments/jevlike/results/colab-t4-result.json',
+            'experiments/openjev-nli/results/colab-l4.json',
+            'experiments/semif/results/semif-l4-result-20260921.json',
+            'experiments/jevlike/notebooks/jevlike_t4_experiment.ipynb',
+            'experiments/laya/notebooks/laya_t4_benchmark.ipynb',
+            'experiments/semif/notebooks/semif_l4_experiment.ipynb',
+            'experiments/openjev-nli/notebooks/openjev_nli_l4.ipynb'
+          ]
+          for (const file of files) JSON.parse(fs.readFileSync(file, 'utf8'))
+          console.log('Parsed ' + files.length + ' JSON/notebook artifacts')
+          NODE
+      - name: Check whitespace
+        run: git diff --check
+      - name: Scan for credential-shaped content
+        shell: bash
+        run: |
+          if rg -n -i '(client_secret|access_token|refresh_token|BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY|bearer [A-Za-z0-9._-]{24,}|accounts\.google\.com/o/oauth2)' \
+            --glob '!*.lock' --glob '!*.ipynb' .; then
+            echo 'Credential-shaped content found'
+            exit 1
+          fi
+          echo 'Credential-shaped content scan passed'
