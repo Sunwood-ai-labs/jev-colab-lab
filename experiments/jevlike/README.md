@@ -52,7 +52,9 @@ Notebookを実行する場合は [`jevlike_t4_experiment.ipynb`](notebooks/jevli
 
 ### 実行状態
 
-ローカルCPU smoke test は成功済みです。T4実測は、WSL側に Colab CLI の ADC または OAuth2 認証情報が存在しないため、VMを割り当てずに停止しています。阻害要因は [`results/colab-t4-blocker.json`](results/colab-t4-blocker.json) に記録しています。認証後は同じ専用session名 `jev-jevlike` で上のコマンドを一度実行してください。
+ローカルCPU smoke test と T4 実測の両方が成功済みです。T4結果は [`results/colab-t4-result.json`](results/colab-t4-result.json) に保存しています。Tesla T4 / compute capability 7.5 / float32 で、4 epoch学習、checkpoint再読込、初回推論、warmup、定常推論、peak VRAMを計測しました。
+
+実測値は、学習 **1.782秒**、checkpoint読み込み **0.0041秒**、初回batch推論 **0.00092秒**、定常推論 **p50 0.813ms / p95 0.928ms**、peak allocated VRAM **学習28.273MiB / 推論27.418MiB** です。test top-1 は **0.8125**、shuffled-context control は **0.1953** でした。`colab-t4-blocker.json` は前回のADC未認証試行の履歴として残しています。
 
 ## 結果の読み方
 

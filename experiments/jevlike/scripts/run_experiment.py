@@ -406,7 +406,19 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--warmup", type=int, default=3)
     parser.add_argument("--repetitions", type=int, default=20)
     parser.add_argument("--seed", type=int, default=17)
-    return parser.parse_args()
+    args, unknown = parser.parse_known_args()
+    # colab exec evaluates a .py file inside the active Jupyter kernel. The
+    # kernel launcher adds its own ``-f <kernel.json>`` pair to sys.argv; it is
+    # not an experiment option and must not be forwarded to this parser.
+    if unknown:
+        is_kernel_arg = (
+            len(unknown) == 2
+            and unknown[0] == "-f"
+            and unknown[1].endswith(".json")
+        )
+        if not is_kernel_arg:
+            parser.error(f"unrecognized arguments: {' '.join(unknown)}")
+    return args
 
 
 def main() -> None:
