@@ -1,6 +1,6 @@
 {
   "status": "success",
-  "generated_at_utc": "2026-09-20T14:50:19Z",
+  "generated_at_utc": "2026-09-20T15:20:44Z",
   "source": {
     "repository": "https://github.com/vinnylarouge/jevlike.git",
     "commit": "94f5fd1b0b11d52bbdfdf4e0ee6aa96b568f8452",
@@ -39,26 +39,31 @@
     "steady_repetitions": 20
   },
   "timings": {
-    "data_generation_seconds": 0.19428609999886248,
-    "training_seconds": 18.240808200003812,
-    "checkpoint_load_seconds": 0.010779100004583597,
-    "first_batch_inference_seconds": 0.21402759999909904,
+    "data_generation_seconds": 0.02328700000362005,
+    "training_seconds": 0.9192620999965584,
+    "checkpoint_load_seconds": 0.0034718999959295616,
+    "first_post_load_batch_inference_seconds": 0.0027301999944029376,
     "warmup_ms": {
       "count": 3,
-      "min_ms": 178.79499999980908,
-      "p50_ms": 214.9061999953119,
-      "p95_ms": 234.0191999974195,
-      "max_ms": 234.0191999974195
+      "min_ms": 2.702300000237301,
+      "p50_ms": 2.769600003375672,
+      "p95_ms": 3.0359000083990395,
+      "max_ms": 3.0359000083990395
     },
     "steady_state_ms": {
       "count": 20,
-      "min_ms": 52.94750000757631,
-      "p50_ms": 123.72855000285199,
-      "p95_ms": 270.04249999299645,
-      "max_ms": 296.9080000038957
+      "min_ms": 1.9513000006554648,
+      "p50_ms": 2.643650004756637,
+      "p95_ms": 4.71740000648424,
+      "max_ms": 4.801100003533065
     },
-    "upstream_checkout_seconds": 2.1098663000011584,
+    "upstream_checkout_seconds": 1.9037898999958998,
     "uv_install_seconds": 0.0
+  },
+  "measurement_semantics": {
+    "checkpoint_load": "Model construction and checkpoint loading after training in the same Python process.",
+    "first_post_load_batch_inference": "The first forward on the first test batch immediately after checkpoint loading and before evaluation; this is not a process-cold startup measurement.",
+    "true_process_cold": "Not measured. A true process-cold value would include Python imports, CUDA context initialization, package installation, and model loading from a fresh process."
   },
   "peak_vram": {
     "training": null,
@@ -68,13 +73,13 @@
     "test": {
       "top1": 0.8125,
       "top3": 0.9921875,
-      "ece": 0.10034548491239548,
+      "ece": 0.10034548537805676,
       "examples": 128
     },
     "shuffled_context_control": {
       "top1": 0.1953125,
       "top3": 0.6796875,
-      "ece": 0.4683064220007509,
+      "ece": 0.4683064091950655,
       "examples": 128
     },
     "first_batch_shape": {
@@ -95,10 +100,10 @@
       },
       {
         "option": "gold heron",
-        "probability": 0.011588568799197674
+        "probability": 0.011588566936552525
       }
     ],
-    "probability_sum": 0.9999999953433871
+    "probability_sum": 0.999999993480742
   },
   "upstream_training_logs": [
     {
@@ -109,20 +114,20 @@
     },
     {
       "epoch": 2,
-      "train_nll": 1.3296256363391876,
-      "validation_nll": 1.1250912547111511,
+      "train_nll": 1.3296256214380264,
+      "validation_nll": 1.1250911951065063,
       "device": "cpu"
     },
     {
       "epoch": 3,
       "train_nll": 0.9722670912742615,
-      "validation_nll": 0.728898823261261,
+      "validation_nll": 0.7288987636566162,
       "device": "cpu"
     },
     {
       "epoch": 4,
-      "train_nll": 0.6386003941297531,
-      "validation_nll": 0.5174380540847778,
+      "train_nll": 0.6386003494262695,
+      "validation_nll": 0.5174381136894226,
       "device": "cpu"
     }
   ],
