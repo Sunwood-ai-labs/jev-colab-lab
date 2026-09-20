@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+*.ipynb_checkpoints/
+*.egg-info/
+data/
+runs/
+results/**/tiny_scorer.pt
+results/**/data/
+results/**/__pycache__/

@@ -1,0 +1,19 @@
+{
+  "repository": "https://github.com/vinnylarouge/jevlike",
+  "commit": "94f5fd1b0b11d52bbdfdf4e0ee6aa96b568f8452",
+  "branch_at_verification": "main",
+  "license": "MIT",
+  "verified_at": "2026-09-20",
+  "primary_files": [
+    "README.md",
+    "pyproject.toml",
+    "jevlike/model.py",
+    "jevlike/data.py",
+    "jevlike/train.py",
+    "jevlike/eval.py",
+    "jevlike/predict.py",
+    "LICENSE"
+  ],
+  "model_summary": "TinyScorer uses byte and position embeddings learned from scratch; each option becomes a query over context keys and values, then option logits are normalized with softmax.",
+  "experiment_scope": "This work runs the upstream tiny encoder path. It does not claim equivalence to the private TypeSafe Jev model."
+}
