@@ -1,4 +1,4 @@
-# JevDash 実モデル録画
+# JevDash 実モデル録画と補正再描画
 
 固定commitの [Sunwood-ai-labs/jevdash](https://github.com/Sunwood-ai-labs/jevdash) を、Colab T4上の Jevlike TinyScorer で同期制御し、固定ゲームの録画と判断軌跡を保存する実験です。ゲームのcloneはgit外に置き、ゲーム本体は変更しません。
 
@@ -32,10 +32,10 @@ $COLAB --auth adc --config "$CFG" exec --session jev-jevlike-jevdash \
   --file "$ROOT/experiments/jevlike/adapter/jevdash_colab_runner.py" --timeout 1800
 $COLAB --auth adc --config "$CFG" download --session jev-jevlike-jevdash \
   /content/jevlike-jevdash-output/jevdash-jevlike-episode.json \
-  /mnt/c/Prj/jev-colab-lab/.local/jevdash-videos/jevlike/jevdash-jevlike-episode.json
+  /mnt/c/Prj/jev-colab-lab/.local/jevdash-videos/jevlike/original-colab/jevdash-jevlike-original-colab.json
 $COLAB --auth adc --config "$CFG" download --session jev-jevlike-jevdash \
   /content/jevlike-jevdash-output/jevdash-jevlike.mp4 \
-  /mnt/c/Prj/jev-colab-lab/.local/jevdash-videos/jevlike/jevdash-jevlike.mp4
+  /mnt/c/Prj/jev-colab-lab/.local/jevdash-videos/jevlike/original-colab/jevdash-jevlike-original-colab.mp4
 $COLAB --auth adc --config "$CFG" stop --session jev-jevlike-jevdash
 ```
 
@@ -43,17 +43,42 @@ $COLAB --auth adc --config "$CFG" stop --session jev-jevlike-jevdash
 
 ## 記録と時間基準
 
-各8 simulation frameの判断について、canonical observation JSON、候補7件、全確率、argmax action、forward/decision wall時間、simulation frame/timeをepisode JSONに保存します。`SIMULATION TIME (inference waits omitted)` は `frame / 60` であり、同期推論のwall-clock待ち時間を加算しません。JSONには実GPU、Torch/CUDA、checkpoint SHA256、game/model revision、学習出典、死亡/クリア/timeout、進行距離、判断回数、録画フレーム数を保存します。
+各8 simulation frameの判断について、canonical observation JSON、候補7件、全確率、argmax action、forward/decision wall時間、simulation frame/timeをepisode JSONに保存します。`SIMULATION TIME (inference waits omitted)` は物理フレームの時間であり、同期推論のwall-clock待ち時間を加算しません。終端hold中は物理simulation timeを終端フレームで固定し、動画上の経過時刻は `video_time_seconds` として分離します。JSONには実GPU、Torch/CUDA、checkpoint SHA256、game/model revision、学習出典、死亡/クリア/timeout、進行距離、判断回数、録画フレーム数を保存します。
 
 HUDは `Jevlike TinyScorer` と表示し、TypeSafeのlive Jevとは表示しません。danger/urgencyはモデル出力として扱わず `NOT MEASURED` と表示します。
 
+## 実測結果と presentation replay
+
+Colab T4での元録画は `death` 終端、物理216フレーム、終端hold120フレーム、合計336フレーム、5.6秒、判断27回でした。元録画は上書きせず `original-colab/` に保持しています。
+
+元の判断・actionを変更せず、固定ゲームを同じaction列で再生し、216物理フレームと120 holdフレームの x/y/vx/vy/progress、action、dead/won、hold フラグを全件照合したうえでHUDだけを補正再描画しました。これは追加のJevlike推論ではありません。補正内容は、終端hold中のsimulation time固定とHUDフッターの2行折り返しです。
+
+納品物は `C:\Prj\jev-colab-lab\.local\jevdash-videos\jevlike\`（git管理外）です。
+
+- `original-colab/jevdash-jevlike-original-colab.mp4`: Colab T4の元録画
+- `presentation-replay/jevdash-jevlike-presentation-replay.mp4`: 状態照合済みの補正再描画
+- `presentation-replay/jevdash-jevlike-presentation-replay.json`: model/game provenanceと状態照合結果
+- `jevdash-jevlike-manifest.json`: 両動画のSHA256、ffprobe、全decode、代表PNG、trajectory SHA256
+
 ## 検証
 
-納品時に次を実行し、MP4のmetadata、全フレームdecode、代表3フレームを保存します。
+両MP4について次を実行し、metadata、全フレームdecode、代表3フレームを保存します。
 
 ```bash
-ffprobe -v error -show_streams -show_format -of json jevdash-jevlike.mp4
-ffmpeg -v error -i jevdash-jevlike.mp4 -f null -
+ffprobe -v error -show_streams -show_format -of json presentation-replay/jevdash-jevlike-presentation-replay.mp4
+ffmpeg -v error -i presentation-replay/jevdash-jevlike-presentation-replay.mp4 -f null -
 ```
 
-代表PNGは納品ディレクトリの `frames/` に置き、HUD・ゲーム画面・終端状態を目視確認します。
+補正再描画の再現には、固定ゲームcheckoutと元episode JSONを使います。
+
+```powershell
+uv run --no-project --python experiments/jevlike/.venv/Scripts/python.exe `
+  experiments/jevlike/adapter/jevdash_replay.py `
+  --source-episode C:/Prj/jev-colab-lab/.local/jevdash-videos/jevlike/original-colab/jevdash-jevlike-original-colab.json `
+  --source-video C:/Prj/jev-colab-lab/.local/jevdash-videos/jevlike/original-colab/jevdash-jevlike-original-colab.mp4 `
+  --game-root C:/path/to/jevdash-fixed-eb2f926 `
+  --output-video C:/Prj/jev-colab-lab/.local/jevdash-videos/jevlike/presentation-replay/jevdash-jevlike-presentation-replay.mp4 `
+  --output-episode C:/Prj/jev-colab-lab/.local/jevdash-videos/jevlike/presentation-replay/jevdash-jevlike-presentation-replay.json
+```
+
+代表PNGは各成果物ディレクトリの `frames/` に置き、HUD・ゲーム画面・終端状態を目視確認します。

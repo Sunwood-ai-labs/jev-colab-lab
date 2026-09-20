@@ -340,7 +340,7 @@ class JevlikeHUD:
         self,
         obs: Any,
         decision: dict[str, Any] | None,
-        frame: int,
+        simulation_frame: int,
         status: str,
         gpu_name: str,
     ) -> None:
@@ -371,7 +371,7 @@ class JevlikeHUD:
         self.text(f"MODEL DECISION: {decision['action'] if decision else '--'}", (x, y), self.primary, self.font_sm)
         y += 22
         self.text(
-            f"SIMULATION TIME (inference waits omitted): {frame / FPS:.2f}s",
+            f"SIMULATION TIME (inference waits omitted): {simulation_frame / FPS:.2f}s",
             (x, y), self.primary, self.font_xs,
         )
         y += 16
@@ -407,7 +407,8 @@ class JevlikeHUD:
         self.text(f"grounded: {obs.player.grounded}", (x, y), self.muted, self.font_xs)
         self.text(f"gap: {obs.terrain.gap_ahead}", (x + 145, y), self.muted, self.font_xs)
         y += 17
-        self.text("60 FPS simulation; wall-clock inference excluded from timeline", (x, y), self.warning, self.font_xs)
+        self.text("60 FPS simulation;", (x, y), self.warning, self.font_xs)
+        self.text("inference waits excluded", (x, y + 14), self.warning, self.font_xs)
 
 
 def run_episode(
@@ -512,6 +513,7 @@ def run_episode(
             frame_trace.append({
                 "frame": frame_count,
                 "simulation_time_seconds": frame_count / FPS,
+                "video_time_seconds": frame_count / FPS,
                 "action": current_action,
                 "x": round(player.x, 3),
                 "y": round(player.y, 3),
@@ -543,12 +545,13 @@ def run_episode(
         for _ in range(TERMINAL_HOLD_FRAMES):
             status = "CLEARED" if player.has_won else "DEAD" if player.is_dead else "TIMEOUT"
             game_renderer.render(player, level)
-            hud.render(final_obs, current_decision, frame_count, status, gpu_name)
+            hud.render(final_obs, current_decision, terminal_frame, status, gpu_name)
             pygame.display.flip()
             recorder.record_frame(screen)
             frame_trace.append({
                 "frame": frame_count,
-                "simulation_time_seconds": frame_count / FPS,
+                "simulation_time_seconds": terminal_frame / FPS,
+                "video_time_seconds": frame_count / FPS,
                 "action": current_action,
                 "x": round(player.x, 3),
                 "y": round(player.y, 3),
@@ -624,7 +627,7 @@ def run_episode(
             "duration_seconds": len(frame_trace) / FPS,
             "simulation_frames_excluding_terminal_hold": terminal_frame,
             "wall_clock_seconds": wall_seconds,
-            "time_basis": "MP4 timestamps are 60 FPS simulation frames; synchronous model waits are not added to simulation time or HUD simulation time.",
+            "time_basis": "MP4 timestamps use every recorded frame at 60 FPS; physics simulation time is held at the terminal frame during the static terminal hold, and synchronous model waits are excluded.",
             "inference_peak_vram": inference_peak,
         },
         "artifacts": {
