@@ -50,6 +50,10 @@ mkdir -p /tmp/jevlike-colab
 
 Notebookを実行する場合は [`jevlike_t4_experiment.ipynb`](notebooks/jevlike_t4_experiment.ipynb) を Colab CLI の `exec -f` に渡します。Notebookは公開実験ブランチから同じ計測ラッパーを取得するため、ブランチを取得できない環境では上の `colab run` を使ってください。
 
+### 実行状態
+
+ローカルCPU smoke test は成功済みです。T4実測は、WSL側に Colab CLI の ADC または OAuth2 認証情報が存在しないため、VMを割り当てずに停止しています。阻害要因は [`results/colab-t4-blocker.json`](results/colab-t4-blocker.json) に記録しています。認証後は同じ専用session名 `jev-jevlike` で上のコマンドを一度実行してください。
+
 ## 結果の読み方
 
 スクリプトは `result.json` と `RESULT_JSON=...` を出力します。結果には以下を保存します。
