@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0",
+  "description": "Public, synthetic premise/hypothesis pairs for a smoke-sized NLI decision run.",
+  "labels": ["contradiction", "entailment", "neutral"],
+  "items": [
+    {
+      "id": "library-sunday",
+      "premise": "The library is closed on Sunday. Today is Sunday.",
+      "hypotheses": [
+        "The library is closed today.",
+        "The library is open today.",
+        "The library has a cafe."
+      ],
+      "gold_index": 0
+    },
+    {
+      "id": "train-duration",
+      "premise": "A train leaves at 09:00 and arrives at 10:30.",
+      "hypotheses": [
+        "The train journey lasts 90 minutes.",
+        "The train arrives before 10:00.",
+        "The train is electric."
+      ],
+      "gold_index": 0
+    },
+    {
+      "id": "package-contents",
+      "premise": "The package contains a red notebook and a blue pen.",
+      "hypotheses": [
+        "The package contains a red notebook.",
+        "The package contains no writing instruments.",
+        "The package weighs one kilogram."
+      ],
+      "gold_index": 0
+    },
+    {
+      "id": "bicycle",
+      "premise": "Mika owns a bicycle and rides it to the park.",
+      "hypotheses": [
+        "Mika owns a bicycle.",
+        "Mika does not own a bicycle.",
+        "Mika owns a red bicycle."
+      ],
+      "gold_index": 0
+    },
+    {
+      "id": "square",
+      "premise": "A square has four equal sides.",
+      "hypotheses": [
+        "A square has four equal sides.",
+        "A square has three sides.",
+        "A square is often used as a logo shape."
+      ],
+      "gold_index": 0
+    }
+  ]
+}
