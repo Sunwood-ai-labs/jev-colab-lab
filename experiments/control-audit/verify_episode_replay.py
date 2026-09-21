@@ -31,6 +31,7 @@ def verify(args):
     rows=episode.get('frame_trace') or episode.get('trajectory',{}).get('frames')
     if not rows: raise ValueError('No supported frame trace found')
     rows=[r for r in rows if not r.get('terminal_hold',False)]
+    if not rows: raise ValueError('No simulation frames found')
     level=Level(1); player=Player(*level.start_pos)
     legal={'noop','right','right_run','right_jump','right_run_jump','jump','left'}
     mismatches=[]
