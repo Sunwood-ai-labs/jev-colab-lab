@@ -57,6 +57,11 @@ def test_clear_runner_is_pinned_and_keeps_model_only_separate():
     assert '"primary_model_only_success"' in source
     assert "balanced, sanitized state/action rows" in source
     assert '"guard_trigger_frames"' in source
+    assert 'VERIFIED_TRAINING_VARIANT = "r2-game-teacher"' in source
+    assert 'choices=TRAINING_VARIANTS' in source
+    assert "balanced-probe is opt-in" in source
+    assert "def collect_teacher_split_r2" in source
+    assert 'default=os.environ.get("JEVLIKE_TRAINING_VARIANT", VERIFIED_TRAINING_VARIANT)' in source
 
 
 def test_clear_runner_has_no_live_or_mock_controller_path():

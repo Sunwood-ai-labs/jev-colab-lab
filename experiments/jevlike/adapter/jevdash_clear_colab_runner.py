@@ -55,6 +55,8 @@ ACTION_SPACE = (
     "left",
 )
 MODEL_NAME = "Jevlike TinyScorer (JevDash teacher checkpoint)"
+TRAINING_VARIANTS = ("r2-game-teacher", "balanced-probe")
+VERIFIED_TRAINING_VARIANT = "r2-game-teacher"
 
 
 def utc_now() -> str:
@@ -474,6 +476,67 @@ def collect_teacher_split(
     }
 
 
+def collect_teacher_split_r2(
+    game_root: Path,
+    target_examples: int,
+    split_seed: int,
+    split_name: str,
+) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    """Reproduce the exact teacher-following collector used by verified r2."""
+
+    import pygame
+
+    from jev_platformer.engine.entities import Player
+    from jev_platformer.engine.world import Level
+    from jev_platformer.telemetry.extractor import TelemetryExtractor
+
+    rng = random.Random(split_seed)
+    rows: list[dict[str, Any]] = []
+    action_counts: Counter[str] = Counter()
+    episodes = 0
+    pygame.init()
+    try:
+        while len(rows) < target_examples and episodes < 240:
+            level = Level(LEVEL)
+            start_offset = rng.choice((-16, 0, 16))
+            player = Player(level.start_pos[0] + start_offset, level.start_pos[1])
+            episodes += 1
+            for frame in range(MAX_SIMULATION_FRAMES):
+                if frame % FRAMES_PER_DECISION == 0:
+                    obs = TelemetryExtractor.extract(player, level)
+                    physical = precise_world_features(player, level)
+                    label = teacher_action(obs, physical)
+                    rows.append({
+                        "context": compact_context(obs, physical),
+                        "options": list(ACTION_SPACE),
+                        "label": ACTION_SPACE.index(label),
+                    })
+                    action_counts[label] += 1
+                    if len(rows) >= target_examples:
+                        break
+                    if rng.random() < 0.86:
+                        action = label
+                    else:
+                        action = rng.choice(("right_run", "right_run_jump", "right_jump", "right"))
+                else:
+                    action = action
+                advance_world(player, level, action)
+                if player.has_won or player.is_dead:
+                    break
+    finally:
+        pygame.quit()
+    if len(rows) < target_examples:
+        raise RuntimeError(f"r2 teacher split {split_name} only produced {len(rows)} rows")
+    return rows, {
+        "name": split_name,
+        "examples": len(rows),
+        "episodes": episodes,
+        "action_counts": dict(sorted(action_counts.items())),
+        "seed": split_seed,
+        "source": "verified r2 fixed JevDash Level(1) teacher-following collector; intentionally preserved for exact reproduction",
+    }
+
+
 def snapshot_trainable_state(model: Any) -> dict[str, Any]:
     return {
         name: parameter.detach().cpu().clone()
@@ -488,8 +551,12 @@ def train_game_teacher_checkpoint(
     jevlike_root: Path,
     game_root: Path,
     device: Any,
+    training_variant: str = VERIFIED_TRAINING_VARIANT,
 ) -> tuple[Any, Any, dict[str, Any], dict[str, Any]]:
     """Train and reload a TinyScorer checkpoint on fixed-game state labels."""
+
+    if training_variant not in TRAINING_VARIANTS:
+        raise ValueError(f"unknown training variant: {training_variant}")
 
     from torch.nn import functional as F
     from torch.utils.data import DataLoader
@@ -502,8 +569,13 @@ def train_game_teacher_checkpoint(
     sizes = {"train": 8192, "validation": 1024, "test": 1024}
     split_info: dict[str, Any] = {}
     data_hashes: dict[str, str] = {}
+    collector = (
+        collect_teacher_split_r2
+        if training_variant == "r2-game-teacher"
+        else collect_teacher_split
+    )
     for index, (split, size) in enumerate(sizes.items()):
-        rows, info = collect_teacher_split(game_root, size, SEED + index * 1009, split)
+        rows, info = collector(game_root, size, SEED + index * 1009, split)
         path = data_dir / f"{split}.jsonl"
         write_jsonl(path, rows)
         split_info[split] = info
@@ -591,10 +663,19 @@ def train_game_teacher_checkpoint(
     loaded_model.eval()
     model_info = {
         "name": MODEL_NAME,
+        "training_variant": training_variant,
         "encoder": "tiny",
         "initialization": "TinyScorer initialized from torch seed 42; no pretrained model weights.",
-        "training_data": "fixed JevDash Level(1) balanced state/context probes with a documented game-teacher policy; no live API and no user data",
-        "training_data_balance": "each train/validation/test split has equal right_run and right_run_jump labels; probes include grounded x/geometry and short real jump arcs",
+        "training_data": (
+            "verified r2 teacher-following rows"
+            if training_variant == "r2-game-teacher"
+            else "fixed JevDash Level(1) balanced state/context probes with a documented game-teacher policy"
+        ),
+        "training_data_balance": (
+            "r2 reproduction retains its observed teacher-following class distribution"
+            if training_variant == "r2-game-teacher"
+            else "each train/validation/test split has equal right_run and right_run_jump labels; probes include grounded x/geometry and short real jump arcs"
+        ),
         "teacher_policy": {
             "normal": "right_run",
             "jump": "right_run_jump when precise pipe/gap front clearance or enemy/telemetry hazard enters the documented window",
@@ -1239,7 +1320,7 @@ def run_audit(game_root: Path, jevlike_root: Path, output_path: Path) -> dict[st
     return audit
 
 
-def run_colab_experiment() -> None:
+def run_colab_experiment(training_variant: str = VERIFIED_TRAINING_VARIANT) -> None:
     import numpy
     import torch
 
@@ -1259,7 +1340,7 @@ def run_colab_experiment() -> None:
     install_seconds = install_colab_dependencies(jevlike_root, game_root)
     prepare_import_paths(jevlike_root, game_root)
     model, collator, model_info, training_info = train_game_teacher_checkpoint(
-        torch, output_dir, jevlike_root, game_root, device,
+        torch, output_dir, jevlike_root, game_root, device, training_variant,
     )
 
     episodes: dict[str, dict[str, Any]] = {}
@@ -1276,6 +1357,7 @@ def run_colab_experiment() -> None:
             "training_logs": training_info["epochs"],
             "training_config": training_info["config"],
             "training_data_sha256": training_info["data_sha256"],
+            "training_variant": training_variant,
             "adapter": "experiments/jevlike/adapter/jevdash_clear_colab_runner.py",
             "execution_contract": "real CUDA inference; no mock, fallback, or live API; model-only and assisted are separate episodes",
         }
@@ -1335,6 +1417,12 @@ def main() -> None:
     parser.add_argument("--game-root", type=Path)
     parser.add_argument("--jevlike-root", type=Path)
     parser.add_argument("--output", type=Path)
+    parser.add_argument(
+        "--training-variant",
+        choices=TRAINING_VARIANTS,
+        default=os.environ.get("JEVLIKE_TRAINING_VARIANT", VERIFIED_TRAINING_VARIANT),
+        help="r2-game-teacher is the verified T4 reproduction; balanced-probe is opt-in and currently unverified on Colab GPU",
+    )
     # `colab exec --file` runs the file through a Jupyter kernel and appends
     # its connection-file argument. It is infrastructure metadata, not an
     # experiment option, so accept and ignore it explicitly.
@@ -1358,7 +1446,7 @@ def main() -> None:
             "output": str(args.output.expanduser().resolve()),
         }, ensure_ascii=False, sort_keys=True))
         return
-    run_colab_experiment()
+    run_colab_experiment(args.training_variant)
 
 
 if __name__ == "__main__":
