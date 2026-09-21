@@ -162,7 +162,7 @@ Jevlike上流の`ByteCollator`は、コンテキストをUTF-8 byte列にして`
 
 すべてのクリアエピソード（SemIf, Jevlike, Laya）は、ログの生アクション列から固定ゲーム環境（CPU）で全フレームを独立再実行する検証器（`experiments/control-audit/verify_episode_replay.py`）により、**全647〜651フレームの座標・速度・得点・勝敗状態が100%完全一致**することが確認されています。
 
-詳細は [JevDash 改良実験の検証記録 (IMPROVEMENT_REPORT.md)](../../experiments/control-audit/IMPROVEMENT_REPORT.md) を参照してください。
+詳細は [JevDash 改良実験の検証記録 (IMPROVEMENT_REPORT.md)](https://github.com/Sunwood-ai-labs/jev-colab-lab/blob/main/experiments/control-audit/IMPROVEMENT_REPORT.md) を参照してください。
 
 ## 9. 再利用する際の境界
 
@@ -172,4 +172,4 @@ Jevlike上流の`ByteCollator`は、コンテキストをUTF-8 byte列にして`
 - 外部管理のMP4・代表フレーム・ゲームepisode JSONは、このリポジトリに公開URLを持たせていません。公開成果物はrunner、notebook、sanitized result、source manifestです。
 - 認証情報、OAuth link、session metadata、private input、model weightsは公開しません。
 
-次に読むなら、[改良実験の検証記録](../../experiments/control-audit/IMPROVEMENT_REPORT.md)、[実験一覧](experiments.md)、[再現性](reproducibility.md)、[出典とライセンス](sources-and-licenses.md)、または各実験のREADMEがおすすめです。
+次に読むなら、[改良実験の検証記録](https://github.com/Sunwood-ai-labs/jev-colab-lab/blob/main/experiments/control-audit/IMPROVEMENT_REPORT.md)、[実験一覧](experiments.md)、[再現性](reproducibility.md)、[出典とライセンス](sources-and-licenses.md)、または各実験のREADMEがおすすめです。
