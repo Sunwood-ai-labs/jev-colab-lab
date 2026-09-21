@@ -57,9 +57,9 @@ uv run --no-project python -m py_compile experiments/kev/t4_inference.py
 
 ## 🎮 JevDash録画セット
 
-5つのモデル経路でJevDash Level 1の録画セットをGit外に完成させています。公開実験ページから、ここで確認できるrunnerとsanitizedな証跡へ導線を張っています。MP4本体はこのリポジトリに公開URLがなく、意図的にGitへ入れていません。
+5つのモデル経路でJevDash Level 1の録画セットをGit外に保存しています。これは単一episodeの観測記録であり、ゲーム能力の正常な比較評価が完了したことを意味しません。特にJevlikeは入力先頭の切り詰めで状態情報が欠落しており、ゲーム結果を能力評価に使えません。MP4本体はこのリポジトリに公開URLがなく、意図的にGitへ入れていません。
 
-これはモデルランキングではなく、独立した単一episodeの実演です。動画時間は同期推論の待ち時間を除いたsimulation timeです。KevとJevlikeのpresentation replayは、記録済みのモデル軌跡と状態を維持し、HUD描画だけを補正しています。
+これはモデルランキングではなく、独立した単一episodeの実演です。動画時間は同期推論の待ち時間を除いたsimulation timeです。KevとJevlikeのpresentation replayは、記録済みのモデル軌跡と状態を維持し、HUD描画だけを補正しています。詳しい数値とJevlikeの不備は[日本語まとめ記事](docs/ja/guide/jev-clone-colab.md)にまとめています。
 
 5実験の公開導線は[録画証跡インデックス](experiments/README.md#jevdash-capture-evidence)から確認できます。
 
@@ -107,6 +107,7 @@ NOTICE.md                     # 上流ソースとライセンスの境界
 ## 📚 追加ドキュメント
 
 - [日本語 docs](https://sunwood-ai-labs.github.io/jev-colab-lab/ja/)
+- [Jevクローン × Google Colab 日本語まとめ](docs/ja/guide/jev-clone-colab.md)
 - [English docs](https://sunwood-ai-labs.github.io/jev-colab-lab/)
 - [実験インデックス](experiments/README.md)
 - [作業規約](AGENTS.md)
