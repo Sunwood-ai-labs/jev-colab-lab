@@ -52,6 +52,15 @@ CARD_ACTION_PHRASES = {
     "left": "move left without jumping",
 }
 CARD_ACTION_OPTIONS = tuple(ACTION_OPTIONS)
+APPLICABILITY_HYPOTHESES = {
+    "noop": "The player should release horizontal control and not jump because no immediate hazard requires a jump.",
+    "right": "The player should move right without jumping because the forward path is clear.",
+    "right_run": "The player should run right without jumping because the forward path is clear.",
+    "right_jump": "The player should move right and start a normal jump to clear a nearby hazard.",
+    "right_run_jump": "The player should run right and start a strong jump to clear a nearby hazard.",
+    "jump": "The player should jump without horizontal input to clear a nearby hazard.",
+    "left": "The player should move left without jumping because forward movement is unsafe.",
+}
 
 
 def _get(mapping: Mapping[str, Any], *path: str, default: Any = None) -> Any:
@@ -151,6 +160,22 @@ def build_card_hypotheses(actions: Sequence[str] | None = None) -> list[dict[str
             "action": action,
             "phrase": CARD_ACTION_PHRASES[action],
             "hypothesis": f"The correct answer is: {CARD_ACTION_PHRASES[action]}.",
+        }
+        for action in selected
+    ]
+
+
+def build_applicability_hypotheses(actions: Sequence[str] | None = None) -> list[dict[str, str]]:
+    """Build fixed action-applicability statements for the NLI decision."""
+
+    selected = tuple(actions or ACTION_OPTIONS)
+    unknown = [action for action in selected if action not in APPLICABILITY_HYPOTHESES]
+    if unknown or len(selected) != len(ACTION_OPTIONS) or set(selected) != set(ACTION_OPTIONS):
+        raise ValueError(f"candidate actions must contain exactly {ACTION_OPTIONS}: {selected}")
+    return [
+        {
+            "action": action,
+            "hypothesis": APPLICABILITY_HYPOTHESES[action],
         }
         for action in selected
     ]
@@ -285,8 +310,12 @@ class OpenJevNLIAdapter:
         if profile == "legacy":
             hypotheses = build_hypotheses()
             premise = build_premise(observation_dict)
-        elif profile in ("card", "rules-v2"):
-            hypotheses = build_card_hypotheses(candidate_order)
+        elif profile in ("card", "rules-v2", "applicability"):
+            hypotheses = (
+                build_applicability_hypotheses(candidate_order)
+                if profile == "applicability"
+                else build_card_hypotheses(candidate_order)
+            )
             premise = (
                 build_compact_premise(observation_dict)
                 if profile == "card"

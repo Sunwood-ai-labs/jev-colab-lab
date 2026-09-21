@@ -10,8 +10,10 @@ sys.path.insert(0, str(EXPERIMENT_DIR))
 from adapter.openjev_nli import (  # noqa: E402
     ACTION_OPTIONS,
     ACTION_DESCRIPTIONS,
+    APPLICABILITY_HYPOTHESES,
     CARD_ACTION_OPTIONS,
     build_card_hypotheses,
+    build_applicability_hypotheses,
     build_compact_premise,
     build_rules_v2_premise,
     build_hypotheses,
@@ -71,3 +73,9 @@ class OpenJevActionMappingTest(unittest.TestCase):
         self.assertIn("cannot start a second jump", premise)
         self.assertIn("coarse forward tile-scan distances", premise)
         self.assertIn("stalled frames", premise)
+
+    def test_applicability_hypotheses_are_complete_and_fixed(self):
+        hypotheses = build_applicability_hypotheses()
+        self.assertEqual([item["action"] for item in hypotheses], list(ACTION_OPTIONS))
+        self.assertEqual(len(APPLICABILITY_HYPOTHESES), len(ACTION_OPTIONS))
+        self.assertTrue(all(item["hypothesis"] == APPLICABILITY_HYPOTHESES[item["action"]] for item in hypotheses))
