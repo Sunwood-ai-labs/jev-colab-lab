@@ -1,0 +1,146 @@
+{
+  "schema": "jev-semif-jevdash-clear-verification-v1",
+  "verified_run": {
+    "prompt_version": "jev-dash-rules-v2",
+    "source_current_prompt_version": "jev-dash-rules-v3-physics",
+    "source_note": "The v3 physics-accurate option descriptions were applied after the verified v2 GPU run. No additional GPU run was provisioned; the v2 result must not be attributed to v3.",
+    "game_commit": "eb2f92617bab5d5021a5e3cf5ef2bdaf8207d480",
+    "semif_commit": "ca3ba65f142967030ecb453346e94d6f476a69df",
+    "model_id": "Qwen/Qwen3.5-4B",
+    "model_revision": "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a",
+    "gpu": "NVIDIA L4",
+    "status": "completed",
+    "outcome": "clear",
+    "has_won": true,
+    "is_dead": false,
+    "simulation_frames": 647,
+    "decisions": 81,
+    "progress_pixels": 4204.4,
+    "score": 400,
+    "coins": 8,
+    "action_frames": {
+      "right_run": 16,
+      "right_run_jump": 631
+    },
+    "video_frames": 767,
+    "static_terminal_frames": 120,
+    "raw_equals_executed_all_frames": true,
+    "override_frames": 0,
+    "control_mode": "model_only",
+    "errors": []
+  },
+  "episode_checks": {
+    "episode_json": "episode.json",
+    "frame_trace_count": 647,
+    "terminal_frame": 646,
+    "terminal_has_won": true,
+    "terminal_is_dead": false,
+    "source_fallback_used": false,
+    "source_mock_agent_used": false,
+    "decision_raw_equals_executed": true,
+    "frame_raw_equals_executed": true,
+    "override_applied_count": 0,
+    "errors_empty": true
+  },
+  "video_checks": {
+    "video": "episode.mp4",
+    "ffprobe": "ffprobe.json",
+    "decode_log": "decode.txt",
+    "decode_result": "FULL_DECODE_OK",
+    "codec": "h264",
+    "pixel_format": "yuv420p",
+    "resolution": "1280x720",
+    "fps": "60/1",
+    "probe_frames": 767,
+    "probe_duration_seconds": 12.783333,
+    "visual_frames": [
+      "frame-0000.png",
+      "frame-0384.png",
+      "frame-0766.png"
+    ],
+    "visual_observations": [
+      "initial HUD shows SemIf/Qwen3.5-4B, NVIDIA L4, 60 FPS/8F, and no mock/fallback indicator",
+      "midpoint shows the player airborne over the level without HUD clipping",
+      "terminal frame shows STAGE CLEAR and the goal state without HUD overlap"
+    ]
+  },
+  "input_audit_checks": {
+    "audit_json": "../semif-jevdash-input-audit-20260921.json",
+    "status": "success",
+    "gpu": "NVIDIA L4",
+    "rows": 96,
+    "fixture_count": 6,
+    "prompt_variant_count": 4,
+    "action_order_count": 4,
+    "option_slot_token_ids": [
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38
+    ],
+    "option_slot_single_token": true,
+    "blocked_baseline_allowed_action_slot_probability_mass": 0.999592710722478,
+    "blocked_baseline_full_vocab_argmax": "C",
+    "baseline_order_sensitive_states": [
+      "start",
+      "approach_pipe",
+      "blocked_pipe",
+      "first_gap",
+      "enemy_ahead"
+    ],
+    "rules_compact_order_stable": true,
+    "rules_compact_canonical_actions": {
+      "start": "right_run",
+      "approach_pipe": "right_run_jump",
+      "blocked_pipe": "right_run_jump",
+      "first_gap": "right_run_jump",
+      "enemy_ahead": "right_run_jump",
+      "airborne": "right_run"
+    }
+  },
+  "artifacts": [
+    {
+      "path": "episode.json",
+      "bytes": 813208,
+      "sha256": "1ffe5730b97c7fcf10d58e36bf47c4cbe6d1d6daa01893515451818854a4041d"
+    },
+    {
+      "path": "episode.mp4",
+      "bytes": 715212,
+      "sha256": "79673e00c0316b5d5d53ad6e274850d69ff76cff5fd8fc33b8d14bfed0cf5409"
+    },
+    {
+      "path": "ffprobe.json",
+      "bytes": 623,
+      "sha256": "ae82630b86ac8dc2a9e658a2b0cb9414cb6be6a13c694cec0b47b6ad8c7c9e0c"
+    },
+    {
+      "path": "decode.txt",
+      "bytes": 16,
+      "sha256": "3cd8b33e0405abdbb3512ef843d6956cf4d009e299f265a10a3ee7074c21e127"
+    },
+    {
+      "path": "frame-0000.png",
+      "bytes": 124457,
+      "sha256": "eec6814cbcd8fd66b07339faa8b572867ece10e9ed07c7f8b121f7cb7e6fa83a"
+    },
+    {
+      "path": "frame-0384.png",
+      "bytes": 143893,
+      "sha256": "eef69db30446e6726c4b1841c10e0f0990a7aa9596f0eaeac6097bc43c92c097"
+    },
+    {
+      "path": "frame-0766.png",
+      "bytes": 132187,
+      "sha256": "90abd02e594c34582e9711da04d34c8559b4ebd52c51c8b691c42294457a13ae"
+    },
+    {
+      "path": "../semif-jevdash-input-audit-20260921.json",
+      "bytes": 632221,
+      "sha256": "7e47fd9e6e356a9c44fbb7950520adb9d8d60505e102ee646662b03621cf76d2"
+    }
+  ]
+}

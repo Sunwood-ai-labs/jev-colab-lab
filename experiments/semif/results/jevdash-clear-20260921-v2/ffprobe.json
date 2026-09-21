@@ -1,0 +1,28 @@
+{
+    "programs": [
+
+    ],
+    "stream_groups": [
+
+    ],
+    "streams": [
+        {
+            "index": 0,
+            "codec_name": "h264",
+            "profile": "High",
+            "width": 1280,
+            "height": 720,
+            "pix_fmt": "yuv420p",
+            "r_frame_rate": "60/1",
+            "avg_frame_rate": "60/1",
+            "duration": "12.783333",
+            "nb_frames": "767"
+        }
+    ],
+    "format": {
+        "filename": "C:\\Temp\\semif-jevdash-clear-20260921.mp4",
+        "nb_streams": 1,
+        "duration": "12.783333",
+        "size": "715212"
+    }
+}

@@ -31,9 +31,21 @@ def test_runner_contract_is_fixed_and_real_model_only() -> None:
     assert assignments["FRAMES_PER_DECISION"] == 8
     assert assignments["MAX_SIMULATION_FRAMES"] == 1800
     assert assignments["STATIC_TERMINAL_FRAMES"] == 120
+    assert assignments["CONTROLLER_PROMPT_VERSION"] == "jev-dash-rules-v3-physics"
     assert "MockJevAgent" not in source
     assert "JevLiveAgent" not in source
     assert '"fallback_used": False' in source
+    for expected in (
+        "while grounded",
+        "while airborne",
+        "coyote time",
+        "coarse scan columns",
+        '"model_input_state"',
+        '"raw_action"',
+        '"executed_action"',
+        '"override_applied": False',
+    ):
+        assert expected in source
 
 
 def test_action_order_and_colab_entry_are_explicit() -> None:
