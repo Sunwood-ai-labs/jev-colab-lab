@@ -93,15 +93,16 @@ def test_saved_v2_gpu_log_matches_replayable_prompt_contract() -> None:
     spec.loader.exec_module(module)
 
     episode = json.loads(V2_EVIDENCE.read_text(encoding="utf-8"))
-    first = episode["decisions"][0]
     question, descriptions = module.PROMPT_CONFIGS[module.DEFAULT_CONTROLLER_PROMPT_VERSION]
     expected_options = [
         {"id": action, "description": descriptions[action]}
         for action in module.ACTIONS
     ]
     assert episode["source"]["controller_prompt_version"] == "jev-dash-rules-v2"
-    assert first["question"] == question
-    assert first["options"] == expected_options
-    assert first["model_input_state"] == module.compact_state(first["observation"])
-    assert first["raw_action"] == first["executed_action"]
-    assert first["override_applied"] is False
+    assert len(episode["decisions"]) == 81
+    for decision in episode["decisions"]:
+        assert decision["question"] == question
+        assert decision["options"] == expected_options
+        assert decision["model_input_state"] == module.compact_state(decision["observation"])
+        assert decision["raw_action"] == decision["executed_action"]
+        assert decision["override_applied"] is False
