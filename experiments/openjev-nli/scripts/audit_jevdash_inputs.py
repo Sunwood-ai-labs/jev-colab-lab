@@ -36,6 +36,18 @@ def write_json(path: Path, payload: dict[str, Any]) -> None:
 
 
 def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
+    if argv is None:
+        raw = list(sys.argv[1:])
+        argv = []
+        skip_next = False
+        for argument in raw:
+            if skip_next:
+                skip_next = False
+                continue
+            if argument == "-f":
+                skip_next = True
+                continue
+            argv.append(argument)
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", default="/content/openjev-nli-jevdash-input-audit.json")
     parser.add_argument("--max-length", type=int, default=512)
@@ -245,8 +257,8 @@ def main(argv: Sequence[str] | None = None) -> int:
             "states": by_state,
             "summary": {
                 "state_count": len(states),
-                "legacy_actions": sorted({decision["decision"]["action"] for decision in (entry["profiles"][0] for entry in by_state.values())}),
-                "card_actions": sorted({decision["decision"]["action"] for decision in compact_decisions}),
+                "legacy_actions": sorted({entry["profiles"][0]["decision"]["action"] for entry in by_state.values()}),
+                "card_actions": sorted({decision["action"] for decision in compact_decisions}),
                 "card_premise_byte_min": min(decision["premise_byte_count_utf8"] for decision in compact_decisions),
                 "card_premise_byte_max": max(decision["premise_byte_count_utf8"] for decision in compact_decisions),
                 "card_sequence_length_min": min(decision["sequence_length"] for decision in compact_decisions),
