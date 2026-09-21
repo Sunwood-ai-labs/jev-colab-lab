@@ -2,6 +2,8 @@
 
 固定commitの [Sunwood-ai-labs/jevdash](https://github.com/Sunwood-ai-labs/jevdash) を、Colab T4上の Jevlike TinyScorer で同期制御し、固定ゲームの録画と判断軌跡を保存する実験です。ゲームのcloneはgit外に置き、ゲーム本体は変更しません。
 
+> **重要な制限:** この録画はゲーム能力評価には使えません。上流 `ByteCollator` の `context_tokens=192` はUTF-8 bytesの先頭だけを渡します。今回のadapterは長い定型指示の後ろに状態JSONを連結しているため、外部管理のsanitized episode JSONでは全27判断で先頭192 bytes、確率ベクトル、`right_jump`が同一でした。216 physics frames（simulation 3.6秒）でdeathした結果は入力欠落の記録であり、Jevlikeのゲーム能力の証拠ではありません。今回この入力経路は修正していません。
+
 ## 固定条件
 
 - Game: `eb2f92617bab5d5021a5e3cf5ef2bdaf8207d480`
@@ -52,6 +54,8 @@ HUDは `Jevlike TinyScorer` と表示し、TypeSafeのlive Jevとは表示しま
 
 Colab T4での元録画は `death` 終端、物理216フレーム、終端hold120フレーム、合計336フレーム、5.6秒、判断27回でした。元録画は上書きせず `original-colab/` に保持しています。
 
+このepisodeでは27回すべてのargmaxが `right_jump` でした。TinyScorerは合成badge選択（train 512 / validation 128 / test 128）だけで4 epoch学習し、ゲーム用データは使っていません。presentation replayの状態照合は元の軌跡とHUDを検査するものにすぎず、入力欠落を直したり、ゲームを追加推論したりしません。
+
 元の判断・actionを変更せず、固定ゲームを同じaction列で再生し、216物理フレームと120 holdフレームの x/y/vx/vy/progress、action、dead/won、hold フラグを全件照合したうえでHUDだけを補正再描画しました。これは追加のJevlike推論ではありません。補正内容は、終端hold中のsimulation time固定とHUDフッターの2行折り返しです。
 
 納品物はリポジトリ外の `VIDEO_ROOT`（git管理外）です。
@@ -83,3 +87,5 @@ uv run --no-project --python experiments/jevlike/.venv/Scripts/python.exe `
 ```
 
 代表PNGは各成果物ディレクトリの `frames/` に置き、HUD・ゲーム画面・終端状態を目視確認します。
+
+この不備を踏まえ、JevDash録画をモデルランキングへ使いません。Laya、Kev、SemIf、OpenJev NLIに同じ入力欠落があるとは確認していませんが、接続妥当性を含むゲーム能力比較は未完了です。

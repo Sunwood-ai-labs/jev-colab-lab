@@ -35,13 +35,14 @@ features:
   <div class="lab-card"><strong>T4 × 3</strong><p>Laya、Kev-0.5B、Jevlikeの短時間学習・推論。</p></div>
   <div class="lab-card"><strong>L4 × 2</strong><p>SemIfの直接option readoutとOpenJev NLI。</p></div>
   <div class="lab-card"><strong>結果セット × 5</strong><p>すべてchecked-in JSONと実験READMEへリンクします。</p></div>
-  <div class="lab-card"><strong>JevDash録画 × 5</strong><p>独立した単一episodeの録画セット。MP4はGit外です。</p></div>
+  <div class="lab-card"><strong>JevDash録画 × 5</strong><p>独立した単一episodeの観測。能力比較ではなく、MP4はGit外です。</p></div>
 </div>
 
 5つの実験は意図的に異質です。このサイトはleaderboardではなく再現性のインデックスであり、fixture、readout、モデルサイズ、確率の意味が異なります。
 
 ## 次に読む
 
+- [Jevクローン × Google Colab](/ja/guide/jev-clone-colab) — 5冊のnotebook、通常推論の実測値、JevDashの制約。
 - [はじめに](/ja/guide/getting-started) — ローカル確認、uv、WSL、Colabの境界。
 - [実験一覧](/ja/guide/experiments) — 各runnerが測るものと証跡の場所。
 - [再現性](/ja/guide/reproducibility) — session分離、sanitized output、結果の解釈。
@@ -49,5 +50,5 @@ features:
 
 <div class="tip custom-block">
   <p class="custom-block-title">現在の計測メモ</p>
-  <p>Jevlikeのtiming fieldはresult schemaの計測境界を保持し、実験間比較の値として扱っていません。</p>
+  <p>Jevlikeのtiming fieldはresult schemaの計測境界を保持し、実験間比較の値として扱っていません。JevDash接続では入力先頭192 bytesの欠落が確認され、ゲーム能力評価は無効です。</p>
 </div>
