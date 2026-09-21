@@ -28,6 +28,8 @@ TheoLeeCJ/SemIf（旧 OpenJev）の direct 実装を、AlexWortega/openjev の N
 | `scripts/colab_entry.py` | CLI でアップロードした runner を実行する薄い entry point |
 | `scripts/jevdash_play.py` | 固定 JevDash を SemIf の7択 action logitsで同期操作し、動画とsanitized JSONを出す runner |
 | `scripts/jevdash_colab_entry.py` | 専用 `jev-semif-jevdash` session 用の薄い entry point |
+| `scripts/jevdash_audit.py` | 固定ゲームから作った実 telemetry で、入力表現・候補順・full-vocabulary readout を監査する runner |
+| `scripts/jevdash_audit_colab_entry.py` | 専用 `jev-semif-jevdash-clear` session 用の監査 entry point |
 | `data/jevdash-commit.txt` | 収録対象の固定 JevDash commit marker |
 | `requirements-colab.txt` | Colab 用の uv 管理依存固定 |
 | `requirements-semif-jevdash-colab.txt` | JevDash収録用のtorch / transformers / pygame / SemIf固定依存 |
@@ -130,6 +132,57 @@ sanitized JSON、MP4、ffprobe、全デコード証跡、代表PNG、検証manif
 `$VideoRoot`（git管理外）
 
 代表フレーム（0、900、1799）を目視し、ゲームviewport、7択確率バー、L4表示、60 FPS/8F契約、`DANGER / URGENCY: NOT MEASURED` の表示を確認しました。文字切れ・重なりはありません。終端フレームの画面表示は29.98 s、JSONの1800フレーム時間は30.00 sで、60 FPSのフレーム境界として整合します。danger/urgencyはモデル出力として推測・表示していません。
+
+## JevDash入力監査とmodel-onlyクリア
+
+上記のtimeoutを、入力の意味・候補順・ゲーム物理の3層に分けて監査しました。監査は固定ゲームから `start`、`approach_pipe`、`blocked_pipe`、`first_gap`、`enemy_ahead`、`airborne` の6状態を作り、4 prompt variant × 4 action order = 96行を、同じ SemIf direct readout の実L4で測定したものです。JSON stateをそのまま渡したbaselineでは、`blocked_pipe` の canonical 順が `right_run`（確率0.384）を選びますが、候補順を変えると選択 action が変わりました。これは候補文字への条件付き softmaxだけの問題ではなく、候補列の意味づけをモデルが安定していないことを示します。
+
+監査行の input tokenization では A〜G は単一 token (`32..38`) で、blocked baseline の full-vocabulary での候補7文字の確率質量は `0.9995927`、full-vocabulary argmax は `C` でした。したがって、このケースは候補外 token を隠した見かけの確信度ではありません。意味を明示した `rules_json` / `rules_compact` は、4つの候補順すべてで同じ action を選び、`blocked_pipe` は `right_run_jump`（確率約0.89）、`approach_pipe` は約0.65、`first_gap` は約0.76、`enemy_ahead` は約0.79になりました。監査の全行は [`semif-jevdash-input-audit-20260921.json`](results/semif-jevdash-input-audit-20260921.json) に保存しています。
+
+ゲーム側の局所再生でも、固定物理では全フレーム `right_run` は x=486 付近でtimeoutし、全フレーム `right_run_jump` は647 simulation framesでclearしました。これは uv/Pygame のローカル物理確認であり、GPU推論の結果ではありません。実行runnerはこの結果をaction overrideには使わず、モデルのraw actionをそのまま適用します。
+
+### 実L4での改良収録
+
+監査後、compact telemetry（`grounded`、`stalled_frames`、粗い tile scan 距離、敵の pixel/contact 情報、airborne state）と、8フレーム macro の実物理を説明する候補文を使って `jev-dash-rules-v2` を収録しました。Level 1 / seed 42 / 60 FPS / 8 frames per decision、Qwen/Qwen3.5-4B revision `851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a`、SemIf `ca3ba65f142967030ecb453346e94d6f476a69df`、固定ゲーム commit `eb2f92617bab5d5021a5e3cf5ef2bdaf8207d480` です。
+
+| 項目 | `jev-semif-jevdash-clear` の実測 |
+| --- | --- |
+| GPU / runtime | NVIDIA L4 / Python 3.13.15 / torch 2.10.0+cu128 |
+| outcome / 最終状態 | `clear` / `has_won=true` / `is_dead=false` |
+| simulation / decisions | 647 frames / 81 decisions |
+| progress / score / coins | 4204.4 px / 400 / 8 |
+| simulation action frames | `right_run` 16 / `right_run_jump` 631 |
+| video | H.264 yuv420p / 1280×720 / 60 FPS / 767 frames |
+| terminal static frames | 120 |
+| inference wall / peak reserved VRAM | 18.7536 s / 8,663,334,912 bytes |
+| control contract | `model_only` / raw=executed / override 0 / errors `[]` |
+
+episode JSONの全647 frame trace、最後の `has_won=true`、MP4の全フレームdecode、開始・途中・`STAGE CLEAR!` の代表PNGを確認しました。成果物は [`results/jevdash-clear-20260921-v2/`](results/jevdash-clear-20260921-v2/) にあり、検証条件とSHA-256は同ディレクトリの `verification.json` に記録しています。
+
+この成功は、固定Level 1 / seed 42で、モデルが少なくとも開始時のclear groundと障害付近で異なる選択をしたことを示します。一方、後半の実action framesは `right_run_jump` が大半で、複数seed・別初期状態・別levelに対する一般的なagent能力の証明ではありません。`right_run` と `right_run_jump` のどちらを選ぶかはモデル出力であり、clearを保証するhelperや実行時overrideではありません。
+
+収録後、候補説明を固定ゲームの物理にさらに合わせ、`NOOP` の地上減速/空中速度保持、空中での右入力、grounded/coyote time時だけのjump開始、空中での再jump不可を明記した `jev-dash-rules-v3-physics` variantを追加しました。runnerの既定値とColab entry、notebookの既定値は、保存済みGPUログを再構成できる `jev-dash-rules-v2` のままです。v3は `--controller-prompt-version jev-dash-rules-v3-physics` で選べますが、追加GPU実行は行っていません。したがって、上表と同梱MP4が実証するのは明示的に `jev-dash-rules-v2` の収録であり、v3に同じ性能を帰属させません。
+
+再現時は、Google Colab CLIの専用 `jev-semif-jevdash-clear` session（L4）で、まず `jevdash_audit_colab_entry.py` を実行してから `jevdash_colab_entry.py` を実行します。WindowsホストではWSLから、git worktree外の専用configを使います。
+
+```powershell
+$WslRepo = '/path/to/jev-colab-lab'
+$Config = '/tmp/jev-semif-jevdash-clear-colab-state.json'
+$Colab = 'colab'
+wsl.exe -d Ubuntu-24.04 -- $Colab --auth=adc --config $Config new --session jev-semif-jevdash-clear --gpu L4
+wsl.exe -d Ubuntu-24.04 -- $Colab --auth=adc --config $Config install `
+  --session jev-semif-jevdash-clear -r "$WslRepo/experiments/semif/requirements-semif-jevdash-colab.txt"
+wsl.exe -d Ubuntu-24.04 -- $Colab --auth=adc --config $Config upload `
+  --session jev-semif-jevdash-clear "$WslRepo/experiments/semif/scripts/jevdash_audit.py" /content/semif-jevdash-audit.py
+wsl.exe -d Ubuntu-24.04 -- $Colab --auth=adc --config $Config exec `
+  --session jev-semif-jevdash-clear -f "$WslRepo/experiments/semif/scripts/jevdash_audit_colab_entry.py" --timeout 3600
+wsl.exe -d Ubuntu-24.04 -- $Colab --auth=adc --config $Config upload `
+  --session jev-semif-jevdash-clear "$WslRepo/experiments/semif/scripts/jevdash_play.py" /content/semif-jevdash-runner.py
+wsl.exe -d Ubuntu-24.04 -- $Colab --auth=adc --config $Config exec `
+  --session jev-semif-jevdash-clear -f "$WslRepo/experiments/semif/scripts/jevdash_colab_entry.py" --timeout 3600
+```
+
+実行後はJSON/動画をdownloadしてから、自分のsessionだけをstopします。notebookから同じ監査・収録を辿る導線は [`notebooks/semif_l4_experiment.ipynb`](notebooks/semif_l4_experiment.ipynb) の末尾に追加しています。
 
 ## Notebook
 
