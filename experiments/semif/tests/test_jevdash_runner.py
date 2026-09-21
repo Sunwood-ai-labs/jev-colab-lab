@@ -1,12 +1,15 @@
 from __future__ import annotations
 
 import ast
+import importlib.util
+import json
 from pathlib import Path
 
 
 ROOT = Path(__file__).parents[1]
 RUNNER = ROOT / "scripts" / "jevdash_play.py"
 ENTRY = ROOT / "scripts" / "jevdash_colab_entry.py"
+V2_EVIDENCE = ROOT / "results" / "jevdash-clear-20260921-v2" / "episode.json"
 
 
 def _literal_assignments(path: Path) -> dict[str, object]:
@@ -31,7 +34,12 @@ def test_runner_contract_is_fixed_and_real_model_only() -> None:
     assert assignments["FRAMES_PER_DECISION"] == 8
     assert assignments["MAX_SIMULATION_FRAMES"] == 1800
     assert assignments["STATIC_TERMINAL_FRAMES"] == 120
+    assert assignments["DEFAULT_CONTROLLER_PROMPT_VERSION"] == "jev-dash-rules-v2"
     assert assignments["CONTROLLER_PROMPT_VERSION"] == "jev-dash-rules-v3-physics"
+    assert assignments["ACTION_DESCRIPTIONS_V2"]["right_run_jump"] == (
+        "RIGHT_RUN_JUMP: hold right at running speed and start a jump; use for a pipe, pit gap, "
+        "approaching enemy, or a stalled wall, and keep this input while airborne until landing."
+    )
     assert "MockJevAgent" not in source
     assert "JevLiveAgent" not in source
     assert '"fallback_used": False' in source
@@ -44,6 +52,7 @@ def test_runner_contract_is_fixed_and_real_model_only() -> None:
         '"raw_action"',
         '"executed_action"',
         '"override_applied": False',
+        '"--controller-prompt-version"',
     ):
         assert expected in source
 
@@ -66,6 +75,7 @@ def test_action_order_and_colab_entry_are_explicit() -> None:
         '"--frames-per-decision",\n    "8"',
         '"--max-frames",\n    "1800"',
         '"--static-terminal-frames",\n    "120"',
+        '"--controller-prompt-version",\n    "jev-dash-rules-v2"',
     ):
         assert expected in entry
 
@@ -74,3 +84,24 @@ def test_game_commit_marker_is_sanitized() -> None:
     assert (ROOT / "data" / "jevdash-commit.txt").read_text(encoding="utf-8").strip() == (
         "eb2f92617bab5d5021a5e3cf5ef2bdaf8207d480"
     )
+
+
+def test_saved_v2_gpu_log_matches_replayable_prompt_contract() -> None:
+    spec = importlib.util.spec_from_file_location("jevdash_play_contract", RUNNER)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+
+    episode = json.loads(V2_EVIDENCE.read_text(encoding="utf-8"))
+    first = episode["decisions"][0]
+    question, descriptions = module.PROMPT_CONFIGS[module.DEFAULT_CONTROLLER_PROMPT_VERSION]
+    expected_options = [
+        {"id": action, "description": descriptions[action]}
+        for action in module.ACTIONS
+    ]
+    assert episode["source"]["controller_prompt_version"] == "jev-dash-rules-v2"
+    assert first["question"] == question
+    assert first["options"] == expected_options
+    assert first["model_input_state"] == module.compact_state(first["observation"])
+    assert first["raw_action"] == first["executed_action"]
+    assert first["override_applied"] is False

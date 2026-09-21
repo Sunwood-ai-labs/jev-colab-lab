@@ -18,6 +18,8 @@ sys.argv = [
     "/content/semif-jevdash.mp4",
     "--output-json",
     "/content/semif-jevdash-episode.json",
+    "--controller-prompt-version",
+    "jev-dash-rules-v2",
     "--level",
     "1",
     "--seed",

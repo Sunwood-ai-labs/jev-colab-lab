@@ -161,7 +161,7 @@ episode JSONの全647 frame trace、最後の `has_won=true`、MP4の全フレ�
 
 この成功は、固定Level 1 / seed 42で、モデルが少なくとも開始時のclear groundと障害付近で異なる選択をしたことを示します。一方、後半の実action framesは `right_run_jump` が大半で、複数seed・別初期状態・別levelに対する一般的なagent能力の証明ではありません。`right_run` と `right_run_jump` のどちらを選ぶかはモデル出力であり、clearを保証するhelperや実行時overrideではありません。
 
-収録後、候補説明を固定ゲームの物理にさらに合わせ、`NOOP` の地上減速/空中速度保持、空中での右入力、grounded/coyote time時だけのjump開始、空中での再jump不可を明記した `jev-dash-rules-v3-physics` に更新しました。このv3ソースは現在のrunnerですが、追加GPU実行は行っていません。したがって、上表と同梱MP4が実証するのは明示的に `jev-dash-rules-v2` の収録であり、v3に同じ性能を帰属させません。
+収録後、候補説明を固定ゲームの物理にさらに合わせ、`NOOP` の地上減速/空中速度保持、空中での右入力、grounded/coyote time時だけのjump開始、空中での再jump不可を明記した `jev-dash-rules-v3-physics` variantを追加しました。runnerの既定値とColab entry、notebookの既定値は、保存済みGPUログを再構成できる `jev-dash-rules-v2` のままです。v3は `--controller-prompt-version jev-dash-rules-v3-physics` で選べますが、追加GPU実行は行っていません。したがって、上表と同梱MP4が実証するのは明示的に `jev-dash-rules-v2` の収録であり、v3に同じ性能を帰属させません。
 
 再現時は、Google Colab CLIの専用 `jev-semif-jevdash-clear` session（L4）で、まず `jevdash_audit_colab_entry.py` を実行してから `jevdash_colab_entry.py` を実行します。WindowsホストではWSLから、git worktree外の専用configを使います。
 

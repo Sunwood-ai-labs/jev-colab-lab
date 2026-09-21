@@ -2,7 +2,8 @@
   "schema": "jev-semif-jevdash-clear-verification-v1",
   "verified_run": {
     "prompt_version": "jev-dash-rules-v2",
-    "source_current_prompt_version": "jev-dash-rules-v3-physics",
+    "source_current_prompt_version": "jev-dash-rules-v3-physics (optional; default runner is v2)",
+    "default_controller_prompt_version": "jev-dash-rules-v2",
     "source_note": "The v3 physics-accurate option descriptions were applied after the verified v2 GPU run. No additional GPU run was provisioned; the v2 result must not be attributed to v3.",
     "game_commit": "eb2f92617bab5d5021a5e3cf5ef2bdaf8207d480",
     "semif_commit": "ca3ba65f142967030ecb453346e94d6f476a69df",
