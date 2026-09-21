@@ -15,6 +15,8 @@
 
 成果物は現在の worktree の `experiments/jevlike/results/jevdash-clear/` に保存しています。`*-model-only.{json,mp4}`、`*-assisted.{json,mp4}`、`*-verification.json` はローカル検証成果物として gitignore 対象です。
 
+公開可能な r2 の動画・sanitized summary・verification は [公開証拠フォルダ](results/jevdash-clear-r2-public/README.md) に保存しています。ここには絶対パス、session metadata、credentials、raw full log、weightsを含めません。
+
 ## variant の選択
 
 未検証 variant を既定値に置き換えないため、`r2-game-teacher` を既定にしています。

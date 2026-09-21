@@ -1,0 +1,6357 @@
+{
+  "kind": "sanitized JevDash Jevlike r2 episode summary",
+  "status": "success",
+  "mode": "model-only",
+  "outcome": "cleared",
+  "generated_at_utc": "2026-09-21T11:47:48Z",
+  "game": {
+    "repository": "https://github.com/Sunwood-ai-labs/jevdash.git",
+    "commit": "eb2f92617bab5d5021a5e3cf5ef2bdaf8207d480",
+    "level": 1,
+    "seed": 42,
+    "physics_fps": 60,
+    "frames_per_decision": 8,
+    "max_simulation_frames": 1800,
+    "terminal_hold_frames": 120,
+    "action_space": [
+      "noop",
+      "right",
+      "right_run",
+      "right_jump",
+      "right_run_jump",
+      "jump",
+      "left"
+    ],
+    "engine_source": "fixed commit cli.run_play physics/collision/render order; game checkout was not modified"
+  },
+  "model": {
+    "name": "Jevlike TinyScorer (JevDash teacher checkpoint)",
+    "training_variant": "r2-game-teacher",
+    "encoder": "tiny",
+    "upstream_repository": "https://github.com/vinnylarouge/jevlike.git",
+    "upstream_commit": "94f5fd1b0b11d52bbdfdf4e0ee6aa96b568f8452",
+    "game_specific_training": true,
+    "training_seed": 42,
+    "training_data": "fixed JevDash Level(1) state/context rows with a documented game-teacher policy; no live API and no user data",
+    "training_data_balance": "r2 teacher-following distribution",
+    "teacher_policy": {
+      "normal": "right_run",
+      "jump": "right_run_jump when precise pipe/gap front clearance or enemy/telemetry hazard enters the documented window",
+      "airborne": "right_run_jump",
+      "training_only": true
+    },
+    "splits": {
+      "train": 8192,
+      "validation": 1024,
+      "test": 1024
+    },
+    "split_info": {
+      "train": {
+        "examples": 8192,
+        "action_counts": {
+          "right_run": 228,
+          "right_run_jump": 7964
+        },
+        "seed": 42,
+        "source": "fixed JevDash Level(1), deterministic physics, sanitized teacher labels"
+      },
+      "validation": {
+        "examples": 1024,
+        "action_counts": {
+          "right_run": 23,
+          "right_run_jump": 1001
+        },
+        "seed": 1051,
+        "source": "fixed JevDash Level(1), deterministic physics, sanitized teacher labels"
+      },
+      "test": {
+        "examples": 1024,
+        "action_counts": {
+          "right_run": 33,
+          "right_run_jump": 991
+        },
+        "seed": 2060,
+        "source": "fixed JevDash Level(1), deterministic physics, sanitized teacher labels"
+      }
+    },
+    "data_sha256": {
+      "train": "a4ed6a1c829633e483834f135c42de2e99e490010b9694d39097fdb8b994921e",
+      "validation": "daa14e32694057b95df2b1846c3690bb7ba86c8c10c5d308995dec2e910ca0c7",
+      "test": "0cbcddbea52914af8551656e13ba74b8daa2f19acccd3f946767082f2d3d4c4e"
+    },
+    "epochs": 12,
+    "batch_size": 256,
+    "learning_rate": 0.002,
+    "width": 96,
+    "rank": 64,
+    "context_tokens": 192,
+    "option_tokens": 32,
+    "training_seconds": 22.441826,
+    "training_peak_vram": {
+      "max_memory_allocated_bytes": 103603712,
+      "max_memory_reserved_bytes": 142606336
+    },
+    "checkpoint_sha256": "4d7d77f75364ee1615ff1927ff56b3463399936dedce65487641c5af169bf6b9",
+    "checkpoint_bytes": 251912,
+    "weights_published": false
+  },
+  "runtime": {
+    "gpu_name": "Tesla T4",
+    "device": "cuda",
+    "precision": "float32",
+    "torch": "2.11.0+cu128",
+    "torch_cuda": "12.8",
+    "seed": 42,
+    "mock_used": false,
+    "fallback_used": false,
+    "live_api_used": false
+  },
+  "control": {
+    "primary_model_only": true,
+    "safety_reflex_enabled": false,
+    "safety_reflex_evaluation": "disabled",
+    "raw_action_counts": {
+      "right_run_jump": 647
+    },
+    "executed_action_counts": {
+      "right_run_jump": 647
+    },
+    "actual_override_frames": 0,
+    "actual_override_rate_over_simulation_frames": 0.0,
+    "actual_override_reasons": {},
+    "guard_trigger_frames": 0,
+    "guard_trigger_rate_over_simulation_frames": 0.0,
+    "guard_trigger_reasons": {},
+    "metric_definitions": {
+      "actual_override": "raw_action != executed_action",
+      "guard_trigger": "reflex returned a reason, even if action stayed the same"
+    }
+  },
+  "trajectory": {
+    "terminal_reason": "clear",
+    "terminal_simulation_frame": 647,
+    "terminal_simulation_time_seconds": 10.783333333333333,
+    "final_progress_pixels": 4204.4,
+    "final_score": 400,
+    "final_coins": 8,
+    "final_is_dead": false,
+    "final_has_won": true,
+    "decision_count": 81,
+    "max_context_utf8_bytes": 177,
+    "unique_context_prefixes": 81,
+    "decisions": [
+      {
+        "decision_index": 0,
+        "simulation_frame": 0,
+        "simulation_time_seconds": 0.0,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00069055,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99930942,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.0,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 96.0,
+            "y": 480.0,
+            "vx": 0.0,
+            "vy": 0.0,
+            "grounded": false,
+            "jumping": false,
+            "airborne_frames": 0,
+            "running": false
+          },
+          "hazard": {
+            "enemy_ahead": false,
+            "enemy_distance_pixels": null,
+            "enemy_vertical_offset_pixels": null,
+            "enemy_relative_velocity_x": null,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": false,
+            "obstacle_distance_tiles": null,
+            "obstacle_height_tiles": 0,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 122.0,
+            "obstacle_front_distance_pixels": 390.0,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 96.0,
+            "goal_distance_pixels": 4128.0,
+            "score": 0,
+            "coins": 0,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 1,
+        "simulation_frame": 8,
+        "simulation_time_seconds": 0.13333333333333333,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00069055,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99930942,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.0,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 148.8,
+            "y": 507.0,
+            "vx": 6.6,
+            "vy": 6.0,
+            "grounded": false,
+            "jumping": false,
+            "airborne_frames": 8,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": false,
+            "enemy_distance_pixels": null,
+            "enemy_vertical_offset_pixels": null,
+            "enemy_relative_velocity_x": null,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 12.0,
+            "obstacle_height_tiles": 2,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 174.8,
+            "obstacle_front_distance_pixels": 337.2,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 148.8,
+            "goal_distance_pixels": 4075.2,
+            "score": 0,
+            "coins": 0,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 2,
+        "simulation_frame": 16,
+        "simulation_time_seconds": 0.26666666666666666,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00069056,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99930942,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.0,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 201.6,
+            "y": 485.5,
+            "vx": 6.6,
+            "vy": -12.5,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 5,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": false,
+            "enemy_distance_pixels": null,
+            "enemy_vertical_offset_pixels": null,
+            "enemy_relative_velocity_x": null,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 10.0,
+            "obstacle_height_tiles": 2,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 227.6,
+            "obstacle_front_distance_pixels": 284.4,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 201.6,
+            "goal_distance_pixels": 4022.4,
+            "score": 0,
+            "coins": 0,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 3,
+        "simulation_frame": 24,
+        "simulation_time_seconds": 0.4,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00066201,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99933797,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.0,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 254.4,
+            "y": 412.5,
+            "vx": 6.6,
+            "vy": -6.5,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 13,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": false,
+            "enemy_distance_pixels": null,
+            "enemy_vertical_offset_pixels": null,
+            "enemy_relative_velocity_x": null,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 9.0,
+            "obstacle_height_tiles": 2,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 280.4,
+            "obstacle_front_distance_pixels": 231.6,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 254.4,
+            "goal_distance_pixels": 3969.6,
+            "score": 0,
+            "coins": 0,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 4,
+        "simulation_frame": 32,
+        "simulation_time_seconds": 0.5333333333333333,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00066201,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99933797,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.0,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 307.2,
+            "y": 387.5,
+            "vx": 6.6,
+            "vy": -0.5,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 21,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": true,
+            "enemy_distance_pixels": 320.0,
+            "enemy_vertical_offset_pixels": 160.5,
+            "enemy_relative_velocity_x": 8.0,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 7.0,
+            "obstacle_height_tiles": 2,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 333.2,
+            "obstacle_front_distance_pixels": 178.8,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 690.8,
+            "gap_width_pixels": 64,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 307.2,
+            "goal_distance_pixels": 3916.8,
+            "score": 0,
+            "coins": 0,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 5,
+        "simulation_frame": 40,
+        "simulation_time_seconds": 0.6666666666666666,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00066201,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99933797,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.0,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 360.0,
+            "y": 410.5,
+            "vx": 6.6,
+            "vy": 5.5,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 29,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": true,
+            "enemy_distance_pixels": 256.0,
+            "enemy_vertical_offset_pixels": 137.5,
+            "enemy_relative_velocity_x": 8.0,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 5.0,
+            "obstacle_height_tiles": 2,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 386.0,
+            "obstacle_front_distance_pixels": 126.0,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 638.0,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 360.0,
+            "goal_distance_pixels": 3864.0,
+            "score": 0,
+            "coins": 0,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 6,
+        "simulation_frame": 48,
+        "simulation_time_seconds": 0.8,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00075583,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99924421,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.00000007,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 412.8,
+            "y": 481.5,
+            "vx": 6.6,
+            "vy": 11.5,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 37,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": true,
+            "enemy_distance_pixels": 192.0,
+            "enemy_vertical_offset_pixels": 66.5,
+            "enemy_relative_velocity_x": 8.0,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 4.0,
+            "obstacle_height_tiles": 2,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 438.8,
+            "obstacle_front_distance_pixels": 73.2,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 585.2,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 412.8,
+            "goal_distance_pixels": 3811.2,
+            "score": 0,
+            "coins": 0,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 7,
+        "simulation_frame": 56,
+        "simulation_time_seconds": 0.9333333333333333,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00075584,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99924421,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.00000008,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 465.6,
+            "y": 498.0,
+            "vx": 6.6,
+            "vy": -13.25,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 4,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": true,
+            "enemy_distance_pixels": 128.0,
+            "enemy_vertical_offset_pixels": 50.0,
+            "enemy_relative_velocity_x": 8.0,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 2.0,
+            "obstacle_height_tiles": 2,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 491.6,
+            "obstacle_front_distance_pixels": 20.4,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 532.4,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 465.6,
+            "goal_distance_pixels": 3758.4,
+            "score": 0,
+            "coins": 0,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 8,
+        "simulation_frame": 64,
+        "simulation_time_seconds": 1.0666666666666667,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00066203,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99933797,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.00000002,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 518.4,
+            "y": 419.0,
+            "vx": 6.6,
+            "vy": -7.25,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 12,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": true,
+            "enemy_distance_pixels": 64.0,
+            "enemy_vertical_offset_pixels": 129.0,
+            "enemy_relative_velocity_x": 8.0,
+            "jump_must_start_now": false,
+            "in_danger_zone": true
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 4.0,
+            "obstacle_height_tiles": 1,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 544.4,
+            "obstacle_front_distance_pixels": 255.6,
+            "obstacle_height_tiles": 3,
+            "gap_front_distance_pixels": 479.6,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 518.4,
+            "goal_distance_pixels": 3705.6,
+            "score": 0,
+            "coins": 0,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 9,
+        "simulation_frame": 72,
+        "simulation_time_seconds": 1.2,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00075561,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99924445,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.00000009,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 571.2,
+            "y": 388.0,
+            "vx": 6.6,
+            "vy": -1.25,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 20,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": true,
+            "enemy_distance_pixels": 0.0,
+            "enemy_vertical_offset_pixels": 160.0,
+            "enemy_relative_velocity_x": 5.2,
+            "jump_must_start_now": false,
+            "in_danger_zone": true
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 3.0,
+            "obstacle_height_tiles": 1,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 597.2,
+            "obstacle_front_distance_pixels": 202.8,
+            "obstacle_height_tiles": 3,
+            "gap_front_distance_pixels": 426.8,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 571.2,
+            "goal_distance_pixels": 3652.8,
+            "score": 0,
+            "coins": 0,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 10,
+        "simulation_frame": 80,
+        "simulation_time_seconds": 1.3333333333333333,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.0094917,
+          "right_jump": 4.4e-07,
+          "right_run_jump": 0.99050784,
+          "jump": 8e-08,
+          "left": 0.0
+        },
+        "probability_sum": 1.00000006,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 624.0,
+            "y": 412.0,
+            "vx": 6.6,
+            "vy": 0.0,
+            "grounded": true,
+            "jumping": false,
+            "airborne_frames": 0,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": false,
+            "enemy_distance_pixels": null,
+            "enemy_vertical_offset_pixels": null,
+            "enemy_relative_velocity_x": null,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 1.0,
+            "obstacle_height_tiles": 1,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 650.0,
+            "obstacle_front_distance_pixels": 150.0,
+            "obstacle_height_tiles": 3,
+            "gap_front_distance_pixels": 374.0,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 624.0,
+            "goal_distance_pixels": 3600.0,
+            "score": 50,
+            "coins": 1,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 11,
+        "simulation_frame": 88,
+        "simulation_time_seconds": 1.4666666666666666,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00066201,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99933797,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.0,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 676.8,
+            "y": 315.0,
+            "vx": 6.6,
+            "vy": -9.5,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 9,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": false,
+            "enemy_distance_pixels": null,
+            "enemy_vertical_offset_pixels": null,
+            "enemy_relative_velocity_x": null,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 1.0,
+            "obstacle_height_tiles": 1,
+            "gap_ahead": true,
+            "gap_distance_tiles": 11.0,
+            "gap_width_tiles": 2,
+            "clear_forward_tiles": 10
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 702.8,
+            "obstacle_front_distance_pixels": 97.2,
+            "obstacle_height_tiles": 3,
+            "gap_front_distance_pixels": 321.2,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 676.8,
+            "goal_distance_pixels": 3547.2,
+            "score": 50,
+            "coins": 1,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 12,
+        "simulation_frame": 96,
+        "simulation_time_seconds": 1.6,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00066201,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99933797,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.0,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 729.6,
+            "y": 266.0,
+            "vx": 6.6,
+            "vy": -3.5,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 17,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": false,
+            "enemy_distance_pixels": null,
+            "enemy_vertical_offset_pixels": null,
+            "enemy_relative_velocity_x": null,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 3.0,
+            "obstacle_height_tiles": 3,
+            "gap_ahead": true,
+            "gap_distance_tiles": 10.0,
+            "gap_width_tiles": 3,
+            "clear_forward_tiles": 9
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 755.6,
+            "obstacle_front_distance_pixels": 44.4,
+            "obstacle_height_tiles": 3,
+            "gap_front_distance_pixels": 268.4,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 729.6,
+            "goal_distance_pixels": 3494.4,
+            "score": 50,
+            "coins": 1,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 13,
+        "simulation_frame": 104,
+        "simulation_time_seconds": 1.7333333333333334,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00066201,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99933797,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.0,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 782.4,
+            "y": 265.0,
+            "vx": 6.6,
+            "vy": 2.5,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 25,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": false,
+            "enemy_distance_pixels": null,
+            "enemy_vertical_offset_pixels": null,
+            "enemy_relative_velocity_x": null,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 1.0,
+            "obstacle_height_tiles": 3,
+            "gap_ahead": true,
+            "gap_distance_tiles": 8.0,
+            "gap_width_tiles": 3,
+            "clear_forward_tiles": 7
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 808.4,
+            "obstacle_front_distance_pixels": 0.0,
+            "obstacle_height_tiles": 3,
+            "gap_front_distance_pixels": 215.6,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 782.4,
+            "goal_distance_pixels": 3441.6,
+            "score": 50,
+            "coins": 1,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 14,
+        "simulation_frame": 112,
+        "simulation_time_seconds": 1.8666666666666667,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00066201,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99933797,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.0,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 835.2,
+            "y": 312.0,
+            "vx": 6.6,
+            "vy": 8.5,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 33,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": false,
+            "enemy_distance_pixels": null,
+            "enemy_vertical_offset_pixels": null,
+            "enemy_relative_velocity_x": null,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": false,
+            "obstacle_distance_tiles": null,
+            "obstacle_height_tiles": 0,
+            "gap_ahead": true,
+            "gap_distance_tiles": 6.0,
+            "gap_width_tiles": 3,
+            "clear_forward_tiles": 5
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 861.2,
+            "obstacle_front_distance_pixels": 546.8,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 162.8,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 835.2,
+            "goal_distance_pixels": 3388.8,
+            "score": 50,
+            "coins": 1,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 15,
+        "simulation_frame": 120,
+        "simulation_time_seconds": 2.0,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00066201,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99933797,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.0,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 888.0,
+            "y": 401.5,
+            "vx": 6.6,
+            "vy": 12.0,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 41,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": true,
+            "enemy_distance_pixels": 314.0,
+            "enemy_vertical_offset_pixels": 146.5,
+            "enemy_relative_velocity_x": 5.2,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": false,
+            "obstacle_distance_tiles": null,
+            "obstacle_height_tiles": 0,
+            "gap_ahead": true,
+            "gap_distance_tiles": 5.0,
+            "gap_width_tiles": 3,
+            "clear_forward_tiles": 4
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 914.0,
+            "obstacle_front_distance_pixels": 494.0,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 110.0,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 888.0,
+            "goal_distance_pixels": 3336.0,
+            "score": 50,
+            "coins": 1,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 16,
+        "simulation_frame": 128,
+        "simulation_time_seconds": 2.1333333333333333,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00069059,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99930942,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.00000004,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 940.8,
+            "y": 497.5,
+            "vx": 6.6,
+            "vy": 12.0,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 49,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": true,
+            "enemy_distance_pixels": 272.4,
+            "enemy_vertical_offset_pixels": 50.5,
+            "enemy_relative_velocity_x": 5.2,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": false,
+            "obstacle_distance_tiles": null,
+            "obstacle_height_tiles": 0,
+            "gap_ahead": true,
+            "gap_distance_tiles": 3.0,
+            "gap_width_tiles": 3,
+            "clear_forward_tiles": 2
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 966.8,
+            "obstacle_front_distance_pixels": 441.2,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 57.2,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 940.8,
+            "goal_distance_pixels": 3283.2,
+            "score": 50,
+            "coins": 1,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 17,
+        "simulation_frame": 136,
+        "simulation_time_seconds": 2.2666666666666666,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00066203,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99933797,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.00000002,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 993.6,
+            "y": 473.8,
+            "vx": 6.6,
+            "vy": -11.75,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 6,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": true,
+            "enemy_distance_pixels": 230.8,
+            "enemy_vertical_offset_pixels": 74.2,
+            "enemy_relative_velocity_x": 5.2,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": false,
+            "obstacle_distance_tiles": null,
+            "obstacle_height_tiles": 0,
+            "gap_ahead": true,
+            "gap_distance_tiles": 1.0,
+            "gap_width_tiles": 3,
+            "clear_forward_tiles": 0
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 1019.6,
+            "obstacle_front_distance_pixels": 388.4,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 4.4,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 993.6,
+            "goal_distance_pixels": 3230.4,
+            "score": 50,
+            "coins": 1,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 18,
+        "simulation_frame": 144,
+        "simulation_time_seconds": 2.4,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.000662,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99933797,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.0,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 1046.4,
+            "y": 406.8,
+            "vx": 6.6,
+            "vy": -5.75,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 14,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": true,
+            "enemy_distance_pixels": 189.2,
+            "enemy_vertical_offset_pixels": 141.2,
+            "enemy_relative_velocity_x": 5.2,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": false,
+            "obstacle_distance_tiles": null,
+            "obstacle_height_tiles": 0,
+            "gap_ahead": true,
+            "gap_distance_tiles": 1.0,
+            "gap_width_tiles": 2,
+            "clear_forward_tiles": 0
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 1072.4,
+            "obstacle_front_distance_pixels": 335.6,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 0.0,
+            "gap_width_pixels": 64,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 1046.4,
+            "goal_distance_pixels": 3177.6,
+            "score": 50,
+            "coins": 1,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 19,
+        "simulation_frame": 152,
+        "simulation_time_seconds": 2.533333333333333,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00066201,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99933797,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.0,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 1099.2,
+            "y": 387.8,
+            "vx": 6.6,
+            "vy": 0.25,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 22,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": true,
+            "enemy_distance_pixels": 147.6,
+            "enemy_vertical_offset_pixels": 160.2,
+            "enemy_relative_velocity_x": 5.2,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 10.0,
+            "obstacle_height_tiles": 2,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 1125.2,
+            "obstacle_front_distance_pixels": 282.8,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 1099.2,
+            "goal_distance_pixels": 3124.8,
+            "score": 50,
+            "coins": 1,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 20,
+        "simulation_frame": 160,
+        "simulation_time_seconds": 2.6666666666666665,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00069036,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99930966,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.00000004,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 1152.0,
+            "y": 416.8,
+            "vx": 6.6,
+            "vy": 6.25,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 30,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": true,
+            "enemy_distance_pixels": 106.0,
+            "enemy_vertical_offset_pixels": 131.2,
+            "enemy_relative_velocity_x": 5.2,
+            "jump_must_start_now": false,
+            "in_danger_zone": true
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 8.0,
+            "obstacle_height_tiles": 2,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 1178.0,
+            "obstacle_front_distance_pixels": 230.0,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 1152.0,
+            "goal_distance_pixels": 3072.0,
+            "score": 50,
+            "coins": 1,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 21,
+        "simulation_frame": 168,
+        "simulation_time_seconds": 2.8,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00069082,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99930918,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.00000002,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 1204.8,
+            "y": 493.5,
+            "vx": 6.6,
+            "vy": 12.0,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 38,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": true,
+            "enemy_distance_pixels": 64.4,
+            "enemy_vertical_offset_pixels": 54.5,
+            "enemy_relative_velocity_x": 5.2,
+            "jump_must_start_now": false,
+            "in_danger_zone": true
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 7.0,
+            "obstacle_height_tiles": 2,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 1230.8,
+            "obstacle_front_distance_pixels": 177.2,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 1204.8,
+            "goal_distance_pixels": 3019.2,
+            "score": 50,
+            "coins": 1,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 22,
+        "simulation_frame": 176,
+        "simulation_time_seconds": 2.933333333333333,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00371479,
+          "right_jump": 7.4e-07,
+          "right_run_jump": 0.99628431,
+          "jump": 2.5e-07,
+          "left": 0.0
+        },
+        "probability_sum": 1.00000008,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 1257.6,
+            "y": 485.5,
+            "vx": 6.6,
+            "vy": -12.5,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 5,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": true,
+            "enemy_distance_pixels": 22.8,
+            "enemy_vertical_offset_pixels": 62.5,
+            "enemy_relative_velocity_x": 5.2,
+            "jump_must_start_now": false,
+            "in_danger_zone": true
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 5.0,
+            "obstacle_height_tiles": 2,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 1283.6,
+            "obstacle_front_distance_pixels": 124.4,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 1257.6,
+            "goal_distance_pixels": 2966.4,
+            "score": 50,
+            "coins": 1,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 23,
+        "simulation_frame": 184,
+        "simulation_time_seconds": 3.066666666666667,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00066218,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99933785,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.00000005,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 1310.4,
+            "y": 412.5,
+            "vx": 6.6,
+            "vy": -6.5,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 13,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": true,
+            "enemy_distance_pixels": 208.8,
+            "enemy_vertical_offset_pixels": -24.5,
+            "enemy_relative_velocity_x": 8.0,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 4.0,
+            "obstacle_height_tiles": 2,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 1336.4,
+            "obstacle_front_distance_pixels": 71.6,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 1310.4,
+            "goal_distance_pixels": 2913.6,
+            "score": 50,
+            "coins": 1,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 24,
+        "simulation_frame": 192,
+        "simulation_time_seconds": 3.2,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00066241,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99933761,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.00000004,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 1363.2,
+            "y": 387.5,
+            "vx": 6.6,
+            "vy": -0.5,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 21,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": true,
+            "enemy_distance_pixels": 144.8,
+            "enemy_vertical_offset_pixels": 0.5,
+            "enemy_relative_velocity_x": 8.0,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 2.0,
+            "obstacle_height_tiles": 2,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 1389.2,
+            "obstacle_front_distance_pixels": 18.8,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 722.8,
+            "gap_width_pixels": 32,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 1363.2,
+            "goal_distance_pixels": 2860.8,
+            "score": 50,
+            "coins": 1,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 25,
+        "simulation_frame": 200,
+        "simulation_time_seconds": 3.3333333333333335,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00072302,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99927694,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 0.99999998,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 1416.0,
+            "y": 410.5,
+            "vx": 6.6,
+            "vy": 5.5,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 29,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": true,
+            "enemy_distance_pixels": 80.8,
+            "enemy_vertical_offset_pixels": -22.5,
+            "enemy_relative_velocity_x": 8.0,
+            "jump_must_start_now": false,
+            "in_danger_zone": true
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 4.0,
+            "obstacle_height_tiles": 1,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 1442.0,
+            "obstacle_front_distance_pixels": 286.0,
+            "obstacle_height_tiles": 3,
+            "gap_front_distance_pixels": 670.0,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 1416.0,
+            "goal_distance_pixels": 2808.0,
+            "score": 50,
+            "coins": 1,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 26,
+        "simulation_frame": 208,
+        "simulation_time_seconds": 3.466666666666667,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00069077,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99930918,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 0.99999997,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 1468.8,
+            "y": 481.5,
+            "vx": 6.6,
+            "vy": 11.5,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 37,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": true,
+            "enemy_distance_pixels": 16.8,
+            "enemy_vertical_offset_pixels": -93.5,
+            "enemy_relative_velocity_x": 8.0,
+            "jump_must_start_now": false,
+            "in_danger_zone": true
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 3.0,
+            "obstacle_height_tiles": 1,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 1494.8,
+            "obstacle_front_distance_pixels": 233.2,
+            "obstacle_height_tiles": 3,
+            "gap_front_distance_pixels": 617.2,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 1468.8,
+            "goal_distance_pixels": 2755.2,
+            "score": 50,
+            "coins": 1,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 27,
+        "simulation_frame": 216,
+        "simulation_time_seconds": 3.6,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00069143,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99930859,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.00000003,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 1521.6,
+            "y": 498.0,
+            "vx": 6.6,
+            "vy": -13.25,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 4,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": true,
+            "enemy_distance_pixels": 295.6,
+            "enemy_vertical_offset_pixels": 50.0,
+            "enemy_relative_velocity_x": 8.8,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 1.0,
+            "obstacle_height_tiles": 1,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 1547.6,
+            "obstacle_front_distance_pixels": 180.4,
+            "obstacle_height_tiles": 3,
+            "gap_front_distance_pixels": 564.4,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 1521.6,
+            "goal_distance_pixels": 2702.4,
+            "score": 50,
+            "coins": 1,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 28,
+        "simulation_frame": 224,
+        "simulation_time_seconds": 3.7333333333333334,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00069094,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99930906,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.00000002,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 1574.4,
+            "y": 495.8,
+            "vx": 6.6,
+            "vy": 4.5,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 12,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": true,
+            "enemy_distance_pixels": 225.2,
+            "enemy_vertical_offset_pixels": 52.2,
+            "enemy_relative_velocity_x": 8.8,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 1.0,
+            "obstacle_height_tiles": 1,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 1600.4,
+            "obstacle_front_distance_pixels": 127.6,
+            "obstacle_height_tiles": 3,
+            "gap_front_distance_pixels": 511.6,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 1574.4,
+            "goal_distance_pixels": 2649.6,
+            "score": 50,
+            "coins": 1,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 29,
+        "simulation_frame": 232,
+        "simulation_time_seconds": 3.8666666666666667,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00075586,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99924421,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.0000001,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 1627.2,
+            "y": 511.2,
+            "vx": 6.6,
+            "vy": -14.0,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 3,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": true,
+            "enemy_distance_pixels": 154.8,
+            "enemy_vertical_offset_pixels": 36.8,
+            "enemy_relative_velocity_x": 8.8,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 1.0,
+            "obstacle_height_tiles": 1,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 1653.2,
+            "obstacle_front_distance_pixels": 74.8,
+            "obstacle_height_tiles": 3,
+            "gap_front_distance_pixels": 458.8,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 1627.2,
+            "goal_distance_pixels": 2596.8,
+            "score": 50,
+            "coins": 1,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 30,
+        "simulation_frame": 240,
+        "simulation_time_seconds": 4.0,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.0006906,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99930942,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.00000004,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 1680.0,
+            "y": 491.2,
+            "vx": 6.6,
+            "vy": 3.75,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 11,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": true,
+            "enemy_distance_pixels": 84.4,
+            "enemy_vertical_offset_pixels": 56.8,
+            "enemy_relative_velocity_x": 8.8,
+            "jump_must_start_now": false,
+            "in_danger_zone": true
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 2.0,
+            "obstacle_height_tiles": 3,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 1706.0,
+            "obstacle_front_distance_pixels": 22.0,
+            "obstacle_height_tiles": 3,
+            "gap_front_distance_pixels": 406.0,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 1680.0,
+            "goal_distance_pixels": 2544.0,
+            "score": 50,
+            "coins": 1,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 31,
+        "simulation_frame": 248,
+        "simulation_time_seconds": 4.133333333333334,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.0095107,
+          "right_jump": 4.4e-07,
+          "right_run_jump": 0.99048877,
+          "jump": 8e-08,
+          "left": 0.0
+        },
+        "probability_sum": 1.0,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 1702.0,
+            "y": 453.5,
+            "vx": 0.0,
+            "vy": -12.5,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 5,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": true,
+            "enemy_distance_pixels": 69.0,
+            "enemy_vertical_offset_pixels": 94.5,
+            "enemy_relative_velocity_x": -2.2,
+            "jump_must_start_now": false,
+            "in_danger_zone": true
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 1.0,
+            "obstacle_height_tiles": 3,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 1728.0,
+            "obstacle_front_distance_pixels": 0.0,
+            "obstacle_height_tiles": 3,
+            "gap_front_distance_pixels": 384.0,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 1702.0,
+            "goal_distance_pixels": 2522.0,
+            "score": 50,
+            "coins": 1,
+            "stalled_frames": 4,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 32,
+        "simulation_frame": 256,
+        "simulation_time_seconds": 4.266666666666667,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00066201,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99933797,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.0,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 1754.8,
+            "y": 380.5,
+            "vx": 6.6,
+            "vy": -6.5,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 13,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": true,
+            "enemy_distance_pixels": 33.8,
+            "enemy_vertical_offset_pixels": 167.5,
+            "enemy_relative_velocity_x": 4.4,
+            "jump_must_start_now": false,
+            "in_danger_zone": true
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": false,
+            "obstacle_distance_tiles": null,
+            "obstacle_height_tiles": 0,
+            "gap_ahead": true,
+            "gap_distance_tiles": 12.0,
+            "gap_width_tiles": 1,
+            "clear_forward_tiles": 11
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 1780.8,
+            "obstacle_front_distance_pixels": 715.2,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 331.2,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 1754.8,
+            "goal_distance_pixels": 2469.2,
+            "score": 50,
+            "coins": 1,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 33,
+        "simulation_frame": 264,
+        "simulation_time_seconds": 4.4,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00066201,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99933797,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.0,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 1807.6,
+            "y": 355.5,
+            "vx": 6.6,
+            "vy": -0.5,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 21,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": false,
+            "enemy_distance_pixels": null,
+            "enemy_vertical_offset_pixels": null,
+            "enemy_relative_velocity_x": null,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": false,
+            "obstacle_distance_tiles": null,
+            "obstacle_height_tiles": 0,
+            "gap_ahead": true,
+            "gap_distance_tiles": 10.0,
+            "gap_width_tiles": 3,
+            "clear_forward_tiles": 9
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 1833.6,
+            "obstacle_front_distance_pixels": 662.4,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 278.4,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 1807.6,
+            "goal_distance_pixels": 2416.4,
+            "score": 50,
+            "coins": 1,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 34,
+        "simulation_frame": 272,
+        "simulation_time_seconds": 4.533333333333333,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00066201,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99933797,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.0,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 1860.4,
+            "y": 378.5,
+            "vx": 6.6,
+            "vy": 5.5,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 29,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": false,
+            "enemy_distance_pixels": null,
+            "enemy_vertical_offset_pixels": null,
+            "enemy_relative_velocity_x": null,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": false,
+            "obstacle_distance_tiles": null,
+            "obstacle_height_tiles": 0,
+            "gap_ahead": true,
+            "gap_distance_tiles": 8.0,
+            "gap_width_tiles": 3,
+            "clear_forward_tiles": 7
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 1886.4,
+            "obstacle_front_distance_pixels": 609.6,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 225.6,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 1860.4,
+            "goal_distance_pixels": 2363.6,
+            "score": 50,
+            "coins": 1,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 35,
+        "simulation_frame": 280,
+        "simulation_time_seconds": 4.666666666666667,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00066201,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99933797,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.0,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 1913.2,
+            "y": 449.5,
+            "vx": 6.6,
+            "vy": 11.5,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 37,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": false,
+            "enemy_distance_pixels": null,
+            "enemy_vertical_offset_pixels": null,
+            "enemy_relative_velocity_x": null,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": false,
+            "obstacle_distance_tiles": null,
+            "obstacle_height_tiles": 0,
+            "gap_ahead": true,
+            "gap_distance_tiles": 7.0,
+            "gap_width_tiles": 3,
+            "clear_forward_tiles": 6
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 1939.2,
+            "obstacle_front_distance_pixels": 556.8,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 172.8,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 1913.2,
+            "goal_distance_pixels": 2310.8,
+            "score": 50,
+            "coins": 1,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 36,
+        "simulation_frame": 288,
+        "simulation_time_seconds": 4.8,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 7.43e-06,
+          "right": 1.5e-07,
+          "right_run": 0.27334857,
+          "right_jump": 0.00118071,
+          "right_run_jump": 0.72502899,
+          "jump": 0.00043395,
+          "left": 2.3e-07
+        },
+        "probability_sum": 1.00000003,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 1966.0,
+            "y": 525.2,
+            "vx": 6.6,
+            "vy": -14.75,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 2,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": true,
+            "enemy_distance_pixels": 323.6,
+            "enemy_vertical_offset_pixels": 22.8,
+            "enemy_relative_velocity_x": 8.0,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": false,
+            "obstacle_distance_tiles": null,
+            "obstacle_height_tiles": 0,
+            "gap_ahead": true,
+            "gap_distance_tiles": 5.0,
+            "gap_width_tiles": 3,
+            "clear_forward_tiles": 4
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 1992.0,
+            "obstacle_front_distance_pixels": 504.0,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 120.0,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 1966.0,
+            "goal_distance_pixels": 2258.0,
+            "score": 50,
+            "coins": 1,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 37,
+        "simulation_frame": 296,
+        "simulation_time_seconds": 4.933333333333334,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00066201,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99933797,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.0,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 2018.8,
+            "y": 434.2,
+            "vx": 6.6,
+            "vy": -8.75,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 10,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": true,
+            "enemy_distance_pixels": 276.4,
+            "enemy_vertical_offset_pixels": 113.8,
+            "enemy_relative_velocity_x": 5.2,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": false,
+            "obstacle_distance_tiles": null,
+            "obstacle_height_tiles": 0,
+            "gap_ahead": true,
+            "gap_distance_tiles": 3.0,
+            "gap_width_tiles": 3,
+            "clear_forward_tiles": 2
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 2044.8,
+            "obstacle_front_distance_pixels": 451.2,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 67.2,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 2018.8,
+            "goal_distance_pixels": 2205.2,
+            "score": 50,
+            "coins": 1,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 38,
+        "simulation_frame": 304,
+        "simulation_time_seconds": 5.066666666666666,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00066216,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99933785,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.00000004,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 2071.6,
+            "y": 391.2,
+            "vx": 6.6,
+            "vy": -2.75,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 18,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": true,
+            "enemy_distance_pixels": 234.8,
+            "enemy_vertical_offset_pixels": 156.8,
+            "enemy_relative_velocity_x": 5.2,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": false,
+            "obstacle_distance_tiles": null,
+            "obstacle_height_tiles": 0,
+            "gap_ahead": true,
+            "gap_distance_tiles": 2.0,
+            "gap_width_tiles": 3,
+            "clear_forward_tiles": 1
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 2097.6,
+            "obstacle_front_distance_pixels": 398.4,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 14.4,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 2071.6,
+            "goal_distance_pixels": 2152.4,
+            "score": 50,
+            "coins": 1,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 39,
+        "simulation_frame": 312,
+        "simulation_time_seconds": 5.2,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00066239,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99933761,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.00000002,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 2124.4,
+            "y": 396.2,
+            "vx": 6.6,
+            "vy": 3.25,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 26,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": true,
+            "enemy_distance_pixels": 193.2,
+            "enemy_vertical_offset_pixels": 151.8,
+            "enemy_relative_velocity_x": 5.2,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": false,
+            "obstacle_distance_tiles": null,
+            "obstacle_height_tiles": 0,
+            "gap_ahead": true,
+            "gap_distance_tiles": 1.0,
+            "gap_width_tiles": 2,
+            "clear_forward_tiles": 0
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 2150.4,
+            "obstacle_front_distance_pixels": 345.6,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 0.0,
+            "gap_width_pixels": 64,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 2124.4,
+            "goal_distance_pixels": 2099.6,
+            "score": 50,
+            "coins": 1,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 40,
+        "simulation_frame": 320,
+        "simulation_time_seconds": 5.333333333333333,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00066205,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99933797,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.00000004,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 2177.2,
+            "y": 449.2,
+            "vx": 6.6,
+            "vy": 9.25,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 34,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": true,
+            "enemy_distance_pixels": 151.6,
+            "enemy_vertical_offset_pixels": 98.8,
+            "enemy_relative_velocity_x": 5.2,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 4.0,
+            "obstacle_height_tiles": 1,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 2203.2,
+            "obstacle_front_distance_pixels": 292.8,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 0.0,
+            "gap_width_pixels": 32,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 2177.2,
+            "goal_distance_pixels": 2046.8,
+            "score": 50,
+            "coins": 1,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 41,
+        "simulation_frame": 328,
+        "simulation_time_seconds": 5.466666666666667,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 7.31e-06,
+          "right": 1.9e-07,
+          "right_run": 0.27033076,
+          "right_jump": 0.00123256,
+          "right_run_jump": 0.72795075,
+          "jump": 0.00047814,
+          "left": 3.1e-07
+        },
+        "probability_sum": 1.00000002,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 2230.0,
+            "y": 540.0,
+            "vx": 6.6,
+            "vy": 0.0,
+            "grounded": true,
+            "jumping": false,
+            "airborne_frames": 0,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": true,
+            "enemy_distance_pixels": 110.0,
+            "enemy_vertical_offset_pixels": 8.0,
+            "enemy_relative_velocity_x": 5.2,
+            "jump_must_start_now": false,
+            "in_danger_zone": true
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 3.0,
+            "obstacle_height_tiles": 1,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 2256.0,
+            "obstacle_front_distance_pixels": 240.0,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 2230.0,
+            "goal_distance_pixels": 1994.0,
+            "score": 50,
+            "coins": 1,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 42,
+        "simulation_frame": 336,
+        "simulation_time_seconds": 5.6,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.0006623,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99933773,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.00000005,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 2278.0,
+            "y": 443.0,
+            "vx": 0.0,
+            "vy": -9.5,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 9,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": true,
+            "enemy_distance_pixels": 73.2,
+            "enemy_vertical_offset_pixels": 105.0,
+            "enemy_relative_velocity_x": -1.4,
+            "jump_must_start_now": false,
+            "in_danger_zone": true
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 1.0,
+            "obstacle_height_tiles": 1,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 2304.0,
+            "obstacle_front_distance_pixels": 192.0,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 2278.0,
+            "goal_distance_pixels": 1946.0,
+            "score": 50,
+            "coins": 1,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 43,
+        "simulation_frame": 344,
+        "simulation_time_seconds": 5.733333333333333,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00949021,
+          "right_jump": 4.4e-07,
+          "right_run_jump": 0.99050939,
+          "jump": 8e-08,
+          "left": 0.0
+        },
+        "probability_sum": 1.00000012,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 2311.0,
+            "y": 394.0,
+            "vx": 6.6,
+            "vy": -3.5,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 17,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": true,
+            "enemy_distance_pixels": 51.4,
+            "enemy_vertical_offset_pixels": 154.0,
+            "enemy_relative_velocity_x": 5.2,
+            "jump_must_start_now": false,
+            "in_danger_zone": true
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 1.0,
+            "obstacle_height_tiles": 1,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 2337.0,
+            "obstacle_front_distance_pixels": 159.0,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 2311.0,
+            "goal_distance_pixels": 1913.0,
+            "score": 100,
+            "coins": 2,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 44,
+        "simulation_frame": 352,
+        "simulation_time_seconds": 5.866666666666666,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00948797,
+          "right_jump": 4.4e-07,
+          "right_run_jump": 0.9905116,
+          "jump": 8e-08,
+          "left": 0.0
+        },
+        "probability_sum": 1.00000009,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 2363.8,
+            "y": 393.0,
+            "vx": 6.6,
+            "vy": 2.5,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 25,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": true,
+            "enemy_distance_pixels": 9.8,
+            "enemy_vertical_offset_pixels": 155.0,
+            "enemy_relative_velocity_x": 5.2,
+            "jump_must_start_now": false,
+            "in_danger_zone": true
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 1.0,
+            "obstacle_height_tiles": 1,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 2389.8,
+            "obstacle_front_distance_pixels": 106.2,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 2363.8,
+            "goal_distance_pixels": 1860.2,
+            "score": 200,
+            "coins": 4,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 45,
+        "simulation_frame": 360,
+        "simulation_time_seconds": 6.0,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00066201,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99933797,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.0,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 2416.6,
+            "y": 345.8,
+            "vx": 6.6,
+            "vy": -11.75,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 6,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": false,
+            "enemy_distance_pixels": null,
+            "enemy_vertical_offset_pixels": null,
+            "enemy_relative_velocity_x": null,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 3.0,
+            "obstacle_height_tiles": 2,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 2442.6,
+            "obstacle_front_distance_pixels": 53.4,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 693.4,
+            "gap_width_pixels": 64,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 2416.6,
+            "goal_distance_pixels": 1807.4,
+            "score": 250,
+            "coins": 5,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 46,
+        "simulation_frame": 368,
+        "simulation_time_seconds": 6.133333333333334,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00066201,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99933797,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.0,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 2469.4,
+            "y": 278.8,
+            "vx": 6.6,
+            "vy": -5.75,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 14,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": false,
+            "enemy_distance_pixels": null,
+            "enemy_vertical_offset_pixels": null,
+            "enemy_relative_velocity_x": null,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 1.0,
+            "obstacle_height_tiles": 2,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 2495.4,
+            "obstacle_front_distance_pixels": 0.6,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 640.6,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 2469.4,
+            "goal_distance_pixels": 1754.6,
+            "score": 250,
+            "coins": 5,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 47,
+        "simulation_frame": 376,
+        "simulation_time_seconds": 6.266666666666667,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00066201,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99933797,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.0,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 2522.2,
+            "y": 259.8,
+            "vx": 6.6,
+            "vy": 0.25,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 22,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": false,
+            "enemy_distance_pixels": null,
+            "enemy_vertical_offset_pixels": null,
+            "enemy_relative_velocity_x": null,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 6.0,
+            "obstacle_height_tiles": 1,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 2548.2,
+            "obstacle_front_distance_pixels": 267.8,
+            "obstacle_height_tiles": 3,
+            "gap_front_distance_pixels": 587.8,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 2522.2,
+            "goal_distance_pixels": 1701.8,
+            "score": 250,
+            "coins": 5,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 48,
+        "simulation_frame": 384,
+        "simulation_time_seconds": 6.4,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00066201,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99933797,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.0,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 2575.0,
+            "y": 288.8,
+            "vx": 6.6,
+            "vy": 6.25,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 30,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": false,
+            "enemy_distance_pixels": null,
+            "enemy_vertical_offset_pixels": null,
+            "enemy_relative_velocity_x": null,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 4.0,
+            "obstacle_height_tiles": 1,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 2601.0,
+            "obstacle_front_distance_pixels": 215.0,
+            "obstacle_height_tiles": 3,
+            "gap_front_distance_pixels": 535.0,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 2575.0,
+            "goal_distance_pixels": 1649.0,
+            "score": 250,
+            "coins": 5,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 49,
+        "simulation_frame": 392,
+        "simulation_time_seconds": 6.533333333333333,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00066213,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99933785,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.00000001,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 2627.8,
+            "y": 365.5,
+            "vx": 6.6,
+            "vy": 12.0,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 38,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": true,
+            "enemy_distance_pixels": 284.0,
+            "enemy_vertical_offset_pixels": 182.5,
+            "enemy_relative_velocity_x": 8.8,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 2.0,
+            "obstacle_height_tiles": 1,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 2653.8,
+            "obstacle_front_distance_pixels": 162.2,
+            "obstacle_height_tiles": 3,
+            "gap_front_distance_pixels": 482.2,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 2627.8,
+            "goal_distance_pixels": 1596.2,
+            "score": 250,
+            "coins": 5,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 50,
+        "simulation_frame": 400,
+        "simulation_time_seconds": 6.666666666666667,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00066345,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99933654,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.00000001,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 2662.0,
+            "y": 461.5,
+            "vx": 0.0,
+            "vy": 12.0,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 46,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": true,
+            "enemy_distance_pixels": 232.2,
+            "enemy_vertical_offset_pixels": 86.5,
+            "enemy_relative_velocity_x": 2.2,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 1.0,
+            "obstacle_height_tiles": 1,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 2688.0,
+            "obstacle_front_distance_pixels": 128.0,
+            "obstacle_height_tiles": 3,
+            "gap_front_distance_pixels": 448.0,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 2662.0,
+            "goal_distance_pixels": 1562.0,
+            "score": 250,
+            "coins": 5,
+            "stalled_frames": 2,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 51,
+        "simulation_frame": 408,
+        "simulation_time_seconds": 6.8,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00075592,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99924409,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.00000004,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 2708.2,
+            "y": 511.2,
+            "vx": 6.6,
+            "vy": -14.0,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 3,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": true,
+            "enemy_distance_pixels": 168.4,
+            "enemy_vertical_offset_pixels": 36.8,
+            "enemy_relative_velocity_x": 8.8,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 1.0,
+            "obstacle_height_tiles": 1,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 2734.2,
+            "obstacle_front_distance_pixels": 81.8,
+            "obstacle_height_tiles": 3,
+            "gap_front_distance_pixels": 401.8,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 2708.2,
+            "goal_distance_pixels": 1515.8,
+            "score": 250,
+            "coins": 5,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 52,
+        "simulation_frame": 416,
+        "simulation_time_seconds": 6.933333333333334,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.0006906,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99930942,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.00000004,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 2761.0,
+            "y": 491.2,
+            "vx": 6.6,
+            "vy": 3.75,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 11,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": true,
+            "enemy_distance_pixels": 98.0,
+            "enemy_vertical_offset_pixels": 56.8,
+            "enemy_relative_velocity_x": 8.8,
+            "jump_must_start_now": false,
+            "in_danger_zone": true
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 2.0,
+            "obstacle_height_tiles": 3,
+            "gap_ahead": true,
+            "gap_distance_tiles": 12.0,
+            "gap_width_tiles": 1,
+            "clear_forward_tiles": 11
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 2787.0,
+            "obstacle_front_distance_pixels": 29.0,
+            "obstacle_height_tiles": 3,
+            "gap_front_distance_pixels": 349.0,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 2761.0,
+            "goal_distance_pixels": 1463.0,
+            "score": 250,
+            "coins": 5,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 53,
+        "simulation_frame": 424,
+        "simulation_time_seconds": 7.066666666666666,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 7.74e-06,
+          "right": 2.2e-07,
+          "right_run": 0.25930536,
+          "right_jump": 0.00110213,
+          "right_run_jump": 0.73914319,
+          "jump": 0.00044101,
+          "left": 3.2e-07
+        },
+        "probability_sum": 0.99999997,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 2790.0,
+            "y": 525.2,
+            "vx": 0.0,
+            "vy": -14.75,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 2,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": true,
+            "enemy_distance_pixels": 62.4,
+            "enemy_vertical_offset_pixels": 22.8,
+            "enemy_relative_velocity_x": -2.2,
+            "jump_must_start_now": false,
+            "in_danger_zone": true
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 1.0,
+            "obstacle_height_tiles": 3,
+            "gap_ahead": true,
+            "gap_distance_tiles": 11.0,
+            "gap_width_tiles": 2,
+            "clear_forward_tiles": 10
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 2816.0,
+            "obstacle_front_distance_pixels": 0.0,
+            "obstacle_height_tiles": 3,
+            "gap_front_distance_pixels": 320.0,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 2790.0,
+            "goal_distance_pixels": 1434.0,
+            "score": 250,
+            "coins": 5,
+            "stalled_frames": 3,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 54,
+        "simulation_frame": 432,
+        "simulation_time_seconds": 7.2,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00949706,
+          "right_jump": 4.4e-07,
+          "right_run_jump": 0.99050248,
+          "jump": 8e-08,
+          "left": 0.0
+        },
+        "probability_sum": 1.00000006,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 2803.2,
+            "y": 434.2,
+            "vx": 6.6,
+            "vy": -8.75,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 10,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": true,
+            "enemy_distance_pixels": 66.8,
+            "enemy_vertical_offset_pixels": 113.8,
+            "enemy_relative_velocity_x": 4.4,
+            "jump_must_start_now": false,
+            "in_danger_zone": true
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 1.0,
+            "obstacle_height_tiles": 3,
+            "gap_ahead": true,
+            "gap_distance_tiles": 11.0,
+            "gap_width_tiles": 2,
+            "clear_forward_tiles": 10
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 2829.2,
+            "obstacle_front_distance_pixels": 0.0,
+            "obstacle_height_tiles": 3,
+            "gap_front_distance_pixels": 306.8,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 2803.2,
+            "goal_distance_pixels": 1420.8,
+            "score": 250,
+            "coins": 5,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 55,
+        "simulation_frame": 440,
+        "simulation_time_seconds": 7.333333333333333,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00066201,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99933797,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.00000001,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 2856.0,
+            "y": 391.2,
+            "vx": 6.6,
+            "vy": -2.75,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 18,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": true,
+            "enemy_distance_pixels": 31.6,
+            "enemy_vertical_offset_pixels": 156.8,
+            "enemy_relative_velocity_x": 4.4,
+            "jump_must_start_now": false,
+            "in_danger_zone": true
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": false,
+            "obstacle_distance_tiles": null,
+            "obstacle_height_tiles": 0,
+            "gap_ahead": true,
+            "gap_distance_tiles": 9.0,
+            "gap_width_tiles": 3,
+            "clear_forward_tiles": 8
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 2882.0,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": 254.0,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 2856.0,
+            "goal_distance_pixels": 1368.0,
+            "score": 250,
+            "coins": 5,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 56,
+        "simulation_frame": 448,
+        "simulation_time_seconds": 7.466666666666667,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00066201,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99933797,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.0,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 2908.8,
+            "y": 396.2,
+            "vx": 6.6,
+            "vy": 3.25,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 26,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": false,
+            "enemy_distance_pixels": null,
+            "enemy_vertical_offset_pixels": null,
+            "enemy_relative_velocity_x": null,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": false,
+            "obstacle_distance_tiles": null,
+            "obstacle_height_tiles": 0,
+            "gap_ahead": true,
+            "gap_distance_tiles": 8.0,
+            "gap_width_tiles": 3,
+            "clear_forward_tiles": 7
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 2934.8,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": 201.2,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 2908.8,
+            "goal_distance_pixels": 1315.2,
+            "score": 250,
+            "coins": 5,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 57,
+        "simulation_frame": 456,
+        "simulation_time_seconds": 7.6,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00066201,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99933797,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.00000001,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 2961.6,
+            "y": 449.2,
+            "vx": 6.6,
+            "vy": 9.25,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 34,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": false,
+            "enemy_distance_pixels": null,
+            "enemy_vertical_offset_pixels": null,
+            "enemy_relative_velocity_x": null,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": false,
+            "obstacle_distance_tiles": null,
+            "obstacle_height_tiles": 0,
+            "gap_ahead": true,
+            "gap_distance_tiles": 6.0,
+            "gap_width_tiles": 3,
+            "clear_forward_tiles": 5
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 2987.6,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": 148.4,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 2961.6,
+            "goal_distance_pixels": 1262.4,
+            "score": 250,
+            "coins": 5,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 58,
+        "simulation_frame": 464,
+        "simulation_time_seconds": 7.733333333333333,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00374922,
+          "right_jump": 7.6e-07,
+          "right_run_jump": 0.99624974,
+          "jump": 2.5e-07,
+          "left": 0.0
+        },
+        "probability_sum": 0.99999997,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 3014.4,
+            "y": 540.0,
+            "vx": 6.6,
+            "vy": 0.0,
+            "grounded": true,
+            "jumping": false,
+            "airborne_frames": 0,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": false,
+            "enemy_distance_pixels": null,
+            "enemy_vertical_offset_pixels": null,
+            "enemy_relative_velocity_x": null,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": false,
+            "obstacle_distance_tiles": null,
+            "obstacle_height_tiles": 0,
+            "gap_ahead": true,
+            "gap_distance_tiles": 4.0,
+            "gap_width_tiles": 3,
+            "clear_forward_tiles": 3
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 3040.4,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": 95.6,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 3014.4,
+            "goal_distance_pixels": 1209.6,
+            "score": 250,
+            "coins": 5,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 59,
+        "simulation_frame": 472,
+        "simulation_time_seconds": 7.866666666666666,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00066201,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99933797,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.0,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 3067.2,
+            "y": 443.0,
+            "vx": 6.6,
+            "vy": -9.5,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 9,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": false,
+            "enemy_distance_pixels": null,
+            "enemy_vertical_offset_pixels": null,
+            "enemy_relative_velocity_x": null,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": false,
+            "obstacle_distance_tiles": null,
+            "obstacle_height_tiles": 0,
+            "gap_ahead": true,
+            "gap_distance_tiles": 3.0,
+            "gap_width_tiles": 3,
+            "clear_forward_tiles": 2
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 3093.2,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": 42.8,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 3067.2,
+            "goal_distance_pixels": 1156.8,
+            "score": 250,
+            "coins": 5,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 60,
+        "simulation_frame": 480,
+        "simulation_time_seconds": 8.0,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00066201,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99933797,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.0,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 3120.0,
+            "y": 394.0,
+            "vx": 6.6,
+            "vy": -3.5,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 17,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": false,
+            "enemy_distance_pixels": null,
+            "enemy_vertical_offset_pixels": null,
+            "enemy_relative_velocity_x": null,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": false,
+            "obstacle_distance_tiles": null,
+            "obstacle_height_tiles": 0,
+            "gap_ahead": true,
+            "gap_distance_tiles": 1.0,
+            "gap_width_tiles": 3,
+            "clear_forward_tiles": 0
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 3146.0,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": 0.0,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 3120.0,
+            "goal_distance_pixels": 1104.0,
+            "score": 250,
+            "coins": 5,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 61,
+        "simulation_frame": 488,
+        "simulation_time_seconds": 8.133333333333333,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.0006624,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99933761,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.00000003,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 3172.8,
+            "y": 393.0,
+            "vx": 6.6,
+            "vy": 2.5,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 25,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": false,
+            "enemy_distance_pixels": null,
+            "enemy_vertical_offset_pixels": null,
+            "enemy_relative_velocity_x": null,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": false,
+            "obstacle_distance_tiles": null,
+            "obstacle_height_tiles": 0,
+            "gap_ahead": true,
+            "gap_distance_tiles": 1.0,
+            "gap_width_tiles": 1,
+            "clear_forward_tiles": 0
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 3198.8,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": 0.0,
+            "gap_width_pixels": 64,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 3172.8,
+            "goal_distance_pixels": 1051.2,
+            "score": 250,
+            "coins": 5,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 62,
+        "simulation_frame": 496,
+        "simulation_time_seconds": 8.266666666666667,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00066206,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99933797,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.00000005,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 3225.6,
+            "y": 440.0,
+            "vx": 6.6,
+            "vy": 8.5,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 33,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": false,
+            "enemy_distance_pixels": null,
+            "enemy_vertical_offset_pixels": null,
+            "enemy_relative_velocity_x": null,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 6.0,
+            "obstacle_height_tiles": 1,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 3251.6,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 3225.6,
+            "goal_distance_pixels": 998.4,
+            "score": 250,
+            "coins": 5,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 63,
+        "simulation_frame": 504,
+        "simulation_time_seconds": 8.4,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 7.36e-06,
+          "right": 2.2e-07,
+          "right_run": 0.26624388,
+          "right_jump": 0.00114066,
+          "right_run_jump": 0.73217314,
+          "jump": 0.00043441,
+          "left": 3.8e-07
+        },
+        "probability_sum": 1.00000005,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 3278.4,
+            "y": 529.5,
+            "vx": 6.6,
+            "vy": 12.0,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 41,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": false,
+            "enemy_distance_pixels": null,
+            "enemy_vertical_offset_pixels": null,
+            "enemy_relative_velocity_x": null,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 4.0,
+            "obstacle_height_tiles": 1,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 3304.4,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 3278.4,
+            "goal_distance_pixels": 945.6,
+            "score": 250,
+            "coins": 5,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 64,
+        "simulation_frame": 512,
+        "simulation_time_seconds": 8.533333333333333,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00066343,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99933654,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 0.99999999,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 3331.2,
+            "y": 452.5,
+            "vx": 6.6,
+            "vy": -10.25,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 8,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": true,
+            "enemy_distance_pixels": 342.4,
+            "enemy_vertical_offset_pixels": 95.5,
+            "enemy_relative_velocity_x": 8.0,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 2.0,
+            "obstacle_height_tiles": 1,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 3357.2,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 3331.2,
+            "goal_distance_pixels": 892.8,
+            "score": 250,
+            "coins": 5,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 65,
+        "simulation_frame": 520,
+        "simulation_time_seconds": 8.666666666666666,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.0020787,
+          "right_jump": 3e-08,
+          "right_run_jump": 0.99792129,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.00000002,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 3384.0,
+            "y": 397.5,
+            "vx": 6.6,
+            "vy": -4.25,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 16,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": true,
+            "enemy_distance_pixels": 278.4,
+            "enemy_vertical_offset_pixels": 150.5,
+            "enemy_relative_velocity_x": 8.0,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 1.0,
+            "obstacle_height_tiles": 1,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 3410.0,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 3384.0,
+            "goal_distance_pixels": 840.0,
+            "score": 300,
+            "coins": 6,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 66,
+        "simulation_frame": 528,
+        "simulation_time_seconds": 8.8,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00949051,
+          "right_jump": 4.4e-07,
+          "right_run_jump": 0.99050903,
+          "jump": 8e-08,
+          "left": 0.0
+        },
+        "probability_sum": 1.00000007,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 3436.8,
+            "y": 390.5,
+            "vx": 6.6,
+            "vy": 1.75,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 24,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": true,
+            "enemy_distance_pixels": 214.4,
+            "enemy_vertical_offset_pixels": 157.5,
+            "enemy_relative_velocity_x": 8.0,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 1.0,
+            "obstacle_height_tiles": 1,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 3462.8,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 3436.8,
+            "goal_distance_pixels": 787.2,
+            "score": 350,
+            "coins": 7,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 67,
+        "simulation_frame": 536,
+        "simulation_time_seconds": 8.933333333333334,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00066204,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99933797,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.00000003,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 3489.6,
+            "y": 357.5,
+            "vx": 6.6,
+            "vy": -12.5,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 5,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": true,
+            "enemy_distance_pixels": 150.4,
+            "enemy_vertical_offset_pixels": 190.5,
+            "enemy_relative_velocity_x": 8.0,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 1.0,
+            "obstacle_height_tiles": 1,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 3515.6,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 3489.6,
+            "goal_distance_pixels": 734.4,
+            "score": 400,
+            "coins": 8,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 68,
+        "simulation_frame": 544,
+        "simulation_time_seconds": 9.066666666666666,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00066201,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99933797,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.0,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 3542.4,
+            "y": 284.5,
+            "vx": 6.6,
+            "vy": -6.5,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 13,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": true,
+            "enemy_distance_pixels": 86.4,
+            "enemy_vertical_offset_pixels": 263.5,
+            "enemy_relative_velocity_x": 8.0,
+            "jump_must_start_now": false,
+            "in_danger_zone": true
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 8.0,
+            "obstacle_height_tiles": 1,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 3568.4,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 3542.4,
+            "goal_distance_pixels": 681.6,
+            "score": 400,
+            "coins": 8,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 69,
+        "simulation_frame": 552,
+        "simulation_time_seconds": 9.2,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00066201,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99933797,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.0,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 3595.2,
+            "y": 259.5,
+            "vx": 6.6,
+            "vy": -0.5,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 21,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": true,
+            "enemy_distance_pixels": 22.4,
+            "enemy_vertical_offset_pixels": 288.5,
+            "enemy_relative_velocity_x": 8.0,
+            "jump_must_start_now": false,
+            "in_danger_zone": true
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 6.0,
+            "obstacle_height_tiles": 1,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 3621.2,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 3595.2,
+            "goal_distance_pixels": 628.8,
+            "score": 400,
+            "coins": 8,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 70,
+        "simulation_frame": 560,
+        "simulation_time_seconds": 9.333333333333334,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00066201,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99933797,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.0,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 3648.0,
+            "y": 282.5,
+            "vx": 6.6,
+            "vy": 5.5,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 29,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": false,
+            "enemy_distance_pixels": null,
+            "enemy_vertical_offset_pixels": null,
+            "enemy_relative_velocity_x": null,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 5.0,
+            "obstacle_height_tiles": 1,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 3674.0,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 3648.0,
+            "goal_distance_pixels": 576.0,
+            "score": 400,
+            "coins": 8,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 71,
+        "simulation_frame": 568,
+        "simulation_time_seconds": 9.466666666666667,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00066227,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99933773,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.00000003,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 3700.8,
+            "y": 353.5,
+            "vx": 6.6,
+            "vy": 11.5,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 37,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": false,
+            "enemy_distance_pixels": null,
+            "enemy_vertical_offset_pixels": null,
+            "enemy_relative_velocity_x": null,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 3.0,
+            "obstacle_height_tiles": 1,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 3726.8,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 3700.8,
+            "goal_distance_pixels": 523.2,
+            "score": 400,
+            "coins": 8,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 72,
+        "simulation_frame": 576,
+        "simulation_time_seconds": 9.6,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00072298,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99927706,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.00000006,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 3753.6,
+            "y": 449.5,
+            "vx": 6.6,
+            "vy": 12.0,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 45,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": false,
+            "enemy_distance_pixels": null,
+            "enemy_vertical_offset_pixels": null,
+            "enemy_relative_velocity_x": null,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 1.0,
+            "obstacle_height_tiles": 1,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 3779.6,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 3753.6,
+            "goal_distance_pixels": 470.4,
+            "score": 400,
+            "coins": 8,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 73,
+        "simulation_frame": 584,
+        "simulation_time_seconds": 9.733333333333333,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00220323,
+          "right_jump": 3e-08,
+          "right_run_jump": 0.99779677,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.00000004,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 3788.6,
+            "y": 466.0,
+            "vx": 6.6,
+            "vy": -13.25,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 4,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": false,
+            "enemy_distance_pixels": null,
+            "enemy_vertical_offset_pixels": null,
+            "enemy_relative_velocity_x": null,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 1.0,
+            "obstacle_height_tiles": 2,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 3814.6,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 3788.6,
+            "goal_distance_pixels": 435.4,
+            "score": 400,
+            "coins": 8,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 74,
+        "simulation_frame": 592,
+        "simulation_time_seconds": 9.866666666666667,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00949223,
+          "right_jump": 4.4e-07,
+          "right_run_jump": 0.99050725,
+          "jump": 8e-08,
+          "left": 0.0
+        },
+        "probability_sum": 1.0,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 3841.4,
+            "y": 387.0,
+            "vx": 6.6,
+            "vy": -7.25,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 12,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": false,
+            "enemy_distance_pixels": null,
+            "enemy_vertical_offset_pixels": null,
+            "enemy_relative_velocity_x": null,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 1.0,
+            "obstacle_height_tiles": 4,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 3867.4,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 3841.4,
+            "goal_distance_pixels": 382.6,
+            "score": 400,
+            "coins": 8,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 75,
+        "simulation_frame": 600,
+        "simulation_time_seconds": 10.0,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00949137,
+          "right_jump": 4.4e-07,
+          "right_run_jump": 0.9905082,
+          "jump": 8e-08,
+          "left": 0.0
+        },
+        "probability_sum": 1.0000001,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 3894.2,
+            "y": 356.0,
+            "vx": 6.6,
+            "vy": -1.25,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 20,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": false,
+            "enemy_distance_pixels": null,
+            "enemy_vertical_offset_pixels": null,
+            "enemy_relative_velocity_x": null,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 1.0,
+            "obstacle_height_tiles": 4,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 3920.2,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 3894.2,
+            "goal_distance_pixels": 329.8,
+            "score": 400,
+            "coins": 8,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 76,
+        "simulation_frame": 608,
+        "simulation_time_seconds": 10.133333333333333,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00066204,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99933797,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.00000003,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 3947.0,
+            "y": 373.0,
+            "vx": 6.6,
+            "vy": 4.75,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 28,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": false,
+            "enemy_distance_pixels": null,
+            "enemy_vertical_offset_pixels": null,
+            "enemy_relative_velocity_x": null,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": false,
+            "obstacle_distance_tiles": null,
+            "obstacle_height_tiles": 0,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 3973.0,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 3947.0,
+            "goal_distance_pixels": 277.0,
+            "score": 400,
+            "coins": 8,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 77,
+        "simulation_frame": 616,
+        "simulation_time_seconds": 10.266666666666667,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00066204,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99933797,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.00000003,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 3999.8,
+            "y": 438.0,
+            "vx": 6.6,
+            "vy": 10.75,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 36,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": false,
+            "enemy_distance_pixels": null,
+            "enemy_vertical_offset_pixels": null,
+            "enemy_relative_velocity_x": null,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": false,
+            "obstacle_distance_tiles": null,
+            "obstacle_height_tiles": 0,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 4025.8,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 3999.8,
+            "goal_distance_pixels": 224.2,
+            "score": 400,
+            "coins": 8,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 78,
+        "simulation_frame": 624,
+        "simulation_time_seconds": 10.4,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 7.28e-06,
+          "right": 1.9e-07,
+          "right_run": 0.27430078,
+          "right_jump": 0.00121913,
+          "right_run_jump": 0.72403079,
+          "jump": 0.00044151,
+          "left": 3.2e-07
+        },
+        "probability_sum": 1.0,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 4052.6,
+            "y": 540.0,
+            "vx": 6.6,
+            "vy": 0.0,
+            "grounded": true,
+            "jumping": false,
+            "airborne_frames": 0,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": false,
+            "enemy_distance_pixels": null,
+            "enemy_vertical_offset_pixels": null,
+            "enemy_relative_velocity_x": null,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": false,
+            "obstacle_distance_tiles": null,
+            "obstacle_height_tiles": 0,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "gap_width_tiles": 0,
+            "clear_forward_tiles": 12
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 4078.6,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 4052.6,
+            "goal_distance_pixels": 171.4,
+            "score": 400,
+            "coins": 8,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 79,
+        "simulation_frame": 632,
+        "simulation_time_seconds": 10.533333333333333,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00066201,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99933797,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.0,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 4105.4,
+            "y": 443.0,
+            "vx": 6.6,
+            "vy": -9.5,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 9,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": false,
+            "enemy_distance_pixels": null,
+            "enemy_vertical_offset_pixels": null,
+            "enemy_relative_velocity_x": null,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": false,
+            "obstacle_distance_tiles": null,
+            "obstacle_height_tiles": 0,
+            "gap_ahead": true,
+            "gap_distance_tiles": 12.0,
+            "gap_width_tiles": 1,
+            "clear_forward_tiles": 11
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 4131.4,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 4105.4,
+            "goal_distance_pixels": 118.6,
+            "score": 400,
+            "coins": 8,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      },
+      {
+        "decision_index": 80,
+        "simulation_frame": 640,
+        "simulation_time_seconds": 10.666666666666666,
+        "raw_action": "right_run_jump",
+        "options": [
+          "noop",
+          "right",
+          "right_run",
+          "right_jump",
+          "right_run_jump",
+          "jump",
+          "left"
+        ],
+        "probabilities": {
+          "noop": 0.0,
+          "right": 0.0,
+          "right_run": 0.00066201,
+          "right_jump": 2e-08,
+          "right_run_jump": 0.99933797,
+          "jump": 0.0,
+          "left": 0.0
+        },
+        "probability_sum": 1.0,
+        "context_utf8_bytes": 177,
+        "state": {
+          "player": {
+            "x": 4158.2,
+            "y": 394.0,
+            "vx": 6.6,
+            "vy": -3.5,
+            "grounded": false,
+            "jumping": true,
+            "airborne_frames": 17,
+            "running": true
+          },
+          "hazard": {
+            "enemy_ahead": false,
+            "enemy_distance_pixels": null,
+            "enemy_vertical_offset_pixels": null,
+            "enemy_relative_velocity_x": null,
+            "jump_must_start_now": false,
+            "in_danger_zone": false
+          },
+          "terrain_telemetry_scan": {
+            "obstacle_ahead": false,
+            "obstacle_distance_tiles": null,
+            "obstacle_height_tiles": 0,
+            "gap_ahead": true,
+            "gap_distance_tiles": 11.0,
+            "gap_width_tiles": 2,
+            "clear_forward_tiles": 10
+          },
+          "physical_clearance": {
+            "player_front_x_pixels": 4184.2,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "episode": {
+            "progress_pixels": 4158.2,
+            "goal_distance_pixels": 65.8,
+            "score": 400,
+            "coins": 8,
+            "stalled_frames": 0,
+            "is_dead": false,
+            "has_won": false
+          }
+        }
+      }
+    ],
+    "sampled_frames": [
+      {
+        "frame": 0,
+        "simulation_time_seconds": 0.0,
+        "raw_action": "right_run_jump",
+        "executed_action": "right_run_jump",
+        "override_reason": null,
+        "x": 102.6,
+        "y": 480.75,
+        "vx": 6.6,
+        "vy": 0.75,
+        "progress_pixels": 102.6,
+        "is_dead": false,
+        "has_won": false
+      },
+      {
+        "frame": 32,
+        "simulation_time_seconds": 0.533333,
+        "raw_action": "right_run_jump",
+        "executed_action": "right_run_jump",
+        "override_reason": null,
+        "x": 313.8,
+        "y": 387.75,
+        "vx": 6.6,
+        "vy": 0.25,
+        "progress_pixels": 313.8,
+        "is_dead": false,
+        "has_won": false
+      },
+      {
+        "frame": 64,
+        "simulation_time_seconds": 1.066667,
+        "raw_action": "right_run_jump",
+        "executed_action": "right_run_jump",
+        "override_reason": null,
+        "x": 525.0,
+        "y": 412.5,
+        "vx": 6.6,
+        "vy": -6.5,
+        "progress_pixels": 525.0,
+        "is_dead": false,
+        "has_won": false
+      },
+      {
+        "frame": 96,
+        "simulation_time_seconds": 1.6,
+        "raw_action": "right_run_jump",
+        "executed_action": "right_run_jump",
+        "override_reason": null,
+        "x": 736.2,
+        "y": 263.25,
+        "vx": 6.6,
+        "vy": -2.75,
+        "progress_pixels": 736.2,
+        "is_dead": false,
+        "has_won": false
+      },
+      {
+        "frame": 128,
+        "simulation_time_seconds": 2.133333,
+        "raw_action": "right_run_jump",
+        "executed_action": "right_run_jump",
+        "override_reason": null,
+        "x": 947.4,
+        "y": 509.5,
+        "vx": 6.6,
+        "vy": 12.0,
+        "progress_pixels": 947.4,
+        "is_dead": false,
+        "has_won": false
+      },
+      {
+        "frame": 160,
+        "simulation_time_seconds": 2.666667,
+        "raw_action": "right_run_jump",
+        "executed_action": "right_run_jump",
+        "override_reason": null,
+        "x": 1158.6,
+        "y": 423.75,
+        "vx": 6.6,
+        "vy": 7.0,
+        "progress_pixels": 1158.6,
+        "is_dead": false,
+        "has_won": false
+      },
+      {
+        "frame": 192,
+        "simulation_time_seconds": 3.2,
+        "raw_action": "right_run_jump",
+        "executed_action": "right_run_jump",
+        "override_reason": null,
+        "x": 1369.8,
+        "y": 387.75,
+        "vx": 6.6,
+        "vy": 0.25,
+        "progress_pixels": 1369.8,
+        "is_dead": false,
+        "has_won": false
+      },
+      {
+        "frame": 224,
+        "simulation_time_seconds": 3.733333,
+        "raw_action": "right_run_jump",
+        "executed_action": "right_run_jump",
+        "override_reason": null,
+        "x": 1581.0,
+        "y": 501.0,
+        "vx": 6.6,
+        "vy": 5.25,
+        "progress_pixels": 1581.0,
+        "is_dead": false,
+        "has_won": false
+      },
+      {
+        "frame": 256,
+        "simulation_time_seconds": 4.266667,
+        "raw_action": "right_run_jump",
+        "executed_action": "right_run_jump",
+        "override_reason": null,
+        "x": 1761.4,
+        "y": 374.75,
+        "vx": 6.6,
+        "vy": -5.75,
+        "progress_pixels": 1761.4,
+        "is_dead": false,
+        "has_won": false
+      },
+      {
+        "frame": 288,
+        "simulation_time_seconds": 4.8,
+        "raw_action": "right_run_jump",
+        "executed_action": "right_run_jump",
+        "override_reason": null,
+        "x": 1972.6,
+        "y": 511.25,
+        "vx": 6.6,
+        "vy": -14.0,
+        "progress_pixels": 1972.6,
+        "is_dead": false,
+        "has_won": false
+      },
+      {
+        "frame": 320,
+        "simulation_time_seconds": 5.333333,
+        "raw_action": "right_run_jump",
+        "executed_action": "right_run_jump",
+        "override_reason": null,
+        "x": 2183.8,
+        "y": 459.25,
+        "vx": 6.6,
+        "vy": 10.0,
+        "progress_pixels": 2183.8,
+        "is_dead": false,
+        "has_won": false
+      },
+      {
+        "frame": 352,
+        "simulation_time_seconds": 5.866667,
+        "raw_action": "right_run_jump",
+        "executed_action": "right_run_jump",
+        "override_reason": null,
+        "x": 2370.4,
+        "y": 396.25,
+        "vx": 6.6,
+        "vy": 3.25,
+        "progress_pixels": 2370.4,
+        "is_dead": false,
+        "has_won": false
+      },
+      {
+        "frame": 384,
+        "simulation_time_seconds": 6.4,
+        "raw_action": "right_run_jump",
+        "executed_action": "right_run_jump",
+        "override_reason": null,
+        "x": 2581.6,
+        "y": 295.75,
+        "vx": 6.6,
+        "vy": 7.0,
+        "progress_pixels": 2581.6,
+        "is_dead": false,
+        "has_won": false
+      },
+      {
+        "frame": 416,
+        "simulation_time_seconds": 6.933333,
+        "raw_action": "right_run_jump",
+        "executed_action": "right_run_jump",
+        "override_reason": null,
+        "x": 2767.6,
+        "y": 495.75,
+        "vx": 6.6,
+        "vy": 4.5,
+        "progress_pixels": 2767.6,
+        "is_dead": false,
+        "has_won": false
+      },
+      {
+        "frame": 448,
+        "simulation_time_seconds": 7.466667,
+        "raw_action": "right_run_jump",
+        "executed_action": "right_run_jump",
+        "override_reason": null,
+        "x": 2915.4,
+        "y": 400.25,
+        "vx": 6.6,
+        "vy": 4.0,
+        "progress_pixels": 2915.4,
+        "is_dead": false,
+        "has_won": false
+      },
+      {
+        "frame": 480,
+        "simulation_time_seconds": 8.0,
+        "raw_action": "right_run_jump",
+        "executed_action": "right_run_jump",
+        "override_reason": null,
+        "x": 3126.6,
+        "y": 391.25,
+        "vx": 6.6,
+        "vy": -2.75,
+        "progress_pixels": 3126.6,
+        "is_dead": false,
+        "has_won": false
+      },
+      {
+        "frame": 512,
+        "simulation_time_seconds": 8.533333,
+        "raw_action": "right_run_jump",
+        "executed_action": "right_run_jump",
+        "override_reason": null,
+        "x": 3337.8,
+        "y": 443.0,
+        "vx": 6.6,
+        "vy": -9.5,
+        "progress_pixels": 3337.8,
+        "is_dead": false,
+        "has_won": false
+      },
+      {
+        "frame": 544,
+        "simulation_time_seconds": 9.066667,
+        "raw_action": "right_run_jump",
+        "executed_action": "right_run_jump",
+        "override_reason": null,
+        "x": 3549.0,
+        "y": 278.75,
+        "vx": 6.6,
+        "vy": -5.75,
+        "progress_pixels": 3549.0,
+        "is_dead": false,
+        "has_won": false
+      },
+      {
+        "frame": 576,
+        "simulation_time_seconds": 9.6,
+        "raw_action": "right_run_jump",
+        "executed_action": "right_run_jump",
+        "override_reason": null,
+        "x": 3760.2,
+        "y": 461.5,
+        "vx": 6.6,
+        "vy": 12.0,
+        "progress_pixels": 3760.2,
+        "is_dead": false,
+        "has_won": false
+      },
+      {
+        "frame": 608,
+        "simulation_time_seconds": 10.133333,
+        "raw_action": "right_run_jump",
+        "executed_action": "right_run_jump",
+        "override_reason": null,
+        "x": 3953.6,
+        "y": 378.5,
+        "vx": 6.6,
+        "vy": 5.5,
+        "progress_pixels": 3953.6,
+        "is_dead": false,
+        "has_won": false
+      },
+      {
+        "frame": 640,
+        "simulation_time_seconds": 10.666667,
+        "raw_action": "right_run_jump",
+        "executed_action": "right_run_jump",
+        "override_reason": null,
+        "x": 4164.8,
+        "y": 391.25,
+        "vx": 6.6,
+        "vy": -2.75,
+        "progress_pixels": 4164.8,
+        "is_dead": false,
+        "has_won": false
+      },
+      {
+        "frame": 646,
+        "simulation_time_seconds": 10.766667,
+        "raw_action": "right_run_jump",
+        "executed_action": "right_run_jump",
+        "override_reason": null,
+        "x": 4204.4,
+        "y": 390.5,
+        "vx": 6.6,
+        "vy": 1.75,
+        "progress_pixels": 4204.4,
+        "is_dead": false,
+        "has_won": true
+      }
+    ],
+    "terminal_frame_state": {
+      "frame": 646,
+      "simulation_time_seconds": 10.766667,
+      "raw_action": "right_run_jump",
+      "executed_action": "right_run_jump",
+      "override_reason": null,
+      "x": 4204.4,
+      "y": 390.5,
+      "vx": 6.6,
+      "vy": 1.75,
+      "progress_pixels": 4204.4,
+      "is_dead": false,
+      "has_won": true
+    }
+  },
+  "timing": {
+    "inference_wall_ms": {
+      "min": 2.465407,
+      "max": 10.770615,
+      "mean": 4.907614
+    },
+    "forward_wall_ms": {
+      "min": 1.585255,
+      "max": 9.836368,
+      "mean": 3.646016
+    },
+    "training_seconds": 22.441826,
+    "inference_peak_vram": {
+      "max_memory_allocated_bytes": 18300416,
+      "max_memory_reserved_bytes": 142606336
+    }
+  },
+  "video": {
+    "file": "model-only.mp4",
+    "sha256": "883796e143e26b99cc4d7089e92135cc6400edc98a2f52a1dc620c9e7fc67d90",
+    "bytes": 725819,
+    "ffprobe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1280,
+          "height": 720,
+          "r_frame_rate": "60/1",
+          "nb_frames": "767"
+        }
+      ],
+      "format": {
+        "duration": "12.783333",
+        "size": "725819"
+      }
+    },
+    "ffmpeg_decode_exit_code": 0,
+    "recorded_frames": 767,
+    "duration_seconds": 12.783333333333333,
+    "terminal_hold_frames": 120
+  },
+  "provenance": {
+    "runner": "experiments/jevlike/adapter/jevdash_clear_colab_runner.py",
+    "runner_revision": "95381a0a76de8beb5e2f1b966dee12d23b75ae6d",
+    "training_variant": "r2-game-teacher",
+    "execution": "real Colab CUDA inference on Tesla T4; no mock, fallback, or live API"
+  },
+  "privacy": {
+    "absolute_paths_included": false,
+    "session_metadata_included": false,
+    "credentials_included": false,
+    "raw_prompt_context_included": false,
+    "model_weights_included": false
+  }
+}
