@@ -19,7 +19,8 @@
       "override_rate": 0.0,
       "executed_actions": {
         "right_run": 1800
-      }
+      },
+      "simulation_wall_seconds": 0.40502800000831485
     },
     {
       "raw_action": "right_run",
@@ -37,7 +38,8 @@
       "executed_actions": {
         "right_run": 591,
         "right_run_jump": 60
-      }
+      },
+      "simulation_wall_seconds": 0.19169889998738654
     },
     {
       "raw_action": "right_run",
@@ -55,7 +57,8 @@
       "executed_actions": {
         "right_run": 287,
         "right_run_jump": 56
-      }
+      },
+      "simulation_wall_seconds": 0.06916220000130124
     },
     {
       "raw_action": "right_jump",
@@ -72,7 +75,8 @@
       "override_rate": 0.0,
       "executed_actions": {
         "right_jump": 216
-      }
+      },
+      "simulation_wall_seconds": 0.043788300012238324
     },
     {
       "raw_action": "right_jump",
@@ -90,7 +94,8 @@
       "executed_actions": {
         "right_jump": 193,
         "right_run_jump": 17
-      }
+      },
+      "simulation_wall_seconds": 0.06416470001568086
     },
     {
       "raw_action": "right_jump",
@@ -108,7 +113,8 @@
       "executed_actions": {
         "right_jump": 200,
         "right_run_jump": 16
-      }
+      },
+      "simulation_wall_seconds": 0.04610460001276806
     },
     {
       "raw_action": "right_run_jump",
@@ -125,7 +131,8 @@
       "override_rate": 0.0,
       "executed_actions": {
         "right_run_jump": 647
-      }
+      },
+      "simulation_wall_seconds": 0.15004880001652054
     },
     {
       "raw_action": "right_run_jump",
@@ -142,7 +149,8 @@
       "override_rate": 0.0,
       "executed_actions": {
         "right_run_jump": 647
-      }
+      },
+      "simulation_wall_seconds": 0.19094080000650138
     },
     {
       "raw_action": "right_run_jump",
@@ -159,7 +167,8 @@
       "override_rate": 0.0,
       "executed_actions": {
         "right_run_jump": 647
-      }
+      },
+      "simulation_wall_seconds": 0.15461969998432323
     },
     {
       "raw_action": "left",
@@ -176,7 +185,8 @@
       "override_rate": 0.0,
       "executed_actions": {
         "left": 62
-      }
+      },
+      "simulation_wall_seconds": 0.01320859999395907
     },
     {
       "raw_action": "left",
@@ -194,7 +204,8 @@
       "executed_actions": {
         "left": 59,
         "right_run_jump": 16
-      }
+      },
+      "simulation_wall_seconds": 0.01940910000121221
     },
     {
       "raw_action": "left",
@@ -212,7 +223,8 @@
       "executed_actions": {
         "left": 56,
         "right_run_jump": 23
-      }
+      },
+      "simulation_wall_seconds": 0.016928500001085922
     },
     {
       "raw_action": "noop",
@@ -229,7 +241,8 @@
       "override_rate": 0.0,
       "executed_actions": {
         "noop": 1800
-      }
+      },
+      "simulation_wall_seconds": 0.33640839997678995
     },
     {
       "raw_action": "noop",
@@ -247,7 +260,8 @@
       "executed_actions": {
         "noop": 1757,
         "right_run_jump": 43
-      }
+      },
+      "simulation_wall_seconds": 0.6708958999952301
     },
     {
       "raw_action": "noop",
@@ -265,7 +279,8 @@
       "executed_actions": {
         "noop": 561,
         "right_run_jump": 136
-      }
+      },
+      "simulation_wall_seconds": 0.21037169999908656
     },
     {
       "raw_action": "right_run",
@@ -282,7 +297,8 @@
       "override_rate": 0.0,
       "executed_actions": {
         "right_run": 1800
-      }
+      },
+      "simulation_wall_seconds": 0.5137285999953747
     },
     {
       "raw_action": "right_run",
@@ -300,7 +316,8 @@
       "executed_actions": {
         "right_run": 594,
         "right_run_jump": 59
-      }
+      },
+      "simulation_wall_seconds": 0.2608378000149969
     },
     {
       "raw_action": "right_run",
@@ -318,7 +335,8 @@
       "executed_actions": {
         "right_run": 525,
         "right_run_jump": 128
-      }
+      },
+      "simulation_wall_seconds": 0.18718780000926927
     },
     {
       "raw_action": "right_jump",
@@ -335,7 +353,8 @@
       "override_rate": 0.0,
       "executed_actions": {
         "right_jump": 669
-      }
+      },
+      "simulation_wall_seconds": 0.15680659998906776
     },
     {
       "raw_action": "right_jump",
@@ -353,7 +372,8 @@
       "executed_actions": {
         "right_jump": 195,
         "right_run_jump": 17
-      }
+      },
+      "simulation_wall_seconds": 0.08035299999755807
     },
     {
       "raw_action": "right_jump",
@@ -371,7 +391,8 @@
       "executed_actions": {
         "right_jump": 599,
         "right_run_jump": 64
-      }
+      },
+      "simulation_wall_seconds": 0.158709400013322
     },
     {
       "raw_action": "right_run_jump",
@@ -388,7 +409,8 @@
       "override_rate": 0.0,
       "executed_actions": {
         "right_run_jump": 649
-      }
+      },
+      "simulation_wall_seconds": 0.1831293999857735
     },
     {
       "raw_action": "right_run_jump",
@@ -405,7 +427,8 @@
       "override_rate": 0.0,
       "executed_actions": {
         "right_run_jump": 649
-      }
+      },
+      "simulation_wall_seconds": 0.27357589997700416
     },
     {
       "raw_action": "right_run_jump",
@@ -422,7 +445,8 @@
       "override_rate": 0.0,
       "executed_actions": {
         "right_run_jump": 649
-      }
+      },
+      "simulation_wall_seconds": 0.1491911000048276
     },
     {
       "raw_action": "left",
@@ -439,7 +463,8 @@
       "override_rate": 0.0,
       "executed_actions": {
         "left": 58
-      }
+      },
+      "simulation_wall_seconds": 0.015270300005795434
     },
     {
       "raw_action": "left",
@@ -457,7 +482,8 @@
       "executed_actions": {
         "left": 58,
         "right_run_jump": 17
-      }
+      },
+      "simulation_wall_seconds": 0.02084170002490282
     },
     {
       "raw_action": "left",
@@ -475,7 +501,8 @@
       "executed_actions": {
         "left": 56,
         "right_run_jump": 23
-      }
+      },
+      "simulation_wall_seconds": 0.019361000013304874
     },
     {
       "raw_action": "noop",
@@ -492,7 +519,8 @@
       "override_rate": 0.0,
       "executed_actions": {
         "noop": 1800
-      }
+      },
+      "simulation_wall_seconds": 0.31988010002532974
     },
     {
       "raw_action": "noop",
@@ -510,7 +538,8 @@
       "executed_actions": {
         "noop": 1758,
         "right_run_jump": 42
-      }
+      },
+      "simulation_wall_seconds": 0.6171070999989752
     },
     {
       "raw_action": "noop",
@@ -528,7 +557,8 @@
       "executed_actions": {
         "noop": 683,
         "right_run_jump": 168
-      }
+      },
+      "simulation_wall_seconds": 0.1580240000039339
     },
     {
       "raw_action": "right_run",
@@ -545,7 +575,8 @@
       "override_rate": 0.0,
       "executed_actions": {
         "right_run": 1800
-      }
+      },
+      "simulation_wall_seconds": 0.32437499999650754
     },
     {
       "raw_action": "right_run",
@@ -563,7 +594,8 @@
       "executed_actions": {
         "right_run": 589,
         "right_run_jump": 59
-      }
+      },
+      "simulation_wall_seconds": 0.20176620001439005
     },
     {
       "raw_action": "right_run",
@@ -581,7 +613,8 @@
       "executed_actions": {
         "right_run": 287,
         "right_run_jump": 56
-      }
+      },
+      "simulation_wall_seconds": 0.07903220001026057
     },
     {
       "raw_action": "right_jump",
@@ -598,7 +631,8 @@
       "override_rate": 0.0,
       "executed_actions": {
         "right_jump": 216
-      }
+      },
+      "simulation_wall_seconds": 0.053744300006655976
     },
     {
       "raw_action": "right_jump",
@@ -616,7 +650,8 @@
       "executed_actions": {
         "right_jump": 193,
         "right_run_jump": 17
-      }
+      },
+      "simulation_wall_seconds": 0.060266300017246976
     },
     {
       "raw_action": "right_jump",
@@ -634,7 +669,8 @@
       "executed_actions": {
         "right_jump": 200,
         "right_run_jump": 16
-      }
+      },
+      "simulation_wall_seconds": 0.042562900023767725
     },
     {
       "raw_action": "right_run_jump",
@@ -651,7 +687,8 @@
       "override_rate": 0.0,
       "executed_actions": {
         "right_run_jump": 631
-      }
+      },
+      "simulation_wall_seconds": 0.13269689999287948
     },
     {
       "raw_action": "right_run_jump",
@@ -668,7 +705,8 @@
       "override_rate": 0.0,
       "executed_actions": {
         "right_run_jump": 631
-      }
+      },
+      "simulation_wall_seconds": 0.1786759999813512
     },
     {
       "raw_action": "right_run_jump",
@@ -685,7 +723,8 @@
       "override_rate": 0.0,
       "executed_actions": {
         "right_run_jump": 631
-      }
+      },
+      "simulation_wall_seconds": 0.13634860000456683
     },
     {
       "raw_action": "left",
@@ -702,7 +741,8 @@
       "override_rate": 0.0,
       "executed_actions": {
         "left": 66
-      }
+      },
+      "simulation_wall_seconds": 0.014698699989821762
     },
     {
       "raw_action": "left",
@@ -720,7 +760,8 @@
       "executed_actions": {
         "left": 61,
         "right_run_jump": 14
-      }
+      },
+      "simulation_wall_seconds": 0.020889899984467775
     },
     {
       "raw_action": "left",
@@ -738,7 +779,8 @@
       "executed_actions": {
         "left": 63,
         "right_run_jump": 16
-      }
+      },
+      "simulation_wall_seconds": 0.015044899977510795
     },
     {
       "raw_action": "noop",
@@ -755,7 +797,8 @@
       "override_rate": 0.0,
       "executed_actions": {
         "noop": 1800
-      }
+      },
+      "simulation_wall_seconds": 0.3763322999875527
     },
     {
       "raw_action": "noop",
@@ -773,7 +816,8 @@
       "executed_actions": {
         "noop": 1744,
         "right_run_jump": 56
-      }
+      },
+      "simulation_wall_seconds": 0.6287588000122923
     },
     {
       "raw_action": "noop",
@@ -791,7 +835,32 @@
       "executed_actions": {
         "noop": 561,
         "right_run_jump": 136
-      }
+      },
+      "simulation_wall_seconds": 0.1903083999932278
     }
-  ]
+  ],
+  "environment": {
+    "python": "3.13.15",
+    "os": "Windows",
+    "architecture": "AMD64",
+    "dependencies": {
+      "pygame": "2.6.1",
+      "pydantic": "2.13.5"
+    }
+  },
+  "probabilities": {
+    "applicable": false,
+    "reason": "No model inference"
+  },
+  "peak_vram": {
+    "applicable": false,
+    "reason": "CPU-only physics; no GPU allocated"
+  },
+  "timings": {
+    "validation_and_loading_seconds": 0.6845143999962602,
+    "simulation_seconds": 8.152372600015951,
+    "total_wall_seconds": 8.836889099999098
+  },
+  "status": "success",
+  "error": null
 }
