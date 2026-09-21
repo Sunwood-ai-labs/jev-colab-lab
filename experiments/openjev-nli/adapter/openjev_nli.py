@@ -52,6 +52,16 @@ CARD_ACTION_PHRASES = {
     "left": "move left without jumping",
 }
 CARD_ACTION_OPTIONS = tuple(ACTION_OPTIONS)
+APPLICABILITY_HYPOTHESES = {
+    "noop": "The player should release horizontal control and not jump because no immediate hazard requires a jump.",
+    "right": "The player should move right without jumping because the forward path is clear.",
+    "right_run": "The player should run right without jumping because the forward path is clear.",
+    "right_jump": "The player should move right and start a normal jump to clear a nearby hazard.",
+    "right_run_jump": "The player should run right and start a strong jump to clear a nearby hazard.",
+    "jump": "The player should jump without horizontal input to clear a nearby hazard.",
+    "left": "The player should move left without jumping because forward movement is unsafe.",
+}
+TWO_ACTION_OPTIONS = ("right_run", "right_run_jump")
 
 
 def _get(mapping: Mapping[str, Any], *path: str, default: Any = None) -> Any:
@@ -124,6 +134,21 @@ def build_compact_premise(observation: Mapping[str, Any]) -> str:
     )
 
 
+def build_rules_v2_premise(observation: Mapping[str, Any]) -> str:
+    """Add the fixed game's action physics and telemetry semantics to state."""
+
+    return (
+        build_compact_premise(observation)
+        + " Physics rules: on ground, right moves at walking speed, right_run moves at running speed, "
+        "right_jump starts a normal jump, and right_run_jump starts a stronger running jump. "
+        "A normal jump starts with vertical velocity -13.5; a running jump starts with -15.5. "
+        "While airborne, right actions set forward air velocity and pressing jump cannot start a second jump. "
+        "Noop decelerates on ground but preserves horizontal air momentum. "
+        "Obstacle and gap distances are coarse forward tile-scan distances from the player's tile, not pixel gaps. "
+        "Grounded stalled frames mean forward motion has stopped; a nearby obstacle or gap may require taking off early."
+    )
+
+
 def build_card_hypotheses(actions: Sequence[str] | None = None) -> list[dict[str, str]]:
     """Build model-card-style answer hypotheses in a caller-specified order."""
 
@@ -138,6 +163,58 @@ def build_card_hypotheses(actions: Sequence[str] | None = None) -> list[dict[str
             "hypothesis": f"The correct answer is: {CARD_ACTION_PHRASES[action]}.",
         }
         for action in selected
+    ]
+
+
+def build_applicability_hypotheses(actions: Sequence[str] | None = None) -> list[dict[str, str]]:
+    """Build fixed action-applicability statements for the NLI decision."""
+
+    selected = tuple(actions or ACTION_OPTIONS)
+    unknown = [action for action in selected if action not in APPLICABILITY_HYPOTHESES]
+    if unknown or len(selected) != len(ACTION_OPTIONS) or set(selected) != set(ACTION_OPTIONS):
+        raise ValueError(f"candidate actions must contain exactly {ACTION_OPTIONS}: {selected}")
+    return [
+        {
+            "action": action,
+            "hypothesis": APPLICABILITY_HYPOTHESES[action],
+        }
+        for action in selected
+    ]
+
+
+def build_conditioned_premise(observation: Mapping[str, Any]) -> str:
+    """Normalize raw hazard flags into facts without selecting an action."""
+
+    hazards: list[str] = []
+    if _get(observation, "terrain", "gap_ahead"):
+        hazards.append("gap")
+    if _get(observation, "terrain", "obstacle_ahead"):
+        hazards.append("obstacle")
+    if _get(observation, "hazard", "enemy_ahead"):
+        hazards.append("enemy")
+    immediate_hazard = "+".join(hazards) if hazards else "none"
+    path_clear = "no" if hazards else "yes"
+    grounded = "yes" if _get(observation, "player", "grounded") else "no"
+    stalled = "yes" if (_get(observation, "episode", "stalled_frames", default=0) or 0) >= 3 else "no"
+    return (
+        build_rules_v2_premise(observation)
+        + f" Normalized facts: path_clear={path_clear}; immediate_hazard={immediate_hazard}; "
+        f"grounded={grounded}; stalled={stalled}."
+    )
+
+
+def build_conditioned_two_action_hypotheses() -> list[dict[str, str]]:
+    """Return the explicitly restricted run-versus-running-jump comparison."""
+
+    return [
+        {
+            "action": "right_run",
+            "hypothesis": "The forward path is clear, so the player should run right without jumping.",
+        },
+        {
+            "action": "right_run_jump",
+            "hypothesis": "A nearby gap, obstacle, or enemy is present, so the player should run right and start a strong jump.",
+        },
     ]
 
 
@@ -270,9 +347,22 @@ class OpenJevNLIAdapter:
         if profile == "legacy":
             hypotheses = build_hypotheses()
             premise = build_premise(observation_dict)
-        elif profile == "card":
-            hypotheses = build_card_hypotheses(candidate_order)
-            premise = build_compact_premise(observation_dict)
+        elif profile in ("card", "rules-v2", "applicability", "conditioned-two"):
+            hypotheses = (
+                build_applicability_hypotheses(candidate_order)
+                if profile == "applicability"
+                else (
+                    build_conditioned_two_action_hypotheses()
+                    if profile == "conditioned-two"
+                    else build_card_hypotheses(candidate_order)
+                )
+            )
+            if profile == "card":
+                premise = build_compact_premise(observation_dict)
+            elif profile == "conditioned-two":
+                premise = build_conditioned_premise(observation_dict)
+            else:
+                premise = build_rules_v2_premise(observation_dict)
         else:
             raise ValueError(f"unknown OpenJev input profile: {profile}")
         pair_texts = [
