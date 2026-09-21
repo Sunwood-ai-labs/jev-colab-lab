@@ -9,3 +9,7 @@ runs/
 results/**/tiny_scorer.pt
 results/**/data/
 results/**/__pycache__/
+results/jevdash-clear/*.mp4
+results/jevdash-clear/*.pt
+results/jevdash-clear/training-data/
+results/jevdash-clear/*-episode.json

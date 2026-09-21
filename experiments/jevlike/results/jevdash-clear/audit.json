@@ -1,0 +1,1930 @@
+{
+  "status": "success",
+  "generated_at_utc": "2026-09-21T11:39:27Z",
+  "gpu_claim": false,
+  "model_inference_claim": false,
+  "source": {
+    "game_repository": "https://github.com/Sunwood-ai-labs/jevdash.git",
+    "game_commit": "eb2f92617bab5d5021a5e3cf5ef2bdaf8207d480",
+    "jevlike_repository": "https://github.com/vinnylarouge/jevlike.git",
+    "jevlike_commit": "94f5fd1b0b11d52bbdfdf4e0ee6aa96b568f8452",
+    "level": 1,
+    "seed": 42
+  },
+  "context_window_audit": {
+    "observations": 32,
+    "legacy_utf8_byte_lengths": {
+      "min": 882,
+      "max": 1008
+    },
+    "compact_utf8_byte_lengths": {
+      "min": 177,
+      "max": 177
+    },
+    "legacy_truncated_prefix_sha256_count": 1,
+    "compact_truncated_prefix_sha256_count": 30,
+    "legacy_context_first_192_bytes_same": true,
+    "compact_context_within_window": true,
+    "changing_state_signatures": [
+      {
+        "frame": 0,
+        "x": 96.0,
+        "y": 480.0,
+        "vx": 0.0,
+        "gap_tiles": null,
+        "obstacle_tiles": null,
+        "exact_gap_front_px": null,
+        "exact_obstacle_front_px": 390.0,
+        "stalled_frames": 0
+      },
+      {
+        "frame": 8,
+        "x": 148.8,
+        "y": 507.0,
+        "vx": 6.6,
+        "gap_tiles": null,
+        "obstacle_tiles": 12.0,
+        "exact_gap_front_px": null,
+        "exact_obstacle_front_px": 337.2,
+        "stalled_frames": 0
+      },
+      {
+        "frame": 16,
+        "x": 201.6,
+        "y": 540.0,
+        "vx": 6.6,
+        "gap_tiles": null,
+        "obstacle_tiles": 10.0,
+        "exact_gap_front_px": null,
+        "exact_obstacle_front_px": 284.4,
+        "stalled_frames": 0
+      },
+      {
+        "frame": 24,
+        "x": 254.4,
+        "y": 540.0,
+        "vx": 6.6,
+        "gap_tiles": null,
+        "obstacle_tiles": 9.0,
+        "exact_gap_front_px": null,
+        "exact_obstacle_front_px": 231.6,
+        "stalled_frames": 0
+      },
+      {
+        "frame": 32,
+        "x": 307.2,
+        "y": 540.0,
+        "vx": 6.6,
+        "gap_tiles": null,
+        "obstacle_tiles": 7.0,
+        "exact_gap_front_px": 690.8,
+        "exact_obstacle_front_px": 178.8,
+        "stalled_frames": 0
+      },
+      {
+        "frame": 40,
+        "x": 360.0,
+        "y": 540.0,
+        "vx": 6.6,
+        "gap_tiles": null,
+        "obstacle_tiles": 5.0,
+        "exact_gap_front_px": 638.0,
+        "exact_obstacle_front_px": 126.0,
+        "stalled_frames": 0
+      },
+      {
+        "frame": 48,
+        "x": 412.8,
+        "y": 540.0,
+        "vx": 6.6,
+        "gap_tiles": null,
+        "obstacle_tiles": 4.0,
+        "exact_gap_front_px": 585.2,
+        "exact_obstacle_front_px": 73.2,
+        "stalled_frames": 0
+      },
+      {
+        "frame": 56,
+        "x": 465.6,
+        "y": 540.0,
+        "vx": 6.6,
+        "gap_tiles": null,
+        "obstacle_tiles": 2.0,
+        "exact_gap_front_px": 532.4,
+        "exact_obstacle_front_px": 20.4,
+        "stalled_frames": 0
+      },
+      {
+        "frame": 64,
+        "x": 486.0,
+        "y": 540.0,
+        "vx": 0.0,
+        "gap_tiles": null,
+        "obstacle_tiles": 1.0,
+        "exact_gap_front_px": 512.0,
+        "exact_obstacle_front_px": 0.0,
+        "stalled_frames": 4
+      },
+      {
+        "frame": 72,
+        "x": 486.0,
+        "y": 540.0,
+        "vx": 0.0,
+        "gap_tiles": null,
+        "obstacle_tiles": 1.0,
+        "exact_gap_front_px": 512.0,
+        "exact_obstacle_front_px": 0.0,
+        "stalled_frames": 12
+      },
+      {
+        "frame": 80,
+        "x": 486.0,
+        "y": 540.0,
+        "vx": 0.0,
+        "gap_tiles": null,
+        "obstacle_tiles": 1.0,
+        "exact_gap_front_px": 512.0,
+        "exact_obstacle_front_px": 0.0,
+        "stalled_frames": 20
+      },
+      {
+        "frame": 88,
+        "x": 486.0,
+        "y": 540.0,
+        "vx": 0.0,
+        "gap_tiles": null,
+        "obstacle_tiles": 1.0,
+        "exact_gap_front_px": 512.0,
+        "exact_obstacle_front_px": 0.0,
+        "stalled_frames": 28
+      }
+    ],
+    "compact_context_prefix_sha256": [
+      "19a3f2ff5ab2793d270c2e04911700113ef3536bdfcd772d263b6ff3a4309ca0",
+      "1e56bac2231a7a8ce64c16d6a227d3ce252b55b2c8a52e437f3fbadb2db5cd60",
+      "21dab46c051f1f386f32b1f97624f0cf9cbee05fb7b5800beb27255040f8c99c",
+      "2958b302f7d6007590f0231f496fce972d7d75d05b418f38c98d7f114dbdecd9",
+      "48d9abd97e8fa15f9cd5c4a7117c263a1fffc44ac1b0ebfd6cd1331465fea2b0",
+      "49a70e848db2208955e917c5b8e7b80e234c5ac172ed2348f9a37a5bb967737c",
+      "4a1ca9335abc997b6602ca26d76f452cddf31bc516503f533fe9e04a7807d6c8",
+      "56da75f3255954238c7a43d8e60e79f85d00bea2bfc4a143940f9f2e30a07acd",
+      "579e2561336425384945182ae5ad3407a78fab400ded0a173ff031e8e68be81c",
+      "674a2df17d46622daab70b4adddce0f8626881bd338c6828f8cb1a6a021161fc",
+      "7906228917593931fc4a090f333d0fa706c0e8bcac65589161cdb88fa4a6ffd5",
+      "907c8727e29d95dcc97ef9ece12f62a278f5955156a70c69c7e98fd342fe27dc",
+      "98f0d0143fb478b9c6629504c798af915ab2046d35abde566dd61423df5e4cdd",
+      "a04d1c7add72399ccc220d7efad99d125e3a531e8d2ea4fe38e2ab35a487c2c0",
+      "a27ab961aa2daaddc1e404bfd9a1a9cbb14c496217215914679767b82a55f4a8",
+      "ba0cc8d579fa5ded2dc3f58e9fe014c748ab390075123b1c4a30868866dc6a2f",
+      "bda94fbc8d39893eac5caf11496f3df8c9e52e2c722c3899e6cfde32f42517ea",
+      "bf2167508ea11c775f5e4cd2d5065eb5dbc30b8c072024762fc747e4648cfb87",
+      "bf688122ddbb57f3abce3783a4e1ea3dc654e6532d1b90f9201d6697b4338367",
+      "c7e0398590c5b80f6414a9f09a4622855a0d71b571ec6449ae4465049a102056",
+      "cb581263021742f501dd249e896aba3e345c8c07367137f18fc38d9af98ab5ad",
+      "d08e369f5e335c0d1ccdb57337ad949e559bb85a8afd7f0716f8967cb2276657",
+      "d2ff368c5461d2600c0ae96602ade2ee0022768fae6642fce7c5f2bf77eae650",
+      "d5171dc24edf6086a13aa4b3546f621756639a41b3338aa2ee861b838240f678",
+      "da4f5f3d56ab64df0dc509a5ed72848b08a75ae7b764479c0156be93f763df87",
+      "e00163213ad3d7efaf641852feb5d7582e316d5ec5307262bad8702855c5a654",
+      "e3730f3a4179f126db3e04a93e8956877a2549c413239e7dd5750c2706249886",
+      "f3be71b34f4b598f2ff75d0d74d9ba01e8fbc8bc467b86fdda9f42d5c8bd266d",
+      "f82b4faf69f4b050b9428550dd054dce0df952eb09f9f928cfce7873b386b95d",
+      "fe07c660040d6e7699d7936bd0022e255f732f333a6b78296ddf241478718b95"
+    ]
+  },
+  "distance_semantics": {
+    "telemetry_obstacle_and_gap": "coarse scan-column distance from player tile; not front-edge collision clearance",
+    "physical_X_fields": "fixed level tile left edge minus player right edge, measured in pixels",
+    "floating_platforms": "not classified as base ground or pipe obstacles by precise_world_features",
+    "policy_fields": [
+      "grounded",
+      "airborne_frames",
+      "vertical enemy offset",
+      "stalled_frames",
+      "precise X clearance"
+    ]
+  },
+  "candidate_order_audit": {
+    "options": [
+      "noop",
+      "right",
+      "right_run",
+      "right_jump",
+      "right_run_jump",
+      "jump",
+      "left"
+    ],
+    "reversed_options": [
+      "left",
+      "jump",
+      "right_run_jump",
+      "right_jump",
+      "right_run",
+      "right",
+      "noop"
+    ],
+    "identity_logit_max_abs_difference": 4.470348358154297e-08,
+    "identity_logit_differences": {
+      "noop": 0.0,
+      "right": 0.0,
+      "right_run": 0.0,
+      "right_jump": 0.0,
+      "right_run_jump": 0.0,
+      "jump": 0.0,
+      "left": 4.470348358154297e-08
+    },
+    "interpretation": "option order is a column permutation; the upstream TinyScorer has no option-position embedding"
+  },
+  "physics_control_fixtures": [
+    {
+      "policy": "constant:right_run_jump",
+      "reflex_cadence": null,
+      "terminal_frame": 647,
+      "terminal_reason": "clear",
+      "final_progress_pixels": 4204.4,
+      "final_is_dead": false,
+      "final_has_won": true,
+      "override_frames": 0,
+      "override_reasons": {},
+      "terminal_snapshot": {
+        "frame": 647,
+        "x": 4204.4,
+        "y": 390.5,
+        "vx": 6.6,
+        "vy": 1.75,
+        "grounded": false,
+        "raw_action": "right_run_jump",
+        "executed_action": "right_run_jump",
+        "is_dead": false,
+        "has_won": true,
+        "enemy": null,
+        "physical": {
+          "player_front_x_pixels": 4230.4,
+          "obstacle_front_distance_pixels": null,
+          "obstacle_height_tiles": 0,
+          "gap_front_distance_pixels": null,
+          "gap_width_pixels": 0,
+          "distance_reference": "player right edge to fixed tile left edge; pixels"
+        }
+      },
+      "action_transitions": [
+        {
+          "frame": 520,
+          "raw_action": "right_run_jump",
+          "precise": {
+            "player_front_x_pixels": 3410.0,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 3384.0,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 528,
+          "raw_action": "right_run_jump",
+          "precise": {
+            "player_front_x_pixels": 3462.8,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 3436.8,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 536,
+          "raw_action": "right_run_jump",
+          "precise": {
+            "player_front_x_pixels": 3515.6,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 3489.6,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 544,
+          "raw_action": "right_run_jump",
+          "precise": {
+            "player_front_x_pixels": 3568.4,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 3542.4,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 552,
+          "raw_action": "right_run_jump",
+          "precise": {
+            "player_front_x_pixels": 3621.2,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 3595.2,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 560,
+          "raw_action": "right_run_jump",
+          "precise": {
+            "player_front_x_pixels": 3674.0,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 3648.0,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 568,
+          "raw_action": "right_run_jump",
+          "precise": {
+            "player_front_x_pixels": 3726.8,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 3700.8,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 576,
+          "raw_action": "right_run_jump",
+          "precise": {
+            "player_front_x_pixels": 3779.6,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 3753.6,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 584,
+          "raw_action": "right_run_jump",
+          "precise": {
+            "player_front_x_pixels": 3814.6,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 3788.6,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 592,
+          "raw_action": "right_run_jump",
+          "precise": {
+            "player_front_x_pixels": 3867.4,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 3841.4,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 600,
+          "raw_action": "right_run_jump",
+          "precise": {
+            "player_front_x_pixels": 3920.2,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 3894.2,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 608,
+          "raw_action": "right_run_jump",
+          "precise": {
+            "player_front_x_pixels": 3973.0,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 3947.0,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 616,
+          "raw_action": "right_run_jump",
+          "precise": {
+            "player_front_x_pixels": 4025.8,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 3999.8,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 624,
+          "raw_action": "right_run_jump",
+          "precise": {
+            "player_front_x_pixels": 4078.6,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 4052.6,
+          "grounded": true,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 632,
+          "raw_action": "right_run_jump",
+          "precise": {
+            "player_front_x_pixels": 4131.4,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 4105.4,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 640,
+          "raw_action": "right_run_jump",
+          "precise": {
+            "player_front_x_pixels": 4184.2,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 4158.2,
+          "grounded": false,
+          "stalled_frames": 0
+        }
+      ],
+      "gpu_claim": false,
+      "model_inference": false
+    },
+    {
+      "policy": "constant:right_jump",
+      "reflex_cadence": null,
+      "terminal_frame": 216,
+      "terminal_reason": "death",
+      "final_progress_pixels": 1454.6,
+      "final_is_dead": true,
+      "final_has_won": false,
+      "override_frames": 0,
+      "override_reasons": {},
+      "terminal_snapshot": {
+        "frame": 216,
+        "x": 1454.6,
+        "y": 400.75,
+        "vx": 6.6,
+        "vy": -3.75,
+        "grounded": false,
+        "raw_action": "right_jump",
+        "executed_action": "right_jump",
+        "is_dead": true,
+        "has_won": false,
+        "enemy": {
+          "kind": "goomba",
+          "distance_pixels": 22.6,
+          "vertical_offset_pixels": -12.8,
+          "relative_velocity_x": 5.2,
+          "estimated_contact_frames": 4
+        },
+        "physical": {
+          "player_front_x_pixels": 1480.6,
+          "obstacle_front_distance_pixels": 247.4,
+          "obstacle_height_tiles": 3,
+          "gap_front_distance_pixels": 631.4,
+          "gap_width_pixels": 96,
+          "distance_reference": "player right edge to fixed tile left edge; pixels"
+        }
+      },
+      "action_transitions": [
+        {
+          "frame": 88,
+          "raw_action": "right_jump",
+          "precise": {
+            "player_front_x_pixels": 695.0,
+            "obstacle_front_distance_pixels": 105.0,
+            "obstacle_height_tiles": 3,
+            "gap_front_distance_pixels": 329.0,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 669.0,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 96,
+          "raw_action": "right_jump",
+          "precise": {
+            "player_front_x_pixels": 747.8,
+            "obstacle_front_distance_pixels": 52.2,
+            "obstacle_height_tiles": 3,
+            "gap_front_distance_pixels": 276.2,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 721.8,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 104,
+          "raw_action": "right_jump",
+          "precise": {
+            "player_front_x_pixels": 798.0,
+            "obstacle_front_distance_pixels": 2.0,
+            "obstacle_height_tiles": 3,
+            "gap_front_distance_pixels": 226.0,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 772.0,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 112,
+          "raw_action": "right_jump",
+          "precise": {
+            "player_front_x_pixels": 813.2,
+            "obstacle_front_distance_pixels": 0.0,
+            "obstacle_height_tiles": 3,
+            "gap_front_distance_pixels": 210.8,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 787.2,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 120,
+          "raw_action": "right_jump",
+          "precise": {
+            "player_front_x_pixels": 866.0,
+            "obstacle_front_distance_pixels": 542.0,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 158.0,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 840.0,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 128,
+          "raw_action": "right_jump",
+          "precise": {
+            "player_front_x_pixels": 918.8,
+            "obstacle_front_distance_pixels": 489.2,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 105.2,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 892.8,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 136,
+          "raw_action": "right_jump",
+          "precise": {
+            "player_front_x_pixels": 969.0,
+            "obstacle_front_distance_pixels": 439.0,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 55.0,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 943.0,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 144,
+          "raw_action": "right_jump",
+          "precise": {
+            "player_front_x_pixels": 1021.8,
+            "obstacle_front_distance_pixels": 386.2,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 2.2,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 995.8,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 152,
+          "raw_action": "right_jump",
+          "precise": {
+            "player_front_x_pixels": 1074.6,
+            "obstacle_front_distance_pixels": 333.4,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 0.0,
+            "gap_width_pixels": 64,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 1048.6,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 160,
+          "raw_action": "right_jump",
+          "precise": {
+            "player_front_x_pixels": 1127.4,
+            "obstacle_front_distance_pixels": 280.6,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 1101.4,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 168,
+          "raw_action": "right_jump",
+          "precise": {
+            "player_front_x_pixels": 1180.2,
+            "obstacle_front_distance_pixels": 227.8,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 1154.2,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 176,
+          "raw_action": "right_jump",
+          "precise": {
+            "player_front_x_pixels": 1230.4,
+            "obstacle_front_distance_pixels": 177.6,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 1204.4,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 184,
+          "raw_action": "right_jump",
+          "precise": {
+            "player_front_x_pixels": 1283.2,
+            "obstacle_front_distance_pixels": 124.8,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 1257.2,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 192,
+          "raw_action": "right_jump",
+          "precise": {
+            "player_front_x_pixels": 1336.0,
+            "obstacle_front_distance_pixels": 72.0,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 1310.0,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 200,
+          "raw_action": "right_jump",
+          "precise": {
+            "player_front_x_pixels": 1388.8,
+            "obstacle_front_distance_pixels": 19.2,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 723.2,
+            "gap_width_pixels": 32,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 1362.8,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 208,
+          "raw_action": "right_jump",
+          "precise": {
+            "player_front_x_pixels": 1427.8,
+            "obstacle_front_distance_pixels": 0.0,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 684.2,
+            "gap_width_pixels": 64,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 1401.8,
+          "grounded": false,
+          "stalled_frames": 0
+        }
+      ],
+      "gpu_claim": false,
+      "model_inference": false
+    },
+    {
+      "policy": "constant:right_run",
+      "reflex_cadence": null,
+      "terminal_frame": 1800,
+      "terminal_reason": "timeout",
+      "final_progress_pixels": 486.0,
+      "final_is_dead": false,
+      "final_has_won": false,
+      "override_frames": 0,
+      "override_reasons": {},
+      "terminal_snapshot": {
+        "frame": 1800,
+        "x": 486.0,
+        "y": 540.0,
+        "vx": 0.0,
+        "vy": 0.0,
+        "grounded": true,
+        "raw_action": "right_run",
+        "executed_action": "right_run",
+        "is_dead": false,
+        "has_won": false,
+        "enemy": {
+          "kind": "goomba",
+          "distance_pixels": 346.0,
+          "vertical_offset_pixels": 8.0,
+          "relative_velocity_x": -1.4,
+          "estimated_contact_frames": null
+        },
+        "physical": {
+          "player_front_x_pixels": 512.0,
+          "obstacle_front_distance_pixels": 0.0,
+          "obstacle_height_tiles": 2,
+          "gap_front_distance_pixels": 512.0,
+          "gap_width_pixels": 96,
+          "distance_reference": "player right edge to fixed tile left edge; pixels"
+        }
+      },
+      "action_transitions": [
+        {
+          "frame": 1672,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 512.0,
+            "obstacle_front_distance_pixels": 0.0,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 512.0,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 486.0,
+          "grounded": true,
+          "stalled_frames": 1612
+        },
+        {
+          "frame": 1680,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 512.0,
+            "obstacle_front_distance_pixels": 0.0,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 512.0,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 486.0,
+          "grounded": true,
+          "stalled_frames": 1620
+        },
+        {
+          "frame": 1688,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 512.0,
+            "obstacle_front_distance_pixels": 0.0,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 512.0,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 486.0,
+          "grounded": true,
+          "stalled_frames": 1628
+        },
+        {
+          "frame": 1696,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 512.0,
+            "obstacle_front_distance_pixels": 0.0,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 512.0,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 486.0,
+          "grounded": true,
+          "stalled_frames": 1636
+        },
+        {
+          "frame": 1704,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 512.0,
+            "obstacle_front_distance_pixels": 0.0,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 512.0,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 486.0,
+          "grounded": true,
+          "stalled_frames": 1644
+        },
+        {
+          "frame": 1712,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 512.0,
+            "obstacle_front_distance_pixels": 0.0,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 512.0,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 486.0,
+          "grounded": true,
+          "stalled_frames": 1652
+        },
+        {
+          "frame": 1720,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 512.0,
+            "obstacle_front_distance_pixels": 0.0,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 512.0,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 486.0,
+          "grounded": true,
+          "stalled_frames": 1660
+        },
+        {
+          "frame": 1728,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 512.0,
+            "obstacle_front_distance_pixels": 0.0,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 512.0,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 486.0,
+          "grounded": true,
+          "stalled_frames": 1668
+        },
+        {
+          "frame": 1736,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 512.0,
+            "obstacle_front_distance_pixels": 0.0,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 512.0,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 486.0,
+          "grounded": true,
+          "stalled_frames": 1676
+        },
+        {
+          "frame": 1744,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 512.0,
+            "obstacle_front_distance_pixels": 0.0,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 512.0,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 486.0,
+          "grounded": true,
+          "stalled_frames": 1684
+        },
+        {
+          "frame": 1752,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 512.0,
+            "obstacle_front_distance_pixels": 0.0,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 512.0,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 486.0,
+          "grounded": true,
+          "stalled_frames": 1692
+        },
+        {
+          "frame": 1760,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 512.0,
+            "obstacle_front_distance_pixels": 0.0,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 512.0,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 486.0,
+          "grounded": true,
+          "stalled_frames": 1700
+        },
+        {
+          "frame": 1768,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 512.0,
+            "obstacle_front_distance_pixels": 0.0,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 512.0,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 486.0,
+          "grounded": true,
+          "stalled_frames": 1708
+        },
+        {
+          "frame": 1776,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 512.0,
+            "obstacle_front_distance_pixels": 0.0,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 512.0,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 486.0,
+          "grounded": true,
+          "stalled_frames": 1716
+        },
+        {
+          "frame": 1784,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 512.0,
+            "obstacle_front_distance_pixels": 0.0,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 512.0,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 486.0,
+          "grounded": true,
+          "stalled_frames": 1724
+        },
+        {
+          "frame": 1792,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 512.0,
+            "obstacle_front_distance_pixels": 0.0,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 512.0,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 486.0,
+          "grounded": true,
+          "stalled_frames": 1732
+        }
+      ],
+      "gpu_claim": false,
+      "model_inference": false
+    },
+    {
+      "policy": "teacher",
+      "reflex_cadence": null,
+      "terminal_frame": 647,
+      "terminal_reason": "clear",
+      "final_progress_pixels": 4204.4,
+      "final_is_dead": false,
+      "final_has_won": true,
+      "override_frames": 0,
+      "override_reasons": {},
+      "terminal_snapshot": {
+        "frame": 647,
+        "x": 4204.4,
+        "y": 540.0,
+        "vx": 6.6,
+        "vy": 0.0,
+        "grounded": true,
+        "raw_action": "right_run",
+        "executed_action": "right_run",
+        "is_dead": false,
+        "has_won": true,
+        "enemy": null,
+        "physical": {
+          "player_front_x_pixels": 4230.4,
+          "obstacle_front_distance_pixels": null,
+          "obstacle_height_tiles": 0,
+          "gap_front_distance_pixels": null,
+          "gap_width_pixels": 0,
+          "distance_reference": "player right edge to fixed tile left edge; pixels"
+        }
+      },
+      "action_transitions": [
+        {
+          "frame": 520,
+          "raw_action": "right_run_jump",
+          "precise": {
+            "player_front_x_pixels": 3410.0,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 3384.0,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 528,
+          "raw_action": "right_run_jump",
+          "precise": {
+            "player_front_x_pixels": 3462.8,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 3436.8,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 536,
+          "raw_action": "right_run_jump",
+          "precise": {
+            "player_front_x_pixels": 3515.6,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 3489.6,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 544,
+          "raw_action": "right_run_jump",
+          "precise": {
+            "player_front_x_pixels": 3568.4,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 3542.4,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 552,
+          "raw_action": "right_run_jump",
+          "precise": {
+            "player_front_x_pixels": 3621.2,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 3595.2,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 560,
+          "raw_action": "right_run_jump",
+          "precise": {
+            "player_front_x_pixels": 3674.0,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 3648.0,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 568,
+          "raw_action": "right_run_jump",
+          "precise": {
+            "player_front_x_pixels": 3726.8,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 3700.8,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 576,
+          "raw_action": "right_run_jump",
+          "precise": {
+            "player_front_x_pixels": 3779.6,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 3753.6,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 584,
+          "raw_action": "right_run_jump",
+          "precise": {
+            "player_front_x_pixels": 3814.6,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 3788.6,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 592,
+          "raw_action": "right_run_jump",
+          "precise": {
+            "player_front_x_pixels": 3867.4,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 3841.4,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 600,
+          "raw_action": "right_run_jump",
+          "precise": {
+            "player_front_x_pixels": 3920.2,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 3894.2,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 608,
+          "raw_action": "right_run_jump",
+          "precise": {
+            "player_front_x_pixels": 3973.0,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 3947.0,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 616,
+          "raw_action": "right_run_jump",
+          "precise": {
+            "player_front_x_pixels": 4025.8,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 3999.8,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 624,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 4078.6,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 4052.6,
+          "grounded": true,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 632,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 4131.4,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 4105.4,
+          "grounded": true,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 640,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 4184.2,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 4158.2,
+          "grounded": true,
+          "stalled_frames": 0
+        }
+      ],
+      "gpu_claim": false,
+      "model_inference": false
+    },
+    {
+      "policy": "constant:right_run",
+      "reflex_cadence": "every-frame",
+      "terminal_frame": 651,
+      "terminal_reason": "clear",
+      "final_progress_pixels": 4204.4,
+      "final_is_dead": false,
+      "final_has_won": true,
+      "override_frames": 60,
+      "override_reasons": {
+        "air_gap_momentum": 44,
+        "enemy_critical": 1,
+        "gap_critical": 3,
+        "obstacle_critical": 9,
+        "obstacle_critical+enemy_critical": 3
+      },
+      "terminal_snapshot": {
+        "frame": 651,
+        "x": 4204.4,
+        "y": 540.0,
+        "vx": 6.6,
+        "vy": 0.0,
+        "grounded": true,
+        "raw_action": "right_run",
+        "executed_action": "right_run",
+        "is_dead": false,
+        "has_won": true,
+        "enemy": null,
+        "physical": {
+          "player_front_x_pixels": 4230.4,
+          "obstacle_front_distance_pixels": null,
+          "obstacle_height_tiles": 0,
+          "gap_front_distance_pixels": null,
+          "gap_width_pixels": 0,
+          "distance_reference": "player right edge to fixed tile left edge; pixels"
+        }
+      },
+      "action_transitions": [
+        {
+          "frame": 528,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 3444.8,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 3418.8,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 536,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 3497.6,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 3471.6,
+          "grounded": true,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 544,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 3550.4,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 3524.4,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 552,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 3603.2,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 3577.2,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 560,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 3656.0,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 3630.0,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 568,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 3708.8,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 3682.8,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 576,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 3761.6,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 3735.6,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 584,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 3808.0,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 3782.0,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 592,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 3841.0,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 3815.0,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 600,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 3893.8,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 3867.8,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 608,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 3946.6,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 3920.6,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 616,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 3999.4,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 3973.4,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 624,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 4052.2,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 4026.2,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 632,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 4105.0,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 4079.0,
+          "grounded": true,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 640,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 4157.8,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 4131.8,
+          "grounded": true,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 648,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 4210.6,
+            "obstacle_front_distance_pixels": null,
+            "obstacle_height_tiles": 0,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 4184.6,
+          "grounded": true,
+          "stalled_frames": 0
+        }
+      ],
+      "gpu_claim": false,
+      "model_inference": false
+    },
+    {
+      "policy": "constant:right_run",
+      "reflex_cadence": "every-decision",
+      "terminal_frame": 343,
+      "terminal_reason": "death",
+      "final_progress_pixels": 2335.6,
+      "final_is_dead": true,
+      "final_has_won": false,
+      "override_frames": 7,
+      "override_reasons": {
+        "air_gap_momentum": 2,
+        "gap_critical": 1,
+        "obstacle_critical": 2,
+        "obstacle_critical+enemy_critical": 2
+      },
+      "terminal_snapshot": {
+        "frame": 343,
+        "x": 2335.6,
+        "y": 540.0,
+        "vx": 6.6,
+        "vy": 0.0,
+        "grounded": true,
+        "raw_action": "right_run",
+        "executed_action": "right_run",
+        "is_dead": true,
+        "has_won": false,
+        "enemy": {
+          "kind": "goomba",
+          "distance_pixels": 25.4,
+          "vertical_offset_pixels": 8.0,
+          "relative_velocity_x": 5.2,
+          "estimated_contact_frames": 4
+        },
+        "physical": {
+          "player_front_x_pixels": 2361.6,
+          "obstacle_front_distance_pixels": 134.4,
+          "obstacle_height_tiles": 2,
+          "gap_front_distance_pixels": null,
+          "gap_width_pixels": 0,
+          "distance_reference": "player right edge to fixed tile left edge; pixels"
+        }
+      },
+      "action_transitions": [
+        {
+          "frame": 216,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 1541.6,
+            "obstacle_front_distance_pixels": 186.4,
+            "obstacle_height_tiles": 3,
+            "gap_front_distance_pixels": 570.4,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 1515.6,
+          "grounded": true,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 224,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 1594.4,
+            "obstacle_front_distance_pixels": 133.6,
+            "obstacle_height_tiles": 3,
+            "gap_front_distance_pixels": 517.6,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 1568.4,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 232,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 1647.2,
+            "obstacle_front_distance_pixels": 80.8,
+            "obstacle_height_tiles": 3,
+            "gap_front_distance_pixels": 464.8,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 1621.2,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 240,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 1700.0,
+            "obstacle_front_distance_pixels": 28.0,
+            "obstacle_height_tiles": 3,
+            "gap_front_distance_pixels": 412.0,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 1674.0,
+          "grounded": true,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 248,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 1734.6,
+            "obstacle_front_distance_pixels": 0.0,
+            "obstacle_height_tiles": 3,
+            "gap_front_distance_pixels": 377.4,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 1708.6,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 256,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 1787.4,
+            "obstacle_front_distance_pixels": 708.6,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 324.6,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 1761.4,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 264,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 1840.2,
+            "obstacle_front_distance_pixels": 655.8,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 271.8,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 1814.2,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 272,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 1893.0,
+            "obstacle_front_distance_pixels": 603.0,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 219.0,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 1867.0,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 280,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 1945.8,
+            "obstacle_front_distance_pixels": 550.2,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 166.2,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 1919.8,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 288,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 1998.6,
+            "obstacle_front_distance_pixels": 497.4,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 113.4,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 1972.6,
+          "grounded": true,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 296,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 2051.4,
+            "obstacle_front_distance_pixels": 444.6,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 60.6,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 2025.4,
+          "grounded": true,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 304,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 2104.2,
+            "obstacle_front_distance_pixels": 391.8,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 7.8,
+            "gap_width_pixels": 96,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 2078.2,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 312,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 2157.0,
+            "obstacle_front_distance_pixels": 339.0,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": 0.0,
+            "gap_width_pixels": 64,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 2131.0,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 320,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 2209.8,
+            "obstacle_front_distance_pixels": 286.2,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 2183.8,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 328,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 2262.6,
+            "obstacle_front_distance_pixels": 233.4,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 2236.6,
+          "grounded": false,
+          "stalled_frames": 0
+        },
+        {
+          "frame": 336,
+          "raw_action": "right_run",
+          "precise": {
+            "player_front_x_pixels": 2315.4,
+            "obstacle_front_distance_pixels": 180.6,
+            "obstacle_height_tiles": 2,
+            "gap_front_distance_pixels": null,
+            "gap_width_pixels": 0,
+            "distance_reference": "player right edge to fixed tile left edge; pixels"
+          },
+          "x": 2289.4,
+          "grounded": false,
+          "stalled_frames": 0
+        }
+      ],
+      "gpu_claim": false,
+      "model_inference": false
+    }
+  ],
+  "teacher_policy": {
+    "used_for": "training labels only",
+    "not_used_for": "model-only episode decisions",
+    "safety_reflex_cadence": "assisted episode only, every physics frame"
+  }
+}
