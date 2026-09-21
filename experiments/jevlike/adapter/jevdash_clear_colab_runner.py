@@ -1278,6 +1278,10 @@ def main() -> None:
     parser.add_argument("--game-root", type=Path)
     parser.add_argument("--jevlike-root", type=Path)
     parser.add_argument("--output", type=Path)
+    # `colab exec --file` runs the file through a Jupyter kernel and appends
+    # its connection-file argument. It is infrastructure metadata, not an
+    # experiment option, so accept and ignore it explicitly.
+    parser.add_argument("-f", dest="jupyter_connection_file")
     args = parser.parse_args()
     if args.audit_only:
         if not args.game_root or not args.jevlike_root or not args.output:
