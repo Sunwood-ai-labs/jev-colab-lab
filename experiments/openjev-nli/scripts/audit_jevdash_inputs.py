@@ -217,6 +217,12 @@ def main(argv: Sequence[str] | None = None) -> int:
                     "candidate_order": decision["candidate_order"],
                     "decision": decision,
                 })
+            rules_decision = adapter.decide(observation, profile="rules-v2")
+            profiles.append({
+                "profile": "rules-v2",
+                "candidate_order": rules_decision["candidate_order"],
+                "decision": rules_decision,
+            })
             by_state[state_name] = {
                 "observation": observation,
                 "profiles": profiles,
@@ -225,6 +231,10 @@ def main(argv: Sequence[str] | None = None) -> int:
 
         compact_decisions = [
             entry["profiles"][1]["decision"]
+            for entry in by_state.values()
+        ]
+        rules_decisions = [
+            entry["profiles"][1 + len(orders)]["decision"]
             for entry in by_state.values()
         ]
         payload = {
@@ -244,7 +254,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                 "seed": SEED,
                 "fps": FPS,
                 "max_length": args.max_length,
-                "profiles": ["legacy", "card"],
+                "profiles": ["legacy", "card", "rules-v2"],
                 "candidate_order_trials": len(orders),
                 "execution": "audit only; no game action was executed",
             },
@@ -259,10 +269,15 @@ def main(argv: Sequence[str] | None = None) -> int:
                 "state_count": len(states),
                 "legacy_actions": sorted({entry["profiles"][0]["decision"]["action"] for entry in by_state.values()}),
                 "card_actions": sorted({decision["action"] for decision in compact_decisions}),
+                "rules_v2_actions": sorted({decision["action"] for decision in rules_decisions}),
                 "card_premise_byte_min": min(decision["premise_byte_count_utf8"] for decision in compact_decisions),
                 "card_premise_byte_max": max(decision["premise_byte_count_utf8"] for decision in compact_decisions),
                 "card_sequence_length_min": min(decision["sequence_length"] for decision in compact_decisions),
                 "card_sequence_length_max": max(decision["sequence_length"] for decision in compact_decisions),
+                "rules_v2_premise_byte_min": min(decision["premise_byte_count_utf8"] for decision in rules_decisions),
+                "rules_v2_premise_byte_max": max(decision["premise_byte_count_utf8"] for decision in rules_decisions),
+                "rules_v2_sequence_length_min": min(decision["sequence_length"] for decision in rules_decisions),
+                "rules_v2_sequence_length_max": max(decision["sequence_length"] for decision in rules_decisions),
                 "card_order_comparisons": {
                     name: entry["card_order_comparison"] for name, entry in by_state.items()
                 },

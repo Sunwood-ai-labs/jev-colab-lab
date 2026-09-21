@@ -124,6 +124,21 @@ def build_compact_premise(observation: Mapping[str, Any]) -> str:
     )
 
 
+def build_rules_v2_premise(observation: Mapping[str, Any]) -> str:
+    """Add the fixed game's action physics and telemetry semantics to state."""
+
+    return (
+        build_compact_premise(observation)
+        + " Physics rules: on ground, right moves at walking speed, right_run moves at running speed, "
+        "right_jump starts a normal jump, and right_run_jump starts a stronger running jump. "
+        "A normal jump starts with vertical velocity -13.5; a running jump starts with -15.5. "
+        "While airborne, right actions set forward air velocity and pressing jump cannot start a second jump. "
+        "Noop decelerates on ground but preserves horizontal air momentum. "
+        "Obstacle and gap distances are coarse forward tile-scan distances from the player's tile, not pixel gaps. "
+        "Grounded stalled frames mean forward motion has stopped; a nearby obstacle or gap may require taking off early."
+    )
+
+
 def build_card_hypotheses(actions: Sequence[str] | None = None) -> list[dict[str, str]]:
     """Build model-card-style answer hypotheses in a caller-specified order."""
 
@@ -270,9 +285,13 @@ class OpenJevNLIAdapter:
         if profile == "legacy":
             hypotheses = build_hypotheses()
             premise = build_premise(observation_dict)
-        elif profile == "card":
+        elif profile in ("card", "rules-v2"):
             hypotheses = build_card_hypotheses(candidate_order)
-            premise = build_compact_premise(observation_dict)
+            premise = (
+                build_compact_premise(observation_dict)
+                if profile == "card"
+                else build_rules_v2_premise(observation_dict)
+            )
         else:
             raise ValueError(f"unknown OpenJev input profile: {profile}")
         pair_texts = [

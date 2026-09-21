@@ -76,7 +76,7 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--terminal-frames", type=int, default=TERMINAL_FRAMES)
     parser.add_argument("--seed", type=int, default=SEED)
     parser.add_argument("--max-length", type=int, default=512)
-    parser.add_argument("--profile", choices=("legacy", "card"), default="legacy")
+    parser.add_argument("--profile", choices=("legacy", "card", "rules-v2"), default="legacy")
     parser.add_argument("--execution-mode", choices=("model-only", "assisted"), default="model-only")
     return parser.parse_args(argv)
 

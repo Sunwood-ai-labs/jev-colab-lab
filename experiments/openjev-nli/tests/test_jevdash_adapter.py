@@ -13,6 +13,7 @@ from adapter.openjev_nli import (  # noqa: E402
     CARD_ACTION_OPTIONS,
     build_card_hypotheses,
     build_compact_premise,
+    build_rules_v2_premise,
     build_hypotheses,
     build_premise,
 )
@@ -62,3 +63,11 @@ class OpenJevActionMappingTest(unittest.TestCase):
         self.assertIn("Radar ..#../..P..", compact)
         self.assertIn("stalled=0", compact)
         self.assertLess(len(compact.encode("utf-8")), len(legacy.encode("utf-8")))
+
+    def test_rules_v2_premise_states_fixed_game_physics(self):
+        observation = {"player": {}, "terrain": {}, "episode": {}, "local_grid": []}
+        premise = build_rules_v2_premise(observation)
+        self.assertIn("vertical velocity -13.5", premise)
+        self.assertIn("cannot start a second jump", premise)
+        self.assertIn("coarse forward tile-scan distances", premise)
+        self.assertIn("stalled frames", premise)
