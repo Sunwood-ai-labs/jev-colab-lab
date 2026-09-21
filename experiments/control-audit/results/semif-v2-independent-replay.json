@@ -1,0 +1,35 @@
+{
+  "status": "success",
+  "environment": {
+    "python": "3.13.15",
+    "os": "Windows",
+    "architecture": "AMD64",
+    "dependencies": {
+      "pygame": "2.6.1",
+      "pydantic": "2.13.5"
+    }
+  },
+  "probabilities": {
+    "applicable": false,
+    "reason": "Replays recorded actions without inference"
+  },
+  "peak_vram": {
+    "applicable": false,
+    "reason": "CPU physics replay"
+  },
+  "error": null,
+  "kind": "Independent local replay; no model/GPU execution",
+  "source_episode_sha256": "a63c8c95a251fa3030d3dcba18a472485d5449de4da757a5736cccc8d73b8182",
+  "game_commit": "eb2f92617bab5d5021a5e3cf5ef2bdaf8207d480",
+  "frames_verified": 647,
+  "control_mode": "model_only",
+  "override_frames": 0,
+  "raw_equals_executed": true,
+  "physics_state_matches_every_frame": true,
+  "mismatches": [],
+  "has_won": true,
+  "is_dead": false,
+  "validation_and_loading_seconds": 0.2269102000282146,
+  "simulation_seconds": 0.13160720001906157,
+  "total_wall_seconds": 0.49057059999904595
+}

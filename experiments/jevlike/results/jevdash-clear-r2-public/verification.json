@@ -1,0 +1,112 @@
+{
+  "kind": "public JevDash Jevlike r2 verification",
+  "source": {
+    "game_repository": "https://github.com/Sunwood-ai-labs/jevdash.git",
+    "game_commit": "eb2f92617bab5d5021a5e3cf5ef2bdaf8207d480",
+    "jevlike_repository": "https://github.com/vinnylarouge/jevlike.git",
+    "jevlike_commit": "94f5fd1b0b11d52bbdfdf4e0ee6aa96b568f8452",
+    "training_variant": "r2-game-teacher",
+    "runner_revision": "95381a0a76de8beb5e2f1b966dee12d23b75ae6d",
+    "level": 1,
+    "seed": 42,
+    "physics_fps": 60,
+    "frames_per_decision": 8
+  },
+  "artifacts": {
+    "model-only": {
+      "summary": "model-only-summary.json",
+      "video": {
+        "file": "model-only.mp4",
+        "sha256": "883796e143e26b99cc4d7089e92135cc6400edc98a2f52a1dc620c9e7fc67d90",
+        "bytes": 725819,
+        "ffprobe": {
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "codec_name": "h264",
+              "width": 1280,
+              "height": 720,
+              "r_frame_rate": "60/1",
+              "nb_frames": "767"
+            }
+          ],
+          "format": {
+            "duration": "12.783333",
+            "size": "725819"
+          }
+        },
+        "ffmpeg_decode_exit_code": 0,
+        "recorded_frames": 767,
+        "duration_seconds": 12.783333333333333,
+        "terminal_hold_frames": 120
+      },
+      "terminal_frame_image": "model-only-last.png",
+      "terminal_frame_image_sha256": "4c64ad140fe93066efe4035bccb7199b0b65937ee509b0cf1b5aac85104c8635"
+    },
+    "assisted": {
+      "summary": "assisted-summary.json",
+      "video": {
+        "file": "assisted.mp4",
+        "sha256": "b254df1e9d1bd74416236a1ff1198c664686ffdd6b05a4cefccbd636fe6df6d2",
+        "bytes": 757606,
+        "ffprobe": {
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "codec_name": "h264",
+              "width": 1280,
+              "height": 720,
+              "r_frame_rate": "60/1",
+              "nb_frames": "767"
+            }
+          ],
+          "format": {
+            "duration": "12.783333",
+            "size": "757606"
+          }
+        },
+        "ffmpeg_decode_exit_code": 0,
+        "recorded_frames": 767,
+        "duration_seconds": 12.783333333333333,
+        "terminal_hold_frames": 120
+      },
+      "terminal_frame_image": "assisted-last.png",
+      "terminal_frame_image_sha256": "606220004148372b7e3701d22aae82c2aa9094d873a590f783e178431502812c"
+    }
+  },
+  "outcomes": {
+    "model-only": {
+      "gpu": "Tesla T4",
+      "device": "cuda",
+      "final_has_won": true,
+      "terminal_reason": "clear",
+      "terminal_simulation_frame": 647,
+      "final_progress_pixels": 4204.4,
+      "actual_override_frames": 0,
+      "guard_trigger_frames": 0,
+      "raw_action_counts": {
+        "right_run_jump": 647
+      }
+    },
+    "assisted": {
+      "gpu": "Tesla T4",
+      "device": "cuda",
+      "final_has_won": true,
+      "terminal_reason": "clear",
+      "terminal_simulation_frame": 647,
+      "final_progress_pixels": 4204.4,
+      "actual_override_frames": 0,
+      "guard_trigger_frames": 56,
+      "raw_action_counts": {
+        "right_run_jump": 647
+      }
+    }
+  },
+  "caveats": [
+    "model-only clear is observed, but all 647 raw actions are right_run_jump; this is constant-action collapse, not evidence of state-conditioned generalization",
+    "balanced-probe is an unverified follow-up revision; its Colab T4 provisioning returned TooManyAssignmentsError / Precondition Failed and was not retried",
+    "the public folder excludes raw full JSON logs, absolute paths, session metadata, credentials, and model weights"
+  ]
+}

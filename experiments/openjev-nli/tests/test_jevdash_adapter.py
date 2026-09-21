@@ -7,7 +7,21 @@ from pathlib import Path
 EXPERIMENT_DIR = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(EXPERIMENT_DIR))
 
-from adapter.openjev_nli import ACTION_OPTIONS, ACTION_DESCRIPTIONS, build_hypotheses, build_premise  # noqa: E402
+from adapter.openjev_nli import (  # noqa: E402
+    ACTION_OPTIONS,
+    ACTION_DESCRIPTIONS,
+    APPLICABILITY_HYPOTHESES,
+    TWO_ACTION_OPTIONS,
+    CARD_ACTION_OPTIONS,
+    build_card_hypotheses,
+    build_applicability_hypotheses,
+    build_conditioned_premise,
+    build_conditioned_two_action_hypotheses,
+    build_compact_premise,
+    build_rules_v2_premise,
+    build_hypotheses,
+    build_premise,
+)
 
 
 class OpenJevActionMappingTest(unittest.TestCase):
@@ -23,3 +37,61 @@ class OpenJevActionMappingTest(unittest.TestCase):
         self.assertIn("Structured game observation:", premise)
         self.assertIn(json.dumps(observation, ensure_ascii=False, sort_keys=True, separators=(",", ":")), premise)
         self.assertNotIn("api_key", premise.lower())
+
+    def test_card_hypotheses_follow_model_card_answer_format(self):
+        hypotheses = build_card_hypotheses()
+        self.assertEqual([item["action"] for item in hypotheses], list(CARD_ACTION_OPTIONS))
+        self.assertTrue(all(item["hypothesis"].startswith("The correct answer is: ") for item in hypotheses))
+        self.assertTrue(all(item["phrase"] in item["hypothesis"] for item in hypotheses))
+
+    def test_card_hypotheses_preserve_a_permutation_without_duplicates(self):
+        order = tuple(reversed(CARD_ACTION_OPTIONS))
+        self.assertEqual([item["action"] for item in build_card_hypotheses(order)], list(order))
+        with self.assertRaises(ValueError):
+            build_card_hypotheses(order[:-1])
+
+    def test_compact_premise_preserves_decision_fields_and_is_shorter(self):
+        observation = {
+            "player": {"x": 96.0, "y": 540.0, "vx": 0.0, "vy": 0.0, "grounded": True,
+                       "jumping": False, "airborne_frames": 0, "running": False},
+            "hazard": {"enemy_ahead": False, "nearest_enemy": None, "jump_must_start_now": False},
+            "terrain": {"obstacle_ahead": True, "obstacle_distance_tiles": 2.0,
+                        "obstacle_height_tiles": 2, "gap_ahead": False, "gap_distance_tiles": None,
+                        "gap_width_tiles": 0, "clear_forward_tiles": 1},
+            "episode": {"progress_pixels": 96.0, "goal_distance_pixels": 4130.0,
+                        "stalled_frames": 0, "is_dead": False, "has_won": False},
+            "local_grid": ["..#..", "..P.."],
+        }
+        compact = build_compact_premise(observation)
+        legacy = build_premise(observation)
+        self.assertIn("obstacle_distance=2", compact)
+        self.assertIn("Radar ..#../..P..", compact)
+        self.assertIn("stalled=0", compact)
+        self.assertLess(len(compact.encode("utf-8")), len(legacy.encode("utf-8")))
+
+    def test_rules_v2_premise_states_fixed_game_physics(self):
+        observation = {"player": {}, "terrain": {}, "episode": {}, "local_grid": []}
+        premise = build_rules_v2_premise(observation)
+        self.assertIn("vertical velocity -13.5", premise)
+        self.assertIn("cannot start a second jump", premise)
+        self.assertIn("coarse forward tile-scan distances", premise)
+        self.assertIn("stalled frames", premise)
+
+    def test_applicability_hypotheses_are_complete_and_fixed(self):
+        hypotheses = build_applicability_hypotheses()
+        self.assertEqual([item["action"] for item in hypotheses], list(ACTION_OPTIONS))
+        self.assertEqual(len(APPLICABILITY_HYPOTHESES), len(ACTION_OPTIONS))
+        self.assertTrue(all(item["hypothesis"] == APPLICABILITY_HYPOTHESES[item["action"]] for item in hypotheses))
+
+    def test_conditioned_two_action_variant_is_explicitly_restricted(self):
+        hypotheses = build_conditioned_two_action_hypotheses()
+        self.assertEqual([item["action"] for item in hypotheses], list(TWO_ACTION_OPTIONS))
+        premise = build_conditioned_premise({
+            "player": {"grounded": True},
+            "terrain": {"gap_ahead": True, "obstacle_ahead": False},
+            "hazard": {"enemy_ahead": False},
+            "episode": {"stalled_frames": 0},
+            "local_grid": [],
+        })
+        self.assertIn("path_clear=no", premise)
+        self.assertIn("immediate_hazard=gap", premise)

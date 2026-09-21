@@ -1,0 +1,866 @@
+{
+  "kind": "local deterministic physics controls; no model inference; no Colab",
+  "game_commit": "eb2f92617bab5d5021a5e3cf5ef2bdaf8207d480",
+  "seed": 42,
+  "max_frames": 1800,
+  "cases": [
+    {
+      "raw_action": "right_run",
+      "reflex": false,
+      "cadence": 8,
+      "start_offset": 0,
+      "frames": 1800,
+      "has_won": false,
+      "is_dead": false,
+      "max_x": 486.0,
+      "final_x": 486.0,
+      "final_y": 540.0,
+      "override_frames": 0,
+      "override_rate": 0.0,
+      "executed_actions": {
+        "right_run": 1800
+      },
+      "simulation_wall_seconds": 0.40502800000831485
+    },
+    {
+      "raw_action": "right_run",
+      "reflex": true,
+      "cadence": 1,
+      "start_offset": 0,
+      "frames": 651,
+      "has_won": true,
+      "is_dead": false,
+      "max_x": 4204.4,
+      "final_x": 4204.4,
+      "final_y": 540.0,
+      "override_frames": 60,
+      "override_rate": 0.09216589861751152,
+      "executed_actions": {
+        "right_run": 591,
+        "right_run_jump": 60
+      },
+      "simulation_wall_seconds": 0.19169889998738654
+    },
+    {
+      "raw_action": "right_run",
+      "reflex": true,
+      "cadence": 8,
+      "start_offset": 0,
+      "frames": 343,
+      "has_won": false,
+      "is_dead": true,
+      "max_x": 2335.6,
+      "final_x": 2335.6,
+      "final_y": 540.0,
+      "override_frames": 56,
+      "override_rate": 0.16326530612244897,
+      "executed_actions": {
+        "right_run": 287,
+        "right_run_jump": 56
+      },
+      "simulation_wall_seconds": 0.06916220000130124
+    },
+    {
+      "raw_action": "right_jump",
+      "reflex": false,
+      "cadence": 8,
+      "start_offset": 0,
+      "frames": 216,
+      "has_won": false,
+      "is_dead": true,
+      "max_x": 1454.6,
+      "final_x": 1454.6,
+      "final_y": 400.75,
+      "override_frames": 0,
+      "override_rate": 0.0,
+      "executed_actions": {
+        "right_jump": 216
+      },
+      "simulation_wall_seconds": 0.043788300012238324
+    },
+    {
+      "raw_action": "right_jump",
+      "reflex": true,
+      "cadence": 1,
+      "start_offset": 0,
+      "frames": 210,
+      "has_won": false,
+      "is_dead": true,
+      "max_x": 1460.4,
+      "final_x": 1460.4,
+      "final_y": 370.25,
+      "override_frames": 17,
+      "override_rate": 0.08095238095238096,
+      "executed_actions": {
+        "right_jump": 193,
+        "right_run_jump": 17
+      },
+      "simulation_wall_seconds": 0.06416470001568086
+    },
+    {
+      "raw_action": "right_jump",
+      "reflex": true,
+      "cadence": 8,
+      "start_offset": 0,
+      "frames": 216,
+      "has_won": false,
+      "is_dead": true,
+      "max_x": 1454.6,
+      "final_x": 1454.6,
+      "final_y": 400.75,
+      "override_frames": 16,
+      "override_rate": 0.07407407407407407,
+      "executed_actions": {
+        "right_jump": 200,
+        "right_run_jump": 16
+      },
+      "simulation_wall_seconds": 0.04610460001276806
+    },
+    {
+      "raw_action": "right_run_jump",
+      "reflex": false,
+      "cadence": 8,
+      "start_offset": 0,
+      "frames": 647,
+      "has_won": true,
+      "is_dead": false,
+      "max_x": 4204.4,
+      "final_x": 4204.4,
+      "final_y": 390.5,
+      "override_frames": 0,
+      "override_rate": 0.0,
+      "executed_actions": {
+        "right_run_jump": 647
+      },
+      "simulation_wall_seconds": 0.15004880001652054
+    },
+    {
+      "raw_action": "right_run_jump",
+      "reflex": true,
+      "cadence": 1,
+      "start_offset": 0,
+      "frames": 647,
+      "has_won": true,
+      "is_dead": false,
+      "max_x": 4204.4,
+      "final_x": 4204.4,
+      "final_y": 390.5,
+      "override_frames": 0,
+      "override_rate": 0.0,
+      "executed_actions": {
+        "right_run_jump": 647
+      },
+      "simulation_wall_seconds": 0.19094080000650138
+    },
+    {
+      "raw_action": "right_run_jump",
+      "reflex": true,
+      "cadence": 8,
+      "start_offset": 0,
+      "frames": 647,
+      "has_won": true,
+      "is_dead": false,
+      "max_x": 4204.4,
+      "final_x": 4204.4,
+      "final_y": 390.5,
+      "override_frames": 0,
+      "override_rate": 0.0,
+      "executed_actions": {
+        "right_run_jump": 647
+      },
+      "simulation_wall_seconds": 0.15461969998432323
+    },
+    {
+      "raw_action": "left",
+      "reflex": false,
+      "cadence": 8,
+      "start_offset": 0,
+      "frames": 62,
+      "has_won": false,
+      "is_dead": true,
+      "max_x": 96.0,
+      "final_x": -144.32,
+      "final_y": 810.0,
+      "override_frames": 0,
+      "override_rate": 0.0,
+      "executed_actions": {
+        "left": 62
+      },
+      "simulation_wall_seconds": 0.01320859999395907
+    },
+    {
+      "raw_action": "left",
+      "reflex": true,
+      "cadence": 1,
+      "start_offset": 0,
+      "frames": 75,
+      "has_won": false,
+      "is_dead": true,
+      "max_x": 96.0,
+      "final_x": -29.32,
+      "final_y": 805.5,
+      "override_frames": 16,
+      "override_rate": 0.21333333333333335,
+      "executed_actions": {
+        "left": 59,
+        "right_run_jump": 16
+      },
+      "simulation_wall_seconds": 0.01940910000121221
+    },
+    {
+      "raw_action": "left",
+      "reflex": true,
+      "cadence": 8,
+      "start_offset": 0,
+      "frames": 79,
+      "has_won": false,
+      "is_dead": true,
+      "max_x": 96.0,
+      "final_x": -11.8,
+      "final_y": 805.5,
+      "override_frames": 23,
+      "override_rate": 0.2911392405063291,
+      "executed_actions": {
+        "left": 56,
+        "right_run_jump": 23
+      },
+      "simulation_wall_seconds": 0.016928500001085922
+    },
+    {
+      "raw_action": "noop",
+      "reflex": false,
+      "cadence": 8,
+      "start_offset": 0,
+      "frames": 1800,
+      "has_won": false,
+      "is_dead": false,
+      "max_x": 96.0,
+      "final_x": 96.0,
+      "final_y": 540.0,
+      "override_frames": 0,
+      "override_rate": 0.0,
+      "executed_actions": {
+        "noop": 1800
+      },
+      "simulation_wall_seconds": 0.33640839997678995
+    },
+    {
+      "raw_action": "noop",
+      "reflex": true,
+      "cadence": 1,
+      "start_offset": 0,
+      "frames": 1800,
+      "has_won": false,
+      "is_dead": false,
+      "max_x": 774.0,
+      "final_x": 774.0,
+      "final_y": 459.25,
+      "override_frames": 43,
+      "override_rate": 0.02388888888888889,
+      "executed_actions": {
+        "noop": 1757,
+        "right_run_jump": 43
+      },
+      "simulation_wall_seconds": 0.6708958999952301
+    },
+    {
+      "raw_action": "noop",
+      "reflex": true,
+      "cadence": 8,
+      "start_offset": 0,
+      "frames": 697,
+      "has_won": false,
+      "is_dead": true,
+      "max_x": 3014.4,
+      "final_x": 3014.4,
+      "final_y": 540.0,
+      "override_frames": 136,
+      "override_rate": 0.1951219512195122,
+      "executed_actions": {
+        "noop": 561,
+        "right_run_jump": 136
+      },
+      "simulation_wall_seconds": 0.21037169999908656
+    },
+    {
+      "raw_action": "right_run",
+      "reflex": false,
+      "cadence": 8,
+      "start_offset": -16,
+      "frames": 1800,
+      "has_won": false,
+      "is_dead": false,
+      "max_x": 486.0,
+      "final_x": 486.0,
+      "final_y": 540.0,
+      "override_frames": 0,
+      "override_rate": 0.0,
+      "executed_actions": {
+        "right_run": 1800
+      },
+      "simulation_wall_seconds": 0.5137285999953747
+    },
+    {
+      "raw_action": "right_run",
+      "reflex": true,
+      "cadence": 1,
+      "start_offset": -16,
+      "frames": 653,
+      "has_won": true,
+      "is_dead": false,
+      "max_x": 4204.4,
+      "final_x": 4204.4,
+      "final_y": 540.0,
+      "override_frames": 59,
+      "override_rate": 0.0903522205206738,
+      "executed_actions": {
+        "right_run": 594,
+        "right_run_jump": 59
+      },
+      "simulation_wall_seconds": 0.2608378000149969
+    },
+    {
+      "raw_action": "right_run",
+      "reflex": true,
+      "cadence": 8,
+      "start_offset": -16,
+      "frames": 653,
+      "has_won": true,
+      "is_dead": false,
+      "max_x": 4203.4,
+      "final_x": 4203.4,
+      "final_y": 540.0,
+      "override_frames": 128,
+      "override_rate": 0.19601837672281777,
+      "executed_actions": {
+        "right_run": 525,
+        "right_run_jump": 128
+      },
+      "simulation_wall_seconds": 0.18718780000926927
+    },
+    {
+      "raw_action": "right_jump",
+      "reflex": false,
+      "cadence": 8,
+      "start_offset": -16,
+      "frames": 669,
+      "has_won": true,
+      "is_dead": false,
+      "max_x": 4198.8,
+      "final_x": 4198.8,
+      "final_y": 483.75,
+      "override_frames": 0,
+      "override_rate": 0.0,
+      "executed_actions": {
+        "right_jump": 669
+      },
+      "simulation_wall_seconds": 0.15680659998906776
+    },
+    {
+      "raw_action": "right_jump",
+      "reflex": true,
+      "cadence": 1,
+      "start_offset": -16,
+      "frames": 212,
+      "has_won": false,
+      "is_dead": true,
+      "max_x": 1471.4,
+      "final_x": 1471.4,
+      "final_y": 409.75,
+      "override_frames": 17,
+      "override_rate": 0.08018867924528301,
+      "executed_actions": {
+        "right_jump": 195,
+        "right_run_jump": 17
+      },
+      "simulation_wall_seconds": 0.08035299999755807
+    },
+    {
+      "raw_action": "right_jump",
+      "reflex": true,
+      "cadence": 8,
+      "start_offset": -16,
+      "frames": 663,
+      "has_won": true,
+      "is_dead": false,
+      "max_x": 4200.2,
+      "final_x": 4200.2,
+      "final_y": 527.25,
+      "override_frames": 64,
+      "override_rate": 0.09653092006033183,
+      "executed_actions": {
+        "right_jump": 599,
+        "right_run_jump": 64
+      },
+      "simulation_wall_seconds": 0.158709400013322
+    },
+    {
+      "raw_action": "right_run_jump",
+      "reflex": false,
+      "cadence": 8,
+      "start_offset": -16,
+      "frames": 649,
+      "has_won": true,
+      "is_dead": false,
+      "max_x": 4204.4,
+      "final_x": 4204.4,
+      "final_y": 390.5,
+      "override_frames": 0,
+      "override_rate": 0.0,
+      "executed_actions": {
+        "right_run_jump": 649
+      },
+      "simulation_wall_seconds": 0.1831293999857735
+    },
+    {
+      "raw_action": "right_run_jump",
+      "reflex": true,
+      "cadence": 1,
+      "start_offset": -16,
+      "frames": 649,
+      "has_won": true,
+      "is_dead": false,
+      "max_x": 4204.4,
+      "final_x": 4204.4,
+      "final_y": 390.5,
+      "override_frames": 0,
+      "override_rate": 0.0,
+      "executed_actions": {
+        "right_run_jump": 649
+      },
+      "simulation_wall_seconds": 0.27357589997700416
+    },
+    {
+      "raw_action": "right_run_jump",
+      "reflex": true,
+      "cadence": 8,
+      "start_offset": -16,
+      "frames": 649,
+      "has_won": true,
+      "is_dead": false,
+      "max_x": 4204.4,
+      "final_x": 4204.4,
+      "final_y": 390.5,
+      "override_frames": 0,
+      "override_rate": 0.0,
+      "executed_actions": {
+        "right_run_jump": 649
+      },
+      "simulation_wall_seconds": 0.1491911000048276
+    },
+    {
+      "raw_action": "left",
+      "reflex": false,
+      "cadence": 8,
+      "start_offset": -16,
+      "frames": 58,
+      "has_won": false,
+      "is_dead": true,
+      "max_x": 80.0,
+      "final_x": -144.32,
+      "final_y": 810.0,
+      "override_frames": 0,
+      "override_rate": 0.0,
+      "executed_actions": {
+        "left": 58
+      },
+      "simulation_wall_seconds": 0.015270300005795434
+    },
+    {
+      "raw_action": "left",
+      "reflex": true,
+      "cadence": 1,
+      "start_offset": -16,
+      "frames": 75,
+      "has_won": false,
+      "is_dead": true,
+      "max_x": 80.0,
+      "final_x": -34.72,
+      "final_y": 805.5,
+      "override_frames": 17,
+      "override_rate": 0.22666666666666666,
+      "executed_actions": {
+        "left": 58,
+        "right_run_jump": 17
+      },
+      "simulation_wall_seconds": 0.02084170002490282
+    },
+    {
+      "raw_action": "left",
+      "reflex": true,
+      "cadence": 8,
+      "start_offset": -16,
+      "frames": 79,
+      "has_won": false,
+      "is_dead": true,
+      "max_x": 80.0,
+      "final_x": -11.8,
+      "final_y": 805.5,
+      "override_frames": 23,
+      "override_rate": 0.2911392405063291,
+      "executed_actions": {
+        "left": 56,
+        "right_run_jump": 23
+      },
+      "simulation_wall_seconds": 0.019361000013304874
+    },
+    {
+      "raw_action": "noop",
+      "reflex": false,
+      "cadence": 8,
+      "start_offset": -16,
+      "frames": 1800,
+      "has_won": false,
+      "is_dead": false,
+      "max_x": 80.0,
+      "final_x": 80.0,
+      "final_y": 540.0,
+      "override_frames": 0,
+      "override_rate": 0.0,
+      "executed_actions": {
+        "noop": 1800
+      },
+      "simulation_wall_seconds": 0.31988010002532974
+    },
+    {
+      "raw_action": "noop",
+      "reflex": true,
+      "cadence": 1,
+      "start_offset": -16,
+      "frames": 1800,
+      "has_won": false,
+      "is_dead": false,
+      "max_x": 486.0,
+      "final_x": 486.0,
+      "final_y": 419.0,
+      "override_frames": 42,
+      "override_rate": 0.023333333333333334,
+      "executed_actions": {
+        "noop": 1758,
+        "right_run_jump": 42
+      },
+      "simulation_wall_seconds": 0.6171070999989752
+    },
+    {
+      "raw_action": "noop",
+      "reflex": true,
+      "cadence": 8,
+      "start_offset": -16,
+      "frames": 851,
+      "has_won": true,
+      "is_dead": false,
+      "max_x": 4202.32,
+      "final_x": 4202.32,
+      "final_y": 388.0,
+      "override_frames": 168,
+      "override_rate": 0.19741480611045828,
+      "executed_actions": {
+        "noop": 683,
+        "right_run_jump": 168
+      },
+      "simulation_wall_seconds": 0.1580240000039339
+    },
+    {
+      "raw_action": "right_run",
+      "reflex": false,
+      "cadence": 8,
+      "start_offset": 16,
+      "frames": 1800,
+      "has_won": false,
+      "is_dead": false,
+      "max_x": 486.0,
+      "final_x": 486.0,
+      "final_y": 540.0,
+      "override_frames": 0,
+      "override_rate": 0.0,
+      "executed_actions": {
+        "right_run": 1800
+      },
+      "simulation_wall_seconds": 0.32437499999650754
+    },
+    {
+      "raw_action": "right_run",
+      "reflex": true,
+      "cadence": 1,
+      "start_offset": 16,
+      "frames": 648,
+      "has_won": true,
+      "is_dead": false,
+      "max_x": 4204.4,
+      "final_x": 4204.4,
+      "final_y": 540.0,
+      "override_frames": 59,
+      "override_rate": 0.09104938271604938,
+      "executed_actions": {
+        "right_run": 589,
+        "right_run_jump": 59
+      },
+      "simulation_wall_seconds": 0.20176620001439005
+    },
+    {
+      "raw_action": "right_run",
+      "reflex": true,
+      "cadence": 8,
+      "start_offset": 16,
+      "frames": 343,
+      "has_won": false,
+      "is_dead": true,
+      "max_x": 2335.6,
+      "final_x": 2335.6,
+      "final_y": 540.0,
+      "override_frames": 56,
+      "override_rate": 0.16326530612244897,
+      "executed_actions": {
+        "right_run": 287,
+        "right_run_jump": 56
+      },
+      "simulation_wall_seconds": 0.07903220001026057
+    },
+    {
+      "raw_action": "right_jump",
+      "reflex": false,
+      "cadence": 8,
+      "start_offset": 16,
+      "frames": 216,
+      "has_won": false,
+      "is_dead": true,
+      "max_x": 1454.6,
+      "final_x": 1454.6,
+      "final_y": 400.75,
+      "override_frames": 0,
+      "override_rate": 0.0,
+      "executed_actions": {
+        "right_jump": 216
+      },
+      "simulation_wall_seconds": 0.053744300006655976
+    },
+    {
+      "raw_action": "right_jump",
+      "reflex": true,
+      "cadence": 1,
+      "start_offset": 16,
+      "frames": 210,
+      "has_won": false,
+      "is_dead": true,
+      "max_x": 1460.4,
+      "final_x": 1460.4,
+      "final_y": 370.25,
+      "override_frames": 17,
+      "override_rate": 0.08095238095238096,
+      "executed_actions": {
+        "right_jump": 193,
+        "right_run_jump": 17
+      },
+      "simulation_wall_seconds": 0.060266300017246976
+    },
+    {
+      "raw_action": "right_jump",
+      "reflex": true,
+      "cadence": 8,
+      "start_offset": 16,
+      "frames": 216,
+      "has_won": false,
+      "is_dead": true,
+      "max_x": 1454.6,
+      "final_x": 1454.6,
+      "final_y": 400.75,
+      "override_frames": 16,
+      "override_rate": 0.07407407407407407,
+      "executed_actions": {
+        "right_jump": 200,
+        "right_run_jump": 16
+      },
+      "simulation_wall_seconds": 0.042562900023767725
+    },
+    {
+      "raw_action": "right_run_jump",
+      "reflex": false,
+      "cadence": 8,
+      "start_offset": 16,
+      "frames": 631,
+      "has_won": true,
+      "is_dead": false,
+      "max_x": 4204.4,
+      "final_x": 4204.4,
+      "final_y": 390.5,
+      "override_frames": 0,
+      "override_rate": 0.0,
+      "executed_actions": {
+        "right_run_jump": 631
+      },
+      "simulation_wall_seconds": 0.13269689999287948
+    },
+    {
+      "raw_action": "right_run_jump",
+      "reflex": true,
+      "cadence": 1,
+      "start_offset": 16,
+      "frames": 631,
+      "has_won": true,
+      "is_dead": false,
+      "max_x": 4204.4,
+      "final_x": 4204.4,
+      "final_y": 390.5,
+      "override_frames": 0,
+      "override_rate": 0.0,
+      "executed_actions": {
+        "right_run_jump": 631
+      },
+      "simulation_wall_seconds": 0.1786759999813512
+    },
+    {
+      "raw_action": "right_run_jump",
+      "reflex": true,
+      "cadence": 8,
+      "start_offset": 16,
+      "frames": 631,
+      "has_won": true,
+      "is_dead": false,
+      "max_x": 4204.4,
+      "final_x": 4204.4,
+      "final_y": 390.5,
+      "override_frames": 0,
+      "override_rate": 0.0,
+      "executed_actions": {
+        "right_run_jump": 631
+      },
+      "simulation_wall_seconds": 0.13634860000456683
+    },
+    {
+      "raw_action": "left",
+      "reflex": false,
+      "cadence": 8,
+      "start_offset": 16,
+      "frames": 66,
+      "has_won": false,
+      "is_dead": true,
+      "max_x": 112.0,
+      "final_x": -144.32,
+      "final_y": 810.0,
+      "override_frames": 0,
+      "override_rate": 0.0,
+      "executed_actions": {
+        "left": 66
+      },
+      "simulation_wall_seconds": 0.014698699989821762
+    },
+    {
+      "raw_action": "left",
+      "reflex": true,
+      "cadence": 1,
+      "start_offset": 16,
+      "frames": 75,
+      "has_won": false,
+      "is_dead": true,
+      "max_x": 112.0,
+      "final_x": -34.52,
+      "final_y": 805.5,
+      "override_frames": 14,
+      "override_rate": 0.18666666666666668,
+      "executed_actions": {
+        "left": 61,
+        "right_run_jump": 14
+      },
+      "simulation_wall_seconds": 0.020889899984467775
+    },
+    {
+      "raw_action": "left",
+      "reflex": true,
+      "cadence": 8,
+      "start_offset": 16,
+      "frames": 79,
+      "has_won": false,
+      "is_dead": true,
+      "max_x": 112.0,
+      "final_x": -40.8,
+      "final_y": 805.5,
+      "override_frames": 16,
+      "override_rate": 0.20253164556962025,
+      "executed_actions": {
+        "left": 63,
+        "right_run_jump": 16
+      },
+      "simulation_wall_seconds": 0.015044899977510795
+    },
+    {
+      "raw_action": "noop",
+      "reflex": false,
+      "cadence": 8,
+      "start_offset": 16,
+      "frames": 1800,
+      "has_won": false,
+      "is_dead": false,
+      "max_x": 112.0,
+      "final_x": 112.0,
+      "final_y": 540.0,
+      "override_frames": 0,
+      "override_rate": 0.0,
+      "executed_actions": {
+        "noop": 1800
+      },
+      "simulation_wall_seconds": 0.3763322999875527
+    },
+    {
+      "raw_action": "noop",
+      "reflex": true,
+      "cadence": 1,
+      "start_offset": 16,
+      "frames": 1800,
+      "has_won": false,
+      "is_dead": false,
+      "max_x": 1382.0,
+      "final_x": 1382.0,
+      "final_y": 387.5,
+      "override_frames": 56,
+      "override_rate": 0.03111111111111111,
+      "executed_actions": {
+        "noop": 1744,
+        "right_run_jump": 56
+      },
+      "simulation_wall_seconds": 0.6287588000122923
+    },
+    {
+      "raw_action": "noop",
+      "reflex": true,
+      "cadence": 8,
+      "start_offset": 16,
+      "frames": 697,
+      "has_won": false,
+      "is_dead": true,
+      "max_x": 3014.4,
+      "final_x": 3014.4,
+      "final_y": 540.0,
+      "override_frames": 136,
+      "override_rate": 0.1951219512195122,
+      "executed_actions": {
+        "noop": 561,
+        "right_run_jump": 136
+      },
+      "simulation_wall_seconds": 0.1903083999932278
+    }
+  ],
+  "environment": {
+    "python": "3.13.15",
+    "os": "Windows",
+    "architecture": "AMD64",
+    "dependencies": {
+      "pygame": "2.6.1",
+      "pydantic": "2.13.5"
+    }
+  },
+  "probabilities": {
+    "applicable": false,
+    "reason": "No model inference"
+  },
+  "peak_vram": {
+    "applicable": false,
+    "reason": "CPU-only physics; no GPU allocated"
+  },
+  "timings": {
+    "validation_and_loading_seconds": 0.6845143999962602,
+    "simulation_seconds": 8.152372600015951,
+    "total_wall_seconds": 8.836889099999098
+  },
+  "status": "success",
+  "error": null
+}

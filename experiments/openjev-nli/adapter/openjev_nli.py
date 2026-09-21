@@ -38,6 +38,185 @@ ACTION_DESCRIPTIONS = {
     "left": "move left without starting a jump",
 }
 
+# The model card's zero-shot reranker uses short answer completions beginning
+# with ``The correct answer is:``.  Keep these phrases close in length so the
+# NLI score is less sensitive to a candidate's wording than the legacy
+# verbose descriptions above.
+CARD_ACTION_PHRASES = {
+    "noop": "release horizontal control and do not jump",
+    "right": "move right without jumping",
+    "right_run": "run right without jumping",
+    "right_jump": "move right and jump with normal strength",
+    "right_run_jump": "run right and jump with full strength",
+    "jump": "jump without horizontal input",
+    "left": "move left without jumping",
+}
+CARD_ACTION_OPTIONS = tuple(ACTION_OPTIONS)
+APPLICABILITY_HYPOTHESES = {
+    "noop": "The player should release horizontal control and not jump because no immediate hazard requires a jump.",
+    "right": "The player should move right without jumping because the forward path is clear.",
+    "right_run": "The player should run right without jumping because the forward path is clear.",
+    "right_jump": "The player should move right and start a normal jump to clear a nearby hazard.",
+    "right_run_jump": "The player should run right and start a strong jump to clear a nearby hazard.",
+    "jump": "The player should jump without horizontal input to clear a nearby hazard.",
+    "left": "The player should move left without jumping because forward movement is unsafe.",
+}
+TWO_ACTION_OPTIONS = ("right_run", "right_run_jump")
+
+
+def _get(mapping: Mapping[str, Any], *path: str, default: Any = None) -> Any:
+    value: Any = mapping
+    for key in path:
+        if not isinstance(value, Mapping):
+            return default
+        value = value.get(key, default)
+    return value
+
+
+def _fmt(value: Any) -> str:
+    """Render a scalar without adding prose or locale-dependent formatting."""
+
+    if value is None:
+        return "none"
+    if isinstance(value, bool):
+        return "yes" if value else "no"
+    if isinstance(value, float):
+        return f"{value:.2f}".rstrip("0").rstrip(".")
+    return str(value)
+
+
+def build_compact_premise(observation: Mapping[str, Any]) -> str:
+    """Build a compact, human-readable state premise for zero-shot reranking.
+
+    The legacy premise is intentionally kept in ``build_premise`` for exact
+    reproduction of the first capture.  This version preserves every
+    decision-relevant telemetry field while removing JSON punctuation and
+    repeated schema names that consume context without changing the state.
+    """
+
+    enemy = _get(observation, "hazard", "nearest_enemy", default={}) or {}
+    grid = _get(observation, "local_grid", default=[]) or []
+    radar = "/".join(str(row) for row in grid)
+    return (
+        "Choose the next action in a deterministic 2D platformer. "
+        "Reach the goal without dying. "
+        "Player "
+        f"x={_fmt(_get(observation, 'player', 'x'))} "
+        f"y={_fmt(_get(observation, 'player', 'y'))} "
+        f"vx={_fmt(_get(observation, 'player', 'vx'))} "
+        f"vy={_fmt(_get(observation, 'player', 'vy'))} "
+        f"grounded={_fmt(_get(observation, 'player', 'grounded'))} "
+        f"jumping={_fmt(_get(observation, 'player', 'jumping'))} "
+        f"airborne={_fmt(_get(observation, 'player', 'airborne_frames'))} "
+        f"running={_fmt(_get(observation, 'player', 'running'))}. "
+        "Hazard "
+        f"enemy_ahead={_fmt(_get(observation, 'hazard', 'enemy_ahead'))} "
+        f"enemy_kind={_fmt(_get(enemy, 'kind'))} "
+        f"enemy_distance={_fmt(_get(enemy, 'distance_pixels'))} "
+        f"enemy_vertical={_fmt(_get(enemy, 'vertical_offset_pixels'))} "
+        f"enemy_contact={_fmt(_get(enemy, 'estimated_contact_frames'))} "
+        f"jump_now={_fmt(_get(observation, 'hazard', 'jump_must_start_now'))}. "
+        "Terrain "
+        f"obstacle_ahead={_fmt(_get(observation, 'terrain', 'obstacle_ahead'))} "
+        f"obstacle_distance={_fmt(_get(observation, 'terrain', 'obstacle_distance_tiles'))} "
+        f"obstacle_height={_fmt(_get(observation, 'terrain', 'obstacle_height_tiles'))} "
+        f"gap_ahead={_fmt(_get(observation, 'terrain', 'gap_ahead'))} "
+        f"gap_distance={_fmt(_get(observation, 'terrain', 'gap_distance_tiles'))} "
+        f"gap_width={_fmt(_get(observation, 'terrain', 'gap_width_tiles'))} "
+        f"clear_forward={_fmt(_get(observation, 'terrain', 'clear_forward_tiles'))}. "
+        "Episode "
+        f"progress={_fmt(_get(observation, 'episode', 'progress_pixels'))} "
+        f"goal_distance={_fmt(_get(observation, 'episode', 'goal_distance_pixels'))} "
+        f"stalled={_fmt(_get(observation, 'episode', 'stalled_frames'))} "
+        f"dead={_fmt(_get(observation, 'episode', 'is_dead'))} "
+        f"won={_fmt(_get(observation, 'episode', 'has_won'))}. "
+        f"Radar {radar}"
+    )
+
+
+def build_rules_v2_premise(observation: Mapping[str, Any]) -> str:
+    """Add the fixed game's action physics and telemetry semantics to state."""
+
+    return (
+        build_compact_premise(observation)
+        + " Physics rules: on ground, right moves at walking speed, right_run moves at running speed, "
+        "right_jump starts a normal jump, and right_run_jump starts a stronger running jump. "
+        "A normal jump starts with vertical velocity -13.5; a running jump starts with -15.5. "
+        "While airborne, right actions set forward air velocity and pressing jump cannot start a second jump. "
+        "Noop decelerates on ground but preserves horizontal air momentum. "
+        "Obstacle and gap distances are coarse forward tile-scan distances from the player's tile, not pixel gaps. "
+        "Grounded stalled frames mean forward motion has stopped; a nearby obstacle or gap may require taking off early."
+    )
+
+
+def build_card_hypotheses(actions: Sequence[str] | None = None) -> list[dict[str, str]]:
+    """Build model-card-style answer hypotheses in a caller-specified order."""
+
+    selected = tuple(actions or CARD_ACTION_OPTIONS)
+    unknown = [action for action in selected if action not in CARD_ACTION_PHRASES]
+    if unknown or len(selected) != len(CARD_ACTION_OPTIONS) or set(selected) != set(CARD_ACTION_OPTIONS):
+        raise ValueError(f"candidate actions must contain exactly {CARD_ACTION_OPTIONS}: {selected}")
+    return [
+        {
+            "action": action,
+            "phrase": CARD_ACTION_PHRASES[action],
+            "hypothesis": f"The correct answer is: {CARD_ACTION_PHRASES[action]}.",
+        }
+        for action in selected
+    ]
+
+
+def build_applicability_hypotheses(actions: Sequence[str] | None = None) -> list[dict[str, str]]:
+    """Build fixed action-applicability statements for the NLI decision."""
+
+    selected = tuple(actions or ACTION_OPTIONS)
+    unknown = [action for action in selected if action not in APPLICABILITY_HYPOTHESES]
+    if unknown or len(selected) != len(ACTION_OPTIONS) or set(selected) != set(ACTION_OPTIONS):
+        raise ValueError(f"candidate actions must contain exactly {ACTION_OPTIONS}: {selected}")
+    return [
+        {
+            "action": action,
+            "hypothesis": APPLICABILITY_HYPOTHESES[action],
+        }
+        for action in selected
+    ]
+
+
+def build_conditioned_premise(observation: Mapping[str, Any]) -> str:
+    """Normalize raw hazard flags into facts without selecting an action."""
+
+    hazards: list[str] = []
+    if _get(observation, "terrain", "gap_ahead"):
+        hazards.append("gap")
+    if _get(observation, "terrain", "obstacle_ahead"):
+        hazards.append("obstacle")
+    if _get(observation, "hazard", "enemy_ahead"):
+        hazards.append("enemy")
+    immediate_hazard = "+".join(hazards) if hazards else "none"
+    path_clear = "no" if hazards else "yes"
+    grounded = "yes" if _get(observation, "player", "grounded") else "no"
+    stalled = "yes" if (_get(observation, "episode", "stalled_frames", default=0) or 0) >= 3 else "no"
+    return (
+        build_rules_v2_premise(observation)
+        + f" Normalized facts: path_clear={path_clear}; immediate_hazard={immediate_hazard}; "
+        f"grounded={grounded}; stalled={stalled}."
+    )
+
+
+def build_conditioned_two_action_hypotheses() -> list[dict[str, str]]:
+    """Return the explicitly restricted run-versus-running-jump comparison."""
+
+    return [
+        {
+            "action": "right_run",
+            "hypothesis": "The forward path is clear, so the player should run right without jumping.",
+        },
+        {
+            "action": "right_run_jump",
+            "hypothesis": "A nearby gap, obstacle, or enemy is present, so the player should run right and start a strong jump.",
+        },
+    ]
+
 
 def build_premise(observation: Mapping[str, Any]) -> str:
     """Build the one shared premise sent to every action hypothesis."""
@@ -84,6 +263,7 @@ class OpenJevNLIAdapter:
             revision=MODEL_REVISION,
             subfolder=MODEL_SUBFOLDER,
         )
+        self.tokenizer.padding_side = "right"
         model_kwargs = {
             "revision": MODEL_REVISION,
             "subfolder": MODEL_SUBFOLDER,
@@ -146,16 +326,45 @@ class OpenJevNLIAdapter:
             "dtype": str(next(self.model.parameters()).dtype),
         }
 
-    def decide(self, observation: Any) -> dict[str, Any]:
-        """Score all seven actions and return the raw NLI probabilities."""
+    def decide(
+        self,
+        observation: Any,
+        profile: str = "legacy",
+        candidate_order: Sequence[str] | None = None,
+    ) -> dict[str, Any]:
+        """Score all seven actions and return raw NLI probabilities.
+
+        ``legacy`` exactly reproduces the first JevDash capture.  ``card``
+        follows the fixed checkpoint's published reranking convention and is
+        used by the improvement audit.
+        """
 
         if hasattr(observation, "model_dump"):
             observation_dict = observation.model_dump(mode="json")
         else:
             observation_dict = dict(observation)
 
-        hypotheses = build_hypotheses()
-        premise = build_premise(observation_dict)
+        if profile == "legacy":
+            hypotheses = build_hypotheses()
+            premise = build_premise(observation_dict)
+        elif profile in ("card", "rules-v2", "applicability", "conditioned-two"):
+            hypotheses = (
+                build_applicability_hypotheses(candidate_order)
+                if profile == "applicability"
+                else (
+                    build_conditioned_two_action_hypotheses()
+                    if profile == "conditioned-two"
+                    else build_card_hypotheses(candidate_order)
+                )
+            )
+            if profile == "card":
+                premise = build_compact_premise(observation_dict)
+            elif profile == "conditioned-two":
+                premise = build_conditioned_premise(observation_dict)
+            else:
+                premise = build_rules_v2_premise(observation_dict)
+        else:
+            raise ValueError(f"unknown OpenJev input profile: {profile}")
         pair_texts = [
             self.nli_template.format(premise=premise, hypothesis=item["hypothesis"])
             for item in hypotheses
@@ -192,6 +401,7 @@ class OpenJevNLIAdapter:
                 {
                     "action": item["action"],
                     "hypothesis": item["hypothesis"],
+                    **({"phrase": item["phrase"]} if "phrase" in item else {}),
                     "probabilities": class_probabilities,
                     "entailment_score": class_probabilities["entailment"],
                 }
@@ -209,5 +419,10 @@ class OpenJevNLIAdapter:
             "model_id": MODEL_ID,
             "model_revision": MODEL_REVISION,
             "model_subfolder": MODEL_SUBFOLDER,
+            "input_profile": profile,
+            "premise": premise,
+            "premise_char_count": len(premise),
+            "premise_byte_count_utf8": len(premise.encode("utf-8")),
+            "candidate_order": [item["action"] for item in hypotheses],
             "selection_rule": "argmax over NLI entailment probability; no heuristic fallback",
         }

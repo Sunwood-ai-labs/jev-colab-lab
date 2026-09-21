@@ -1,0 +1,253 @@
+{
+  "schema": "jev-colab-lab/kev-macro-teachers-v1",
+  "kind": "local deterministic 8-frame teacher controls; no model/GPU/Colab",
+  "game_commit": "eb2f92617bab5d5021a5e3cf5ef2bdaf8207d480",
+  "cadence_frames": 8,
+  "max_frames": 1800,
+  "policies": [
+    "constant_run_jump",
+    "air_or_hazard_8",
+    "air_or_hazard_12",
+    "hazard_8",
+    "hazard_12"
+  ],
+  "cases": [
+    {
+      "policy": "constant_run_jump",
+      "start_offset_pixels": 0,
+      "frames": 647,
+      "decision_count": 81,
+      "has_won": true,
+      "is_dead": false,
+      "max_x": 4204.4,
+      "final_x": 4204.4,
+      "action_counts": {
+        "right_run_jump": 647
+      },
+      "right_run_jump_rate": 1.0,
+      "decision_transitions": 1
+    },
+    {
+      "policy": "constant_run_jump",
+      "start_offset_pixels": -16,
+      "frames": 649,
+      "decision_count": 82,
+      "has_won": true,
+      "is_dead": false,
+      "max_x": 4204.4,
+      "final_x": 4204.4,
+      "action_counts": {
+        "right_run_jump": 649
+      },
+      "right_run_jump_rate": 1.0,
+      "decision_transitions": 1
+    },
+    {
+      "policy": "constant_run_jump",
+      "start_offset_pixels": 16,
+      "frames": 631,
+      "decision_count": 79,
+      "has_won": true,
+      "is_dead": false,
+      "max_x": 4204.4,
+      "final_x": 4204.4,
+      "action_counts": {
+        "right_run_jump": 631
+      },
+      "right_run_jump_rate": 1.0,
+      "decision_transitions": 1
+    },
+    {
+      "policy": "air_or_hazard_8",
+      "start_offset_pixels": 0,
+      "frames": 647,
+      "decision_count": 81,
+      "has_won": true,
+      "is_dead": false,
+      "max_x": 4204.4,
+      "final_x": 4204.4,
+      "action_counts": {
+        "right_run_jump": 624,
+        "right_run": 23
+      },
+      "right_run_jump_rate": 0.96445131,
+      "decision_transitions": 2
+    },
+    {
+      "policy": "air_or_hazard_8",
+      "start_offset_pixels": -16,
+      "frames": 649,
+      "decision_count": 82,
+      "has_won": true,
+      "is_dead": false,
+      "max_x": 4204.4,
+      "final_x": 4204.4,
+      "action_counts": {
+        "right_run_jump": 649
+      },
+      "right_run_jump_rate": 1.0,
+      "decision_transitions": 1
+    },
+    {
+      "policy": "air_or_hazard_8",
+      "start_offset_pixels": 16,
+      "frames": 631,
+      "decision_count": 79,
+      "has_won": true,
+      "is_dead": false,
+      "max_x": 4204.4,
+      "final_x": 4204.4,
+      "action_counts": {
+        "right_run_jump": 608,
+        "right_run": 23
+      },
+      "right_run_jump_rate": 0.96354992,
+      "decision_transitions": 2
+    },
+    {
+      "policy": "air_or_hazard_12",
+      "start_offset_pixels": 0,
+      "frames": 647,
+      "decision_count": 81,
+      "has_won": true,
+      "is_dead": false,
+      "max_x": 4204.4,
+      "final_x": 4204.4,
+      "action_counts": {
+        "right_run_jump": 639,
+        "right_run": 8
+      },
+      "right_run_jump_rate": 0.98763524,
+      "decision_transitions": 3
+    },
+    {
+      "policy": "air_or_hazard_12",
+      "start_offset_pixels": -16,
+      "frames": 649,
+      "decision_count": 82,
+      "has_won": true,
+      "is_dead": false,
+      "max_x": 4204.4,
+      "final_x": 4204.4,
+      "action_counts": {
+        "right_run_jump": 649
+      },
+      "right_run_jump_rate": 1.0,
+      "decision_transitions": 1
+    },
+    {
+      "policy": "air_or_hazard_12",
+      "start_offset_pixels": 16,
+      "frames": 631,
+      "decision_count": 79,
+      "has_won": true,
+      "is_dead": false,
+      "max_x": 4204.4,
+      "final_x": 4204.4,
+      "action_counts": {
+        "right_run_jump": 623,
+        "right_run": 8
+      },
+      "right_run_jump_rate": 0.98732171,
+      "decision_transitions": 3
+    },
+    {
+      "policy": "hazard_8",
+      "start_offset_pixels": 0,
+      "frames": 211,
+      "decision_count": 27,
+      "has_won": false,
+      "is_dead": true,
+      "max_x": 1461.2,
+      "final_x": 1461.2,
+      "action_counts": {
+        "right_run": 32,
+        "right_run_jump": 179
+      },
+      "right_run_jump_rate": 0.84834123,
+      "decision_transitions": 2
+    },
+    {
+      "policy": "hazard_8",
+      "start_offset_pixels": -16,
+      "frames": 212,
+      "decision_count": 27,
+      "has_won": false,
+      "is_dead": true,
+      "max_x": 1461.2,
+      "final_x": 1461.2,
+      "action_counts": {
+        "right_run": 32,
+        "right_run_jump": 180
+      },
+      "right_run_jump_rate": 0.8490566,
+      "decision_transitions": 2
+    },
+    {
+      "policy": "hazard_8",
+      "start_offset_pixels": 16,
+      "frames": 168,
+      "decision_count": 21,
+      "has_won": false,
+      "is_dead": true,
+      "max_x": 1153.4,
+      "final_x": 1153.4,
+      "action_counts": {
+        "right_run": 24,
+        "right_run_jump": 144
+      },
+      "right_run_jump_rate": 0.85714286,
+      "decision_transitions": 2
+    },
+    {
+      "policy": "hazard_12",
+      "start_offset_pixels": 0,
+      "frames": 647,
+      "decision_count": 81,
+      "has_won": true,
+      "is_dead": false,
+      "max_x": 4204.4,
+      "final_x": 4204.4,
+      "action_counts": {
+        "right_run": 32,
+        "right_run_jump": 615
+      },
+      "right_run_jump_rate": 0.95054096,
+      "decision_transitions": 4
+    },
+    {
+      "policy": "hazard_12",
+      "start_offset_pixels": -16,
+      "frames": 649,
+      "decision_count": 82,
+      "has_won": true,
+      "is_dead": false,
+      "max_x": 4204.4,
+      "final_x": 4204.4,
+      "action_counts": {
+        "right_run": 40,
+        "right_run_jump": 609
+      },
+      "right_run_jump_rate": 0.93836672,
+      "decision_transitions": 4
+    },
+    {
+      "policy": "hazard_12",
+      "start_offset_pixels": 16,
+      "frames": 631,
+      "decision_count": 79,
+      "has_won": true,
+      "is_dead": false,
+      "max_x": 4204.4,
+      "final_x": 4204.4,
+      "action_counts": {
+        "right_run": 32,
+        "right_run_jump": 599
+      },
+      "right_run_jump_rate": 0.94928685,
+      "decision_transitions": 4
+    }
+  ],
+  "status": "success",
+  "error": null
+}

@@ -1,0 +1,1115 @@
+{
+  "schema": "jev-colab-lab/kev-physics-controls-v1",
+  "kind": "local deterministic physics controls; no model inference; no Colab",
+  "game_commit_expected": "eb2f92617bab5d5021a5e3cf5ef2bdaf8207d480",
+  "seed": 42,
+  "fps": 60,
+  "max_frames": 1800,
+  "action_semantics": {
+    "noop": "grounded vx *= 0.82; airborne horizontal inertia is preserved",
+    "right": "grounded walk target 4.0; airborne horizontal vx is forced to run speed 6.6",
+    "right_run": "right run target 6.6; no jump",
+    "right_jump": "right control plus normal jump impulse -13.5 when grounded/coyote-valid",
+    "right_run_jump": "right run control plus running jump impulse -15.5 when grounded/coyote-valid",
+    "jump": "vertical normal jump impulse -13.5 when grounded/coyote-valid",
+    "left": "left control, capped at walk speed -4.0"
+  },
+  "cases": [
+    {
+      "raw_action": "right_run",
+      "reflex_assist": false,
+      "decision_cadence_frames": 8,
+      "start_offset_pixels": 0,
+      "frames": 1800,
+      "has_won": false,
+      "is_dead": false,
+      "max_x": 486.0,
+      "final_x": 486.0,
+      "final_y": 540.0,
+      "final_stalled_frames": 1740,
+      "override_frames": 0,
+      "override_rate": 0.0,
+      "executed_action_counts": {
+        "right_run": 1800
+      },
+      "override_reason_counts": {},
+      "last_observation_available": true,
+      "simulation_wall_seconds": 0.594931
+    },
+    {
+      "raw_action": "right_run",
+      "reflex_assist": true,
+      "decision_cadence_frames": 1,
+      "start_offset_pixels": 0,
+      "frames": 651,
+      "has_won": true,
+      "is_dead": false,
+      "max_x": 4204.4,
+      "final_x": 4204.4,
+      "final_y": 540.0,
+      "final_stalled_frames": 0,
+      "override_frames": 60,
+      "override_rate": 0.0921659,
+      "executed_action_counts": {
+        "right_run": 591,
+        "right_run_jump": 60
+      },
+      "override_reason_counts": {
+        "obstacle_critical": 12,
+        "gap_critical": 3,
+        "air_gap_critical": 44,
+        "enemy_critical": 4
+      },
+      "last_observation_available": true,
+      "simulation_wall_seconds": 0.377784
+    },
+    {
+      "raw_action": "right_run",
+      "reflex_assist": true,
+      "decision_cadence_frames": 8,
+      "start_offset_pixels": 0,
+      "frames": 343,
+      "has_won": false,
+      "is_dead": true,
+      "max_x": 2335.6,
+      "final_x": 2335.6,
+      "final_y": 540.0,
+      "final_stalled_frames": 0,
+      "override_frames": 56,
+      "override_rate": 0.16326531,
+      "executed_action_counts": {
+        "right_run": 287,
+        "right_run_jump": 56
+      },
+      "override_reason_counts": {
+        "obstacle_critical": 32,
+        "enemy_critical": 16,
+        "air_gap_critical": 16,
+        "gap_critical": 8
+      },
+      "last_observation_available": true,
+      "simulation_wall_seconds": 0.146109
+    },
+    {
+      "raw_action": "right_jump",
+      "reflex_assist": false,
+      "decision_cadence_frames": 8,
+      "start_offset_pixels": 0,
+      "frames": 216,
+      "has_won": false,
+      "is_dead": true,
+      "max_x": 1454.6,
+      "final_x": 1454.6,
+      "final_y": 400.75,
+      "final_stalled_frames": 0,
+      "override_frames": 0,
+      "override_rate": 0.0,
+      "executed_action_counts": {
+        "right_jump": 216
+      },
+      "override_reason_counts": {},
+      "last_observation_available": true,
+      "simulation_wall_seconds": 0.075619
+    },
+    {
+      "raw_action": "right_jump",
+      "reflex_assist": true,
+      "decision_cadence_frames": 1,
+      "start_offset_pixels": 0,
+      "frames": 210,
+      "has_won": false,
+      "is_dead": true,
+      "max_x": 1460.4,
+      "final_x": 1460.4,
+      "final_y": 370.25,
+      "final_stalled_frames": 0,
+      "override_frames": 17,
+      "override_rate": 0.08095238,
+      "executed_action_counts": {
+        "right_jump": 193,
+        "right_run_jump": 17
+      },
+      "override_reason_counts": {
+        "obstacle_critical": 3,
+        "gap_critical": 1,
+        "air_gap_critical": 13,
+        "enemy_critical": 1
+      },
+      "last_observation_available": true,
+      "simulation_wall_seconds": 0.106617
+    },
+    {
+      "raw_action": "right_jump",
+      "reflex_assist": true,
+      "decision_cadence_frames": 8,
+      "start_offset_pixels": 0,
+      "frames": 216,
+      "has_won": false,
+      "is_dead": true,
+      "max_x": 1454.6,
+      "final_x": 1454.6,
+      "final_y": 400.75,
+      "final_stalled_frames": 0,
+      "override_frames": 16,
+      "override_rate": 0.07407407,
+      "executed_action_counts": {
+        "right_jump": 200,
+        "right_run_jump": 16
+      },
+      "override_reason_counts": {
+        "air_gap_critical": 16
+      },
+      "last_observation_available": true,
+      "simulation_wall_seconds": 0.077315
+    },
+    {
+      "raw_action": "right_run_jump",
+      "reflex_assist": false,
+      "decision_cadence_frames": 8,
+      "start_offset_pixels": 0,
+      "frames": 647,
+      "has_won": true,
+      "is_dead": false,
+      "max_x": 4204.4,
+      "final_x": 4204.4,
+      "final_y": 390.5,
+      "final_stalled_frames": 0,
+      "override_frames": 0,
+      "override_rate": 0.0,
+      "executed_action_counts": {
+        "right_run_jump": 647
+      },
+      "override_reason_counts": {},
+      "last_observation_available": true,
+      "simulation_wall_seconds": 0.265102
+    },
+    {
+      "raw_action": "right_run_jump",
+      "reflex_assist": true,
+      "decision_cadence_frames": 1,
+      "start_offset_pixels": 0,
+      "frames": 647,
+      "has_won": true,
+      "is_dead": false,
+      "max_x": 4204.4,
+      "final_x": 4204.4,
+      "final_y": 390.5,
+      "final_stalled_frames": 0,
+      "override_frames": 0,
+      "override_rate": 0.0,
+      "executed_action_counts": {
+        "right_run_jump": 647
+      },
+      "override_reason_counts": {},
+      "last_observation_available": true,
+      "simulation_wall_seconds": 0.480151
+    },
+    {
+      "raw_action": "right_run_jump",
+      "reflex_assist": true,
+      "decision_cadence_frames": 8,
+      "start_offset_pixels": 0,
+      "frames": 647,
+      "has_won": true,
+      "is_dead": false,
+      "max_x": 4204.4,
+      "final_x": 4204.4,
+      "final_y": 390.5,
+      "final_stalled_frames": 0,
+      "override_frames": 0,
+      "override_rate": 0.0,
+      "executed_action_counts": {
+        "right_run_jump": 647
+      },
+      "override_reason_counts": {},
+      "last_observation_available": true,
+      "simulation_wall_seconds": 0.328426
+    },
+    {
+      "raw_action": "left",
+      "reflex_assist": false,
+      "decision_cadence_frames": 8,
+      "start_offset_pixels": 0,
+      "frames": 62,
+      "has_won": false,
+      "is_dead": true,
+      "max_x": 96.0,
+      "final_x": -144.32,
+      "final_y": 810.0,
+      "final_stalled_frames": 62,
+      "override_frames": 0,
+      "override_rate": 0.0,
+      "executed_action_counts": {
+        "left": 62
+      },
+      "override_reason_counts": {},
+      "last_observation_available": true,
+      "simulation_wall_seconds": 0.023675
+    },
+    {
+      "raw_action": "left",
+      "reflex_assist": true,
+      "decision_cadence_frames": 1,
+      "start_offset_pixels": 0,
+      "frames": 75,
+      "has_won": false,
+      "is_dead": true,
+      "max_x": 96.0,
+      "final_x": -29.32,
+      "final_y": 805.5,
+      "final_stalled_frames": 75,
+      "override_frames": 16,
+      "override_rate": 0.21333333,
+      "executed_action_counts": {
+        "left": 59,
+        "right_run_jump": 16
+      },
+      "override_reason_counts": {
+        "stalled": 1,
+        "air_gap_critical": 15
+      },
+      "last_observation_available": true,
+      "simulation_wall_seconds": 0.040093
+    },
+    {
+      "raw_action": "left",
+      "reflex_assist": true,
+      "decision_cadence_frames": 8,
+      "start_offset_pixels": 0,
+      "frames": 79,
+      "has_won": false,
+      "is_dead": true,
+      "max_x": 96.0,
+      "final_x": -11.8,
+      "final_y": 805.5,
+      "final_stalled_frames": 79,
+      "override_frames": 23,
+      "override_rate": 0.29113924,
+      "executed_action_counts": {
+        "left": 56,
+        "right_run_jump": 23
+      },
+      "override_reason_counts": {
+        "stalled": 8,
+        "air_gap_critical": 15
+      },
+      "last_observation_available": true,
+      "simulation_wall_seconds": 0.029408
+    },
+    {
+      "raw_action": "noop",
+      "reflex_assist": false,
+      "decision_cadence_frames": 8,
+      "start_offset_pixels": 0,
+      "frames": 1800,
+      "has_won": false,
+      "is_dead": false,
+      "max_x": 96.0,
+      "final_x": 96.0,
+      "final_y": 540.0,
+      "final_stalled_frames": 1800,
+      "override_frames": 0,
+      "override_rate": 0.0,
+      "executed_action_counts": {
+        "noop": 1800
+      },
+      "override_reason_counts": {},
+      "last_observation_available": true,
+      "simulation_wall_seconds": 0.753192
+    },
+    {
+      "raw_action": "noop",
+      "reflex_assist": true,
+      "decision_cadence_frames": 1,
+      "start_offset_pixels": 0,
+      "frames": 1800,
+      "has_won": false,
+      "is_dead": false,
+      "max_x": 774.0,
+      "final_x": 774.0,
+      "final_y": 459.25,
+      "final_stalled_frames": 1300,
+      "override_frames": 43,
+      "override_rate": 0.02388889,
+      "executed_action_counts": {
+        "noop": 1757,
+        "right_run_jump": 43
+      },
+      "override_reason_counts": {
+        "stalled": 39,
+        "obstacle_critical": 36,
+        "enemy_critical": 32
+      },
+      "last_observation_available": true,
+      "simulation_wall_seconds": 1.030037
+    },
+    {
+      "raw_action": "noop",
+      "reflex_assist": true,
+      "decision_cadence_frames": 8,
+      "start_offset_pixels": 0,
+      "frames": 697,
+      "has_won": false,
+      "is_dead": true,
+      "max_x": 3014.4,
+      "final_x": 3014.4,
+      "final_y": 540.0,
+      "final_stalled_frames": 0,
+      "override_frames": 136,
+      "override_rate": 0.19512195,
+      "executed_action_counts": {
+        "noop": 561,
+        "right_run_jump": 136
+      },
+      "override_reason_counts": {
+        "stalled": 80,
+        "obstacle_critical": 56,
+        "enemy_critical": 32,
+        "gap_critical": 8,
+        "air_gap_critical": 24
+      },
+      "last_observation_available": true,
+      "simulation_wall_seconds": 0.251445
+    },
+    {
+      "raw_action": "right_run",
+      "reflex_assist": false,
+      "decision_cadence_frames": 8,
+      "start_offset_pixels": -16,
+      "frames": 1800,
+      "has_won": false,
+      "is_dead": false,
+      "max_x": 486.0,
+      "final_x": 486.0,
+      "final_y": 540.0,
+      "final_stalled_frames": 1738,
+      "override_frames": 0,
+      "override_rate": 0.0,
+      "executed_action_counts": {
+        "right_run": 1800
+      },
+      "override_reason_counts": {},
+      "last_observation_available": true,
+      "simulation_wall_seconds": 0.681041
+    },
+    {
+      "raw_action": "right_run",
+      "reflex_assist": true,
+      "decision_cadence_frames": 1,
+      "start_offset_pixels": -16,
+      "frames": 653,
+      "has_won": true,
+      "is_dead": false,
+      "max_x": 4204.4,
+      "final_x": 4204.4,
+      "final_y": 540.0,
+      "final_stalled_frames": 0,
+      "override_frames": 59,
+      "override_rate": 0.09035222,
+      "executed_action_counts": {
+        "right_run": 594,
+        "right_run_jump": 59
+      },
+      "override_reason_counts": {
+        "obstacle_critical": 12,
+        "gap_critical": 3,
+        "air_gap_critical": 43,
+        "enemy_critical": 4
+      },
+      "last_observation_available": true,
+      "simulation_wall_seconds": 0.361555
+    },
+    {
+      "raw_action": "right_run",
+      "reflex_assist": true,
+      "decision_cadence_frames": 8,
+      "start_offset_pixels": -16,
+      "frames": 653,
+      "has_won": true,
+      "is_dead": false,
+      "max_x": 4203.4,
+      "final_x": 4203.4,
+      "final_y": 540.0,
+      "final_stalled_frames": 0,
+      "override_frames": 128,
+      "override_rate": 0.19601838,
+      "executed_action_counts": {
+        "right_run": 525,
+        "right_run_jump": 128
+      },
+      "override_reason_counts": {
+        "obstacle_critical": 72,
+        "air_gap_critical": 32,
+        "enemy_critical": 32,
+        "gap_critical": 16,
+        "stalled": 16
+      },
+      "last_observation_available": true,
+      "simulation_wall_seconds": 0.365432
+    },
+    {
+      "raw_action": "right_jump",
+      "reflex_assist": false,
+      "decision_cadence_frames": 8,
+      "start_offset_pixels": -16,
+      "frames": 669,
+      "has_won": true,
+      "is_dead": false,
+      "max_x": 4198.8,
+      "final_x": 4198.8,
+      "final_y": 483.75,
+      "final_stalled_frames": 0,
+      "override_frames": 0,
+      "override_rate": 0.0,
+      "executed_action_counts": {
+        "right_jump": 669
+      },
+      "override_reason_counts": {},
+      "last_observation_available": true,
+      "simulation_wall_seconds": 0.377025
+    },
+    {
+      "raw_action": "right_jump",
+      "reflex_assist": true,
+      "decision_cadence_frames": 1,
+      "start_offset_pixels": -16,
+      "frames": 212,
+      "has_won": false,
+      "is_dead": true,
+      "max_x": 1471.4,
+      "final_x": 1471.4,
+      "final_y": 409.75,
+      "final_stalled_frames": 0,
+      "override_frames": 17,
+      "override_rate": 0.08018868,
+      "executed_action_counts": {
+        "right_jump": 195,
+        "right_run_jump": 17
+      },
+      "override_reason_counts": {
+        "gap_critical": 1,
+        "air_gap_critical": 14,
+        "enemy_critical": 2
+      },
+      "last_observation_available": true,
+      "simulation_wall_seconds": 0.125783
+    },
+    {
+      "raw_action": "right_jump",
+      "reflex_assist": true,
+      "decision_cadence_frames": 8,
+      "start_offset_pixels": -16,
+      "frames": 663,
+      "has_won": true,
+      "is_dead": false,
+      "max_x": 4200.2,
+      "final_x": 4200.2,
+      "final_y": 527.25,
+      "final_stalled_frames": 0,
+      "override_frames": 64,
+      "override_rate": 0.09653092,
+      "executed_action_counts": {
+        "right_jump": 599,
+        "right_run_jump": 64
+      },
+      "override_reason_counts": {
+        "air_gap_critical": 48,
+        "obstacle_critical": 16,
+        "enemy_critical": 8
+      },
+      "last_observation_available": true,
+      "simulation_wall_seconds": 0.28738
+    },
+    {
+      "raw_action": "right_run_jump",
+      "reflex_assist": false,
+      "decision_cadence_frames": 8,
+      "start_offset_pixels": -16,
+      "frames": 649,
+      "has_won": true,
+      "is_dead": false,
+      "max_x": 4204.4,
+      "final_x": 4204.4,
+      "final_y": 390.5,
+      "final_stalled_frames": 0,
+      "override_frames": 0,
+      "override_rate": 0.0,
+      "executed_action_counts": {
+        "right_run_jump": 649
+      },
+      "override_reason_counts": {},
+      "last_observation_available": true,
+      "simulation_wall_seconds": 0.308734
+    },
+    {
+      "raw_action": "right_run_jump",
+      "reflex_assist": true,
+      "decision_cadence_frames": 1,
+      "start_offset_pixels": -16,
+      "frames": 649,
+      "has_won": true,
+      "is_dead": false,
+      "max_x": 4204.4,
+      "final_x": 4204.4,
+      "final_y": 390.5,
+      "final_stalled_frames": 0,
+      "override_frames": 0,
+      "override_rate": 0.0,
+      "executed_action_counts": {
+        "right_run_jump": 649
+      },
+      "override_reason_counts": {},
+      "last_observation_available": true,
+      "simulation_wall_seconds": 0.354538
+    },
+    {
+      "raw_action": "right_run_jump",
+      "reflex_assist": true,
+      "decision_cadence_frames": 8,
+      "start_offset_pixels": -16,
+      "frames": 649,
+      "has_won": true,
+      "is_dead": false,
+      "max_x": 4204.4,
+      "final_x": 4204.4,
+      "final_y": 390.5,
+      "final_stalled_frames": 0,
+      "override_frames": 0,
+      "override_rate": 0.0,
+      "executed_action_counts": {
+        "right_run_jump": 649
+      },
+      "override_reason_counts": {},
+      "last_observation_available": true,
+      "simulation_wall_seconds": 0.278986
+    },
+    {
+      "raw_action": "left",
+      "reflex_assist": false,
+      "decision_cadence_frames": 8,
+      "start_offset_pixels": -16,
+      "frames": 58,
+      "has_won": false,
+      "is_dead": true,
+      "max_x": 80.0,
+      "final_x": -144.32,
+      "final_y": 810.0,
+      "final_stalled_frames": 58,
+      "override_frames": 0,
+      "override_rate": 0.0,
+      "executed_action_counts": {
+        "left": 58
+      },
+      "override_reason_counts": {},
+      "last_observation_available": true,
+      "simulation_wall_seconds": 0.023061
+    },
+    {
+      "raw_action": "left",
+      "reflex_assist": true,
+      "decision_cadence_frames": 1,
+      "start_offset_pixels": -16,
+      "frames": 75,
+      "has_won": false,
+      "is_dead": true,
+      "max_x": 80.0,
+      "final_x": -34.72,
+      "final_y": 805.5,
+      "final_stalled_frames": 75,
+      "override_frames": 17,
+      "override_rate": 0.22666667,
+      "executed_action_counts": {
+        "left": 58,
+        "right_run_jump": 17
+      },
+      "override_reason_counts": {
+        "stalled": 1,
+        "air_gap_critical": 16
+      },
+      "last_observation_available": true,
+      "simulation_wall_seconds": 0.054141
+    },
+    {
+      "raw_action": "left",
+      "reflex_assist": true,
+      "decision_cadence_frames": 8,
+      "start_offset_pixels": -16,
+      "frames": 79,
+      "has_won": false,
+      "is_dead": true,
+      "max_x": 80.0,
+      "final_x": -11.8,
+      "final_y": 805.5,
+      "final_stalled_frames": 79,
+      "override_frames": 23,
+      "override_rate": 0.29113924,
+      "executed_action_counts": {
+        "left": 56,
+        "right_run_jump": 23
+      },
+      "override_reason_counts": {
+        "stalled": 8,
+        "air_gap_critical": 15
+      },
+      "last_observation_available": true,
+      "simulation_wall_seconds": 0.031178
+    },
+    {
+      "raw_action": "noop",
+      "reflex_assist": false,
+      "decision_cadence_frames": 8,
+      "start_offset_pixels": -16,
+      "frames": 1800,
+      "has_won": false,
+      "is_dead": false,
+      "max_x": 80.0,
+      "final_x": 80.0,
+      "final_y": 540.0,
+      "final_stalled_frames": 1800,
+      "override_frames": 0,
+      "override_rate": 0.0,
+      "executed_action_counts": {
+        "noop": 1800
+      },
+      "override_reason_counts": {},
+      "last_observation_available": true,
+      "simulation_wall_seconds": 0.521814
+    },
+    {
+      "raw_action": "noop",
+      "reflex_assist": true,
+      "decision_cadence_frames": 1,
+      "start_offset_pixels": -16,
+      "frames": 1800,
+      "has_won": false,
+      "is_dead": false,
+      "max_x": 486.0,
+      "final_x": 486.0,
+      "final_y": 419.0,
+      "final_stalled_frames": 1409,
+      "override_frames": 42,
+      "override_rate": 0.02333333,
+      "executed_action_counts": {
+        "noop": 1758,
+        "right_run_jump": 42
+      },
+      "override_reason_counts": {
+        "stalled": 42,
+        "obstacle_critical": 35
+      },
+      "last_observation_available": true,
+      "simulation_wall_seconds": 0.912867
+    },
+    {
+      "raw_action": "noop",
+      "reflex_assist": true,
+      "decision_cadence_frames": 8,
+      "start_offset_pixels": -16,
+      "frames": 851,
+      "has_won": true,
+      "is_dead": false,
+      "max_x": 4202.32,
+      "final_x": 4202.32,
+      "final_y": 388.0,
+      "final_stalled_frames": 0,
+      "override_frames": 168,
+      "override_rate": 0.19741481,
+      "executed_action_counts": {
+        "noop": 683,
+        "right_run_jump": 168
+      },
+      "override_reason_counts": {
+        "stalled": 56,
+        "obstacle_critical": 72,
+        "gap_critical": 24,
+        "air_gap_critical": 32,
+        "enemy_critical": 16
+      },
+      "last_observation_available": true,
+      "simulation_wall_seconds": 0.256393
+    },
+    {
+      "raw_action": "right_run",
+      "reflex_assist": false,
+      "decision_cadence_frames": 8,
+      "start_offset_pixels": 16,
+      "frames": 1800,
+      "has_won": false,
+      "is_dead": false,
+      "max_x": 486.0,
+      "final_x": 486.0,
+      "final_y": 540.0,
+      "final_stalled_frames": 1743,
+      "override_frames": 0,
+      "override_rate": 0.0,
+      "executed_action_counts": {
+        "right_run": 1800
+      },
+      "override_reason_counts": {},
+      "last_observation_available": true,
+      "simulation_wall_seconds": 0.616347
+    },
+    {
+      "raw_action": "right_run",
+      "reflex_assist": true,
+      "decision_cadence_frames": 1,
+      "start_offset_pixels": 16,
+      "frames": 648,
+      "has_won": true,
+      "is_dead": false,
+      "max_x": 4204.4,
+      "final_x": 4204.4,
+      "final_y": 540.0,
+      "final_stalled_frames": 0,
+      "override_frames": 59,
+      "override_rate": 0.09104938,
+      "executed_action_counts": {
+        "right_run": 589,
+        "right_run_jump": 59
+      },
+      "override_reason_counts": {
+        "obstacle_critical": 12,
+        "gap_critical": 3,
+        "air_gap_critical": 43,
+        "enemy_critical": 4
+      },
+      "last_observation_available": true,
+      "simulation_wall_seconds": 0.32429
+    },
+    {
+      "raw_action": "right_run",
+      "reflex_assist": true,
+      "decision_cadence_frames": 8,
+      "start_offset_pixels": 16,
+      "frames": 343,
+      "has_won": false,
+      "is_dead": true,
+      "max_x": 2335.6,
+      "final_x": 2335.6,
+      "final_y": 540.0,
+      "final_stalled_frames": 0,
+      "override_frames": 56,
+      "override_rate": 0.16326531,
+      "executed_action_counts": {
+        "right_run": 287,
+        "right_run_jump": 56
+      },
+      "override_reason_counts": {
+        "obstacle_critical": 32,
+        "enemy_critical": 16,
+        "air_gap_critical": 16,
+        "gap_critical": 8
+      },
+      "last_observation_available": true,
+      "simulation_wall_seconds": 0.125291
+    },
+    {
+      "raw_action": "right_jump",
+      "reflex_assist": false,
+      "decision_cadence_frames": 8,
+      "start_offset_pixels": 16,
+      "frames": 216,
+      "has_won": false,
+      "is_dead": true,
+      "max_x": 1454.6,
+      "final_x": 1454.6,
+      "final_y": 400.75,
+      "final_stalled_frames": 0,
+      "override_frames": 0,
+      "override_rate": 0.0,
+      "executed_action_counts": {
+        "right_jump": 216
+      },
+      "override_reason_counts": {},
+      "last_observation_available": true,
+      "simulation_wall_seconds": 0.09227
+    },
+    {
+      "raw_action": "right_jump",
+      "reflex_assist": true,
+      "decision_cadence_frames": 1,
+      "start_offset_pixels": 16,
+      "frames": 210,
+      "has_won": false,
+      "is_dead": true,
+      "max_x": 1460.4,
+      "final_x": 1460.4,
+      "final_y": 370.25,
+      "final_stalled_frames": 0,
+      "override_frames": 17,
+      "override_rate": 0.08095238,
+      "executed_action_counts": {
+        "right_jump": 193,
+        "right_run_jump": 17
+      },
+      "override_reason_counts": {
+        "obstacle_critical": 3,
+        "gap_critical": 1,
+        "air_gap_critical": 13,
+        "enemy_critical": 1
+      },
+      "last_observation_available": true,
+      "simulation_wall_seconds": 0.143774
+    },
+    {
+      "raw_action": "right_jump",
+      "reflex_assist": true,
+      "decision_cadence_frames": 8,
+      "start_offset_pixels": 16,
+      "frames": 216,
+      "has_won": false,
+      "is_dead": true,
+      "max_x": 1454.6,
+      "final_x": 1454.6,
+      "final_y": 400.75,
+      "final_stalled_frames": 0,
+      "override_frames": 16,
+      "override_rate": 0.07407407,
+      "executed_action_counts": {
+        "right_jump": 200,
+        "right_run_jump": 16
+      },
+      "override_reason_counts": {
+        "air_gap_critical": 16
+      },
+      "last_observation_available": true,
+      "simulation_wall_seconds": 0.132569
+    },
+    {
+      "raw_action": "right_run_jump",
+      "reflex_assist": false,
+      "decision_cadence_frames": 8,
+      "start_offset_pixels": 16,
+      "frames": 631,
+      "has_won": true,
+      "is_dead": false,
+      "max_x": 4204.4,
+      "final_x": 4204.4,
+      "final_y": 390.5,
+      "final_stalled_frames": 0,
+      "override_frames": 0,
+      "override_rate": 0.0,
+      "executed_action_counts": {
+        "right_run_jump": 631
+      },
+      "override_reason_counts": {},
+      "last_observation_available": true,
+      "simulation_wall_seconds": 0.384309
+    },
+    {
+      "raw_action": "right_run_jump",
+      "reflex_assist": true,
+      "decision_cadence_frames": 1,
+      "start_offset_pixels": 16,
+      "frames": 631,
+      "has_won": true,
+      "is_dead": false,
+      "max_x": 4204.4,
+      "final_x": 4204.4,
+      "final_y": 390.5,
+      "final_stalled_frames": 0,
+      "override_frames": 0,
+      "override_rate": 0.0,
+      "executed_action_counts": {
+        "right_run_jump": 631
+      },
+      "override_reason_counts": {},
+      "last_observation_available": true,
+      "simulation_wall_seconds": 0.331873
+    },
+    {
+      "raw_action": "right_run_jump",
+      "reflex_assist": true,
+      "decision_cadence_frames": 8,
+      "start_offset_pixels": 16,
+      "frames": 631,
+      "has_won": true,
+      "is_dead": false,
+      "max_x": 4204.4,
+      "final_x": 4204.4,
+      "final_y": 390.5,
+      "final_stalled_frames": 0,
+      "override_frames": 0,
+      "override_rate": 0.0,
+      "executed_action_counts": {
+        "right_run_jump": 631
+      },
+      "override_reason_counts": {},
+      "last_observation_available": true,
+      "simulation_wall_seconds": 0.207949
+    },
+    {
+      "raw_action": "left",
+      "reflex_assist": false,
+      "decision_cadence_frames": 8,
+      "start_offset_pixels": 16,
+      "frames": 66,
+      "has_won": false,
+      "is_dead": true,
+      "max_x": 112.0,
+      "final_x": -144.32,
+      "final_y": 810.0,
+      "final_stalled_frames": 66,
+      "override_frames": 0,
+      "override_rate": 0.0,
+      "executed_action_counts": {
+        "left": 66
+      },
+      "override_reason_counts": {},
+      "last_observation_available": true,
+      "simulation_wall_seconds": 0.023963
+    },
+    {
+      "raw_action": "left",
+      "reflex_assist": true,
+      "decision_cadence_frames": 1,
+      "start_offset_pixels": 16,
+      "frames": 75,
+      "has_won": false,
+      "is_dead": true,
+      "max_x": 112.0,
+      "final_x": -34.52,
+      "final_y": 805.5,
+      "final_stalled_frames": 75,
+      "override_frames": 14,
+      "override_rate": 0.18666667,
+      "executed_action_counts": {
+        "left": 61,
+        "right_run_jump": 14
+      },
+      "override_reason_counts": {
+        "stalled": 1,
+        "air_gap_critical": 13
+      },
+      "last_observation_available": true,
+      "simulation_wall_seconds": 0.037551
+    },
+    {
+      "raw_action": "left",
+      "reflex_assist": true,
+      "decision_cadence_frames": 8,
+      "start_offset_pixels": 16,
+      "frames": 79,
+      "has_won": false,
+      "is_dead": true,
+      "max_x": 112.0,
+      "final_x": -40.8,
+      "final_y": 805.5,
+      "final_stalled_frames": 79,
+      "override_frames": 16,
+      "override_rate": 0.20253165,
+      "executed_action_counts": {
+        "left": 63,
+        "right_run_jump": 16
+      },
+      "override_reason_counts": {
+        "stalled": 8,
+        "air_gap_critical": 8
+      },
+      "last_observation_available": true,
+      "simulation_wall_seconds": 0.02885
+    },
+    {
+      "raw_action": "noop",
+      "reflex_assist": false,
+      "decision_cadence_frames": 8,
+      "start_offset_pixels": 16,
+      "frames": 1800,
+      "has_won": false,
+      "is_dead": false,
+      "max_x": 112.0,
+      "final_x": 112.0,
+      "final_y": 540.0,
+      "final_stalled_frames": 1800,
+      "override_frames": 0,
+      "override_rate": 0.0,
+      "executed_action_counts": {
+        "noop": 1800
+      },
+      "override_reason_counts": {},
+      "last_observation_available": true,
+      "simulation_wall_seconds": 0.559527
+    },
+    {
+      "raw_action": "noop",
+      "reflex_assist": true,
+      "decision_cadence_frames": 1,
+      "start_offset_pixels": 16,
+      "frames": 1800,
+      "has_won": false,
+      "is_dead": false,
+      "max_x": 1382.0,
+      "final_x": 1382.0,
+      "final_y": 387.5,
+      "final_stalled_frames": 1206,
+      "override_frames": 56,
+      "override_rate": 0.03111111,
+      "executed_action_counts": {
+        "noop": 1744,
+        "right_run_jump": 56
+      },
+      "override_reason_counts": {
+        "stalled": 36,
+        "obstacle_critical": 33,
+        "gap_critical": 1,
+        "air_gap_critical": 15,
+        "enemy_critical": 11
+      },
+      "last_observation_available": true,
+      "simulation_wall_seconds": 1.039868
+    },
+    {
+      "raw_action": "noop",
+      "reflex_assist": true,
+      "decision_cadence_frames": 8,
+      "start_offset_pixels": 16,
+      "frames": 697,
+      "has_won": false,
+      "is_dead": true,
+      "max_x": 3014.4,
+      "final_x": 3014.4,
+      "final_y": 540.0,
+      "final_stalled_frames": 0,
+      "override_frames": 136,
+      "override_rate": 0.19512195,
+      "executed_action_counts": {
+        "noop": 561,
+        "right_run_jump": 136
+      },
+      "override_reason_counts": {
+        "stalled": 80,
+        "obstacle_critical": 56,
+        "enemy_critical": 32,
+        "gap_critical": 8,
+        "air_gap_critical": 24
+      },
+      "last_observation_available": true,
+      "simulation_wall_seconds": 0.228002
+    }
+  ],
+  "hardware": {
+    "name": "local CPU",
+    "gpu": false,
+    "platform": "Windows-11",
+    "python": "3.13.15",
+    "dependencies": {
+      "pygame": "2.6.1",
+      "pydantic": "2.13.5"
+    }
+  },
+  "probabilities": {
+    "applicable": false,
+    "reason": "No model inference"
+  },
+  "peak_vram": {
+    "applicable": false,
+    "reason": "CPU-only physics; no GPU allocated"
+  },
+  "status": "success",
+  "error": null,
+  "timings": {
+    "validation_and_loading_seconds": 1.0868444000079762,
+    "simulation_seconds": 13.796511199994711,
+    "total_wall_seconds": 14.913092600007076
+  }
+}

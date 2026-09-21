@@ -1,0 +1,114 @@
+{
+  "status": "ok",
+  "game_commit": "eb2f92617bab5d5021a5e3cf5ef2bdaf8207d480",
+  "level": 1,
+  "seed": 42,
+  "physics_fps": 60,
+  "max_simulation_frames": 1800,
+  "cases": [
+    {
+      "case": "noop",
+      "raw_action": "noop",
+      "executed_action_counts": {
+        "noop": 1800
+      },
+      "override_frames": 0,
+      "terminal_frame": null,
+      "simulation_frames": 1800,
+      "progress_pixels": 96.0,
+      "score": 0,
+      "coins": 0,
+      "lives": 3,
+      "is_dead": false,
+      "has_won": false,
+      "local_physics_only": true
+    },
+    {
+      "case": "right_run",
+      "raw_action": "right_run",
+      "executed_action_counts": {
+        "right_run": 1800
+      },
+      "override_frames": 0,
+      "terminal_frame": null,
+      "simulation_frames": 1800,
+      "progress_pixels": 486.0,
+      "score": 0,
+      "coins": 0,
+      "lives": 3,
+      "is_dead": false,
+      "has_won": false,
+      "local_physics_only": true
+    },
+    {
+      "case": "right_jump",
+      "raw_action": "right_jump",
+      "executed_action_counts": {
+        "right_jump": 216
+      },
+      "override_frames": 0,
+      "terminal_frame": 216,
+      "simulation_frames": 216,
+      "progress_pixels": 1454.6,
+      "score": 0,
+      "coins": 0,
+      "lives": 3,
+      "is_dead": true,
+      "has_won": false,
+      "local_physics_only": true
+    },
+    {
+      "case": "right_run_jump",
+      "raw_action": "right_run_jump",
+      "executed_action_counts": {
+        "right_run_jump": 647
+      },
+      "override_frames": 0,
+      "terminal_frame": 647,
+      "simulation_frames": 647,
+      "progress_pixels": 4204.4,
+      "score": 400,
+      "coins": 8,
+      "lives": 3,
+      "is_dead": false,
+      "has_won": true,
+      "local_physics_only": true
+    },
+    {
+      "case": "left",
+      "raw_action": "left",
+      "executed_action_counts": {
+        "left": 62
+      },
+      "override_frames": 0,
+      "terminal_frame": 62,
+      "simulation_frames": 62,
+      "progress_pixels": 96.0,
+      "score": 0,
+      "coins": 0,
+      "lives": 3,
+      "is_dead": true,
+      "has_won": false,
+      "local_physics_only": true
+    },
+    {
+      "case": "right_run_reflex",
+      "raw_action": "right_run",
+      "executed_action_counts": {
+        "right_run": 591,
+        "right_run_jump": 60
+      },
+      "override_frames": 60,
+      "terminal_frame": 651,
+      "simulation_frames": 651,
+      "progress_pixels": 4204.4,
+      "score": 350,
+      "coins": 5,
+      "lives": 3,
+      "is_dead": false,
+      "has_won": true,
+      "local_physics_only": true
+    }
+  ],
+  "note": "local fixed-game physics/control contrast; not a model or Colab GPU result"
+}
