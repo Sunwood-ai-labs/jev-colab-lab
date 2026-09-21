@@ -386,10 +386,19 @@ def collect_teacher_split(
     split_seed: int,
     split_name: str,
 ) -> tuple[list[dict[str, Any]], dict[str, Any]]:
-    """Collect sanitized state/action rows from the fixed game teacher."""
+    """Collect balanced, sanitized state/action rows from the fixed game teacher.
+
+    A teacher-following rollout spends most of its time airborne after the
+    first jump and therefore produces a misleading 97% ``right_run_jump``
+    dataset. We instead probe deterministic grounded positions across the
+    fixed level and short real physics arcs. Each split is balanced between
+    normal grounded states and jump-required states, while labels still come
+    only from the documented teacher policy.
+    """
 
     import pygame
 
+    from jev_platformer.engine.constants import TILE_SIZE
     from jev_platformer.engine.entities import Player
     from jev_platformer.engine.world import Level
     from jev_platformer.telemetry.extractor import TelemetryExtractor
@@ -397,47 +406,71 @@ def collect_teacher_split(
     rng = random.Random(split_seed)
     rows: list[dict[str, Any]] = []
     action_counts: Counter[str] = Counter()
-    episodes = 0
+    target_per_action = target_examples // 2
+    if target_per_action * 2 != target_examples:
+        raise ValueError("balanced teacher splits require an even example count")
+    attempts = 0
+
+    def grounded_probe(level: Any, x: float) -> Any:
+        probe = Player(x, level.start_pos[1])
+        probe.y = float((level.height_tiles - 4) * TILE_SIZE - probe.height)
+        probe.grounded = True
+        probe.coyote_frames = 6
+        probe.jumping = False
+        probe.airborne_frames = 0
+        probe.max_x = probe.x
+        return probe
+
+    def add_if_needed(obs: Any, physical: dict[str, Any], wanted: str) -> bool:
+        label = teacher_action(obs, physical)
+        if label != wanted or action_counts[label] >= target_per_action:
+            return False
+        rows.append({
+            "context": compact_context(obs, physical),
+            "options": list(ACTION_SPACE),
+            "label": ACTION_SPACE.index(label),
+        })
+        action_counts[label] += 1
+        return True
+
     pygame.init()
     try:
-        while len(rows) < target_examples and episodes < 240:
+        while len(rows) < target_examples and attempts < 200_000:
             level = Level(LEVEL)
-            start_offset = rng.choice((-16, 0, 16))
-            player = Player(level.start_pos[0] + start_offset, level.start_pos[1])
-            episodes += 1
-            for frame in range(MAX_SIMULATION_FRAMES):
-                if frame % FRAMES_PER_DECISION == 0:
-                    obs = TelemetryExtractor.extract(player, level)
-                    physical = precise_world_features(player, level)
-                    label = teacher_action(obs, physical)
-                    rows.append({
-                        "context": compact_context(obs, physical),
-                        "options": list(ACTION_SPACE),
-                        "label": ACTION_SPACE.index(label),
-                    })
-                    action_counts[label] += 1
-                    if len(rows) >= target_examples:
-                        break
-                    if rng.random() < 0.86:
-                        action = label
-                    else:
-                        action = rng.choice(("right_run", "right_run_jump", "right_jump", "right"))
-                else:
-                    action = action
-                advance_world(player, level, action)
-                if player.has_won or player.is_dead:
-                    break
+            max_start_x = int(level.goal.x - 192)
+            x = float(rng.randrange(int(level.start_pos[0]), max_start_x, 4))
+
+            # First collect a grounded observation. Safe positions become
+            # right_run rows; hazard positions are retained for the jump class.
+            grounded = grounded_probe(level, x)
+            obs = TelemetryExtractor.extract(grounded, level)
+            physical = precise_world_features(grounded, level)
+            add_if_needed(obs, physical, "right_run")
+
+            # Then create a genuine short jump arc from the same deterministic
+            # state. This gives the scorer vertical/velocity variation without
+            # inventing observations or changing the fixed game checkout.
+            airborne = grounded_probe(level, x)
+            for _ in range(rng.randint(1, 7)):
+                advance_world(airborne, level, "right_run_jump")
+            obs = TelemetryExtractor.extract(airborne, level)
+            physical = precise_world_features(airborne, level)
+            add_if_needed(obs, physical, "right_run_jump")
+            attempts += 1
     finally:
         pygame.quit()
     if len(rows) < target_examples:
-        raise RuntimeError(f"teacher split {split_name} only produced {len(rows)} rows")
+        raise RuntimeError(
+            f"teacher split {split_name} only produced {len(rows)} balanced rows after {attempts} probes"
+        )
+    rng.shuffle(rows)
     return rows, {
         "name": split_name,
         "examples": len(rows),
-        "episodes": episodes,
+        "probes": attempts,
         "action_counts": dict(sorted(action_counts.items())),
         "seed": split_seed,
-        "source": "fixed JevDash Level(1), deterministic physics, sanitized teacher labels",
+        "source": "fixed JevDash Level(1), deterministic grounded probes plus short physics arcs, sanitized teacher labels",
     }
 
 
@@ -560,7 +593,8 @@ def train_game_teacher_checkpoint(
         "name": MODEL_NAME,
         "encoder": "tiny",
         "initialization": "TinyScorer initialized from torch seed 42; no pretrained model weights.",
-        "training_data": "fixed JevDash Level(1) state/context rows with a documented game-teacher policy; no live API and no user data",
+        "training_data": "fixed JevDash Level(1) balanced state/context probes with a documented game-teacher policy; no live API and no user data",
+        "training_data_balance": "each train/validation/test split has equal right_run and right_run_jump labels; probes include grounded x/geometry and short real jump arcs",
         "teacher_policy": {
             "normal": "right_run",
             "jump": "right_run_jump when precise pipe/gap front clearance or enemy/telemetry hazard enters the documented window",
@@ -674,6 +708,7 @@ class ClearHUD:
         executed_action: str,
         override_reason: str | None,
         override_count: int,
+        guard_trigger_count: int,
     ) -> None:
         import pygame
 
@@ -700,7 +735,9 @@ class ClearHUD:
         reason = override_reason or "none"
         self.text(f"REFLEX OVERRIDE: {reason[:34]}", (x, y), action_color, self.font_xs)
         y += 16
-        self.text(f"OVERRIDE PHYSICS FRAMES: {override_count}", (x, y), self.muted, self.font_xs)
+        self.text(f"ACTION OVERRIDES: {override_count}", (x, y), self.muted, self.font_xs)
+        y += 15
+        self.text(f"GUARD TRIGGERS: {guard_trigger_count}", (x, y), self.muted, self.font_xs)
         y += 17
         self.text(f"SIM FRAME: {simulation_frame:04d}  ({simulation_frame / FPS:5.2f}s)", (x, y), self.primary, self.font_xs)
         y += 22
@@ -787,7 +824,9 @@ def run_episode(
     raw_action_counts: Counter[str] = Counter()
     executed_action_counts: Counter[str] = Counter()
     override_reasons: Counter[str] = Counter()
+    guard_trigger_reasons: Counter[str] = Counter()
     override_frames = 0
+    guard_trigger_frames = 0
     terminal_reason: str | None = None
     wall_started = time.perf_counter()
 
@@ -819,8 +858,11 @@ def run_episode(
                 executed_action, override_reason = current_raw_action, None
             executed_action_counts[executed_action] += 1
             if override_reason:
-                override_frames += 1
-                override_reasons[override_reason] += 1
+                guard_trigger_frames += 1
+                guard_trigger_reasons[override_reason] += 1
+                if executed_action != current_raw_action:
+                    override_frames += 1
+                    override_reasons[override_reason] += 1
 
             advance_world(player, level, executed_action)
             post_obs = TelemetryExtractor.extract(player, level)
@@ -829,7 +871,7 @@ def run_episode(
             hud.render(
                 post_obs, current_decision, frame_count, status, gpu_name,
                 mode.upper(), current_raw_action, executed_action, override_reason,
-                override_frames,
+                override_frames, guard_trigger_frames,
             )
             pygame.display.flip()
             recorder.record_frame(screen)
@@ -858,7 +900,7 @@ def run_episode(
             hud.render(
                 final_obs, current_decision, terminal_frame, status, gpu_name,
                 mode.upper(), current_raw_action, current_raw_action,
-                None, override_frames,
+                None, override_frames, guard_trigger_frames,
             )
             pygame.display.flip()
             recorder.record_frame(screen)
@@ -909,6 +951,9 @@ def run_episode(
             "override_frames": override_frames,
             "override_rate_over_simulation_frames": round(override_frames / max(1, terminal_frame), 6),
             "override_reasons": dict(sorted(override_reasons.items())),
+            "guard_trigger_frames": guard_trigger_frames,
+            "guard_trigger_rate_over_simulation_frames": round(guard_trigger_frames / max(1, terminal_frame), 6),
+            "guard_trigger_reasons": dict(sorted(guard_trigger_reasons.items())),
         },
         "runtime": {
             "backend": "local Jevlike checkpoint on Colab GPU",
@@ -970,7 +1015,9 @@ def run_control_fixture(game_root: Path, policy: str, reflex_cadence: str | None
     current_raw = "noop"
     current_executed = "noop"
     override_count = 0
+    guard_trigger_count = 0
     override_reasons: Counter[str] = Counter()
+    guard_trigger_reasons: Counter[str] = Counter()
     last_snapshot: dict[str, Any] = {}
     action_transitions: list[dict[str, Any]] = []
     try:
@@ -994,15 +1041,21 @@ def run_control_fixture(game_root: Path, policy: str, reflex_cadence: str | None
                 if reflex_cadence == "every-decision":
                     current_executed, reason = safety_reflex(obs, current_raw)
                     if reason:
-                        override_count += 1
-                        override_reasons[reason] += 1
+                        guard_trigger_count += 1
+                        guard_trigger_reasons[reason] += 1
+                        if current_executed != current_raw:
+                            override_count += 1
+                            override_reasons[reason] += 1
                 else:
                     current_executed = current_raw
             if reflex_cadence == "every-frame":
                 current_executed, reason = safety_reflex(obs, current_raw)
                 if reason:
-                    override_count += 1
-                    override_reasons[reason] += 1
+                    guard_trigger_count += 1
+                    guard_trigger_reasons[reason] += 1
+                    if current_executed != current_raw:
+                        override_count += 1
+                        override_reasons[reason] += 1
             advance_world(player, level, current_executed)
             last_snapshot = {
                 "frame": frame + 1,
@@ -1038,6 +1091,8 @@ def run_control_fixture(game_root: Path, policy: str, reflex_cadence: str | None
         "final_has_won": player.has_won,
         "override_frames": override_count,
         "override_reasons": dict(sorted(override_reasons.items())),
+        "guard_trigger_frames": guard_trigger_count,
+        "guard_trigger_reasons": dict(sorted(guard_trigger_reasons.items())),
         "terminal_snapshot": last_snapshot,
         "action_transitions": action_transitions[-16:],
         "gpu_claim": False,
@@ -1246,6 +1301,8 @@ def run_colab_experiment() -> None:
                 "decision_count": episode["trajectory"]["decision_count"],
                 "override_frames": episode["control"]["override_frames"],
                 "override_rate_over_simulation_frames": episode["control"]["override_rate_over_simulation_frames"],
+                "guard_trigger_frames": episode["control"]["guard_trigger_frames"],
+                "guard_trigger_rate_over_simulation_frames": episode["control"]["guard_trigger_rate_over_simulation_frames"],
                 "episode_json": episode["artifacts"]["episode_json"],
                 "video_mp4": episode["artifacts"]["video_mp4"],
             }

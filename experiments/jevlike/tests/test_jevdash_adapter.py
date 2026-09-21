@@ -55,6 +55,8 @@ def test_clear_runner_is_pinned_and_keeps_model_only_separate():
     assert 'mode not in {"model-only", "assisted"}' in source
     assert 'safety_reflex_evaluation": "every physics frame"' in source
     assert '"primary_model_only_success"' in source
+    assert "balanced, sanitized state/action rows" in source
+    assert '"guard_trigger_frames"' in source
 
 
 def test_clear_runner_has_no_live_or_mock_controller_path():
