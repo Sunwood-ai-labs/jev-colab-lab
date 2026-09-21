@@ -23,6 +23,7 @@ import subprocess
 import sys
 import time
 import traceback
+from collections import Counter
 from pathlib import Path
 from typing import Any
 
@@ -47,14 +48,58 @@ FRAME_DIR = OUTPUT_ROOT / "frames"
 
 ACTION_ORDER = ["noop", "right", "right_run", "right_jump", "right_run_jump", "jump", "left"]
 ACTION_DESCRIPTIONS = {
-    "noop": "Coast or wait for timing.",
-    "right": "Walk right cautiously.",
-    "right_run": "Sprint forward across flat open ground.",
-    "right_jump": "Jump right to clear an immediate low obstacle.",
-    "right_run_jump": "Running leap forward over a pipe, gap, or enemy.",
-    "jump": "Jump straight up to gain height.",
-    "left": "Backtrack away from danger.",
+    "noop": (
+        "Apply no directional or jump input. On the ground this decelerates horizontal speed; "
+        "in the air it preserves horizontal inertia."
+    ),
+    "right": (
+        "Move right: walking speed while grounded, but running horizontal speed while airborne; "
+        "do not start a jump."
+    ),
+    "right_run": "Move right at running speed across clear flat ground; do not start a jump.",
+    "right_jump": (
+        "Move right and start a normal jump with upward velocity -13.5; an airborne jump input "
+        "cannot create a second jump."
+    ),
+    "right_run_jump": (
+        "Move right at running speed and start the stronger running jump with upward velocity -15.5 "
+        "over an immediate pipe, gap, or enemy; an airborne jump input cannot create a second jump."
+    ),
+    "jump": (
+        "Start a vertical normal jump with upward velocity -13.5 without intentional horizontal direction; "
+        "an airborne jump input cannot create a second jump."
+    ),
+    "left": "Move left away from the goal; use only when backtracking is explicitly necessary.",
 }
+
+QUESTION_VARIANTS = {
+    "current": (
+        "Choose exactly one action macro for the next fixed control interval. "
+        "Use only the supplied game observation; do not output prose."
+    ),
+    "goal_oriented": (
+        "Choose exactly one action macro for the next fixed control interval. "
+        "The objective is to reach the goal flag to the right without dying. "
+        "Prefer a right-moving action on clear ground; use a running jump for a gap, pipe, or enemy. "
+        "Use left only when the observed state explicitly requires backtracking. Return no prose."
+    ),
+    "rules_v2": (
+        "Choose exactly one action macro for the next 8 simulation frames to reach the goal flag to the right. "
+        "On clear ground, keep advancing with right_run. If a pipe, gap, or enemy is ahead and the player is "
+        "grounded, choose right_run_jump early enough to clear it. While airborne, keep moving right and do not "
+        "expect jump to create a second jump; grounded and airborne_frames describe jump phase. "
+        "Telemetry obstacle_distance_tiles and gap_distance_tiles are coarse column distances from the player's "
+        "tile, not exact front-edge collision clearance. Use enemy distance and vertical position together. "
+        "Treat stalled_frames >= 3 as a failure to make forward progress and recover by moving right. "
+        "Use left only for explicit backtracking in the supplied state. Return no prose."
+    ),
+    "short": "Select one action for the next interval from the listed candidates; return no prose.",
+}
+
+REPRESENTATION = os.environ.get("KEV_REPRESENTATION", "compact_json")
+QUESTION_VARIANT = os.environ.get("KEV_QUESTION_VARIANT", "rules_v2")
+ORDER_NAME = os.environ.get("KEV_ORDER_VARIANT", "canonical")
+ASSIST_MODE = os.environ.get("KEV_ASSIST", "none")
 
 MODEL_NAME = "Kev-0.5B"
 MODEL_TRAINING_SOURCE = (
@@ -103,6 +148,78 @@ def seed_everything() -> None:
         pass
 
 
+ORDER_VARIANTS = {
+    "canonical": tuple(ACTION_ORDER),
+    "right_priority": ("right_run_jump", "right_jump", "right_run", "right", "noop", "jump", "left"),
+    "reverse": tuple(reversed(ACTION_ORDER)),
+}
+
+
+def compact_state(full: dict[str, Any]) -> dict[str, Any]:
+    nearest = full["hazard"].get("nearest_enemy")
+    return {
+        "mission": "Reach the goal flag to the right without dying.",
+        "player": {
+            key: full["player"][key]
+            for key in ("x", "y", "vx", "vy", "grounded", "jumping", "airborne_frames", "running")
+        },
+        "progress": {
+            key: full["episode"][key]
+            for key in ("progress_pixels", "goal_distance_pixels", "stalled_frames", "score", "coins", "lives")
+        },
+        "hazard": {
+            "enemy_ahead": full["hazard"]["enemy_ahead"],
+            "nearest_enemy": nearest,
+            "jump_must_start_now": full["hazard"]["jump_must_start_now"],
+            "in_danger_zone": full["hazard"]["in_danger_zone"],
+        },
+        "terrain": full["terrain"],
+        "local_radar": full["local_grid"],
+    }
+
+
+def state_for_representation(full: dict[str, Any]) -> dict[str, Any]:
+    if REPRESENTATION == "full_json":
+        return full
+    if REPRESENTATION == "compact_json":
+        return compact_state(full)
+    if REPRESENTATION == "compact_policy_json":
+        state = compact_state(full)
+        state["control_hint"] = (
+            "On clear ground advance right. If a gap, pipe, or enemy is ahead, use right_run_jump. "
+            "Do not move left unless the state requires backtracking."
+        )
+        return state
+    raise ValueError(f"unsupported KEV_REPRESENTATION: {REPRESENTATION}")
+
+
+def reflex_override(obs: Any, raw_action: str) -> tuple[str, list[str]]:
+    """The fixed game's published reflex, used only in explicitly assisted runs."""
+
+    terrain, hazard, player = obs.terrain, obs.hazard, obs.player
+    reasons: list[str] = []
+    if terrain.gap_ahead and (terrain.gap_distance_tiles or 99) <= 3.8:
+        reasons.append("gap_critical")
+    if terrain.obstacle_ahead and (terrain.obstacle_distance_tiles or 99) <= 2.2:
+        reasons.append("obstacle_critical")
+    if hazard.enemy_ahead and hazard.nearest_enemy is not None and (
+        hazard.nearest_enemy.distance_pixels <= 130 or hazard.jump_must_start_now
+    ):
+        reasons.append("enemy_critical")
+    if obs.episode.stalled_frames >= 3:
+        reasons.append("stalled")
+    if reasons and player.grounded:
+        return "right_run_jump", reasons
+    if (
+        not player.grounded
+        and terrain.gap_ahead
+        and terrain.gap_distance_tiles is not None
+        and terrain.gap_distance_tiles <= 1.5
+    ):
+        return "right_run_jump", ["air_gap_critical"]
+    return raw_action, []
+
+
 def clone_game() -> dict[str, str]:
     if not (GAME_DIR / ".git").exists():
         GAME_DIR.parent.mkdir(parents=True, exist_ok=True)
@@ -134,6 +251,14 @@ class KevDecisionAdapter:
     def __init__(self, upstream_dir: Path, adapter_dir: Path, base_dir: Path, model_sources: dict[str, Any]):
         import torch
 
+        if REPRESENTATION not in {"full_json", "compact_json", "compact_policy_json"}:
+            raise ValueError(f"unsupported KEV_REPRESENTATION: {REPRESENTATION}")
+        if QUESTION_VARIANT not in QUESTION_VARIANTS:
+            raise ValueError(f"unsupported KEV_QUESTION_VARIANT: {QUESTION_VARIANT}")
+        if ORDER_NAME not in ORDER_VARIANTS:
+            raise ValueError(f"unsupported KEV_ORDER_VARIANT: {ORDER_NAME}")
+        if ASSIST_MODE not in {"none", "reflex"}:
+            raise ValueError(f"unsupported KEV_ASSIST: {ASSIST_MODE}")
         if not torch.cuda.is_available():
             raise RuntimeError("CUDA is unavailable; this episode cannot be reported as a T4 run")
         self.device = "cuda"
@@ -155,39 +280,47 @@ class KevDecisionAdapter:
         head_meta = torch.load(adapter_dir / "head.pt", map_location="cpu", weights_only=False)
         self._model.head.load_state_dict(head_meta["head"])
         self._model.eval()
+        self.order = ORDER_VARIANTS[ORDER_NAME]
+        self.assist_mode = ASSIST_MODE
         self.decisions: list[dict[str, Any]] = []
 
     def decide(self, obs: Any, simulation_frame: int) -> Any:
         import torch
 
         started = time.perf_counter()
+        full_observation = obs.model_dump(mode="json")
+        state = state_for_representation(full_observation)
         request = {
-            "state": {"jevdash_observation": obs.model_dump(mode="json")},
+            "state": state,
             "model": "kev-0.5b",
             "questions": {
                 "action": {
                     "type": "choice",
-                    "instructions": (
-                        "Choose exactly one action macro for the next fixed control interval. "
-                        "Use only the supplied game observation; do not output prose."
-                    ),
-                    "criteria": {key: ACTION_DESCRIPTIONS[key] for key in ACTION_ORDER},
+                    "instructions": QUESTION_VARIANTS[QUESTION_VARIANT],
+                    "criteria": {key: ACTION_DESCRIPTIONS[key] for key in self.order},
                 }
             },
         }
         validated = self._SystemOneRequest.model_validate(request)
         record, meta = self._to_record(validated)
+        if meta[0].get("keys") != list(self.order):
+            raise RuntimeError("Kev candidate mapping does not match the requested order")
         encoded = self._encode(self._tokenizer, record)
         with torch.inference_mode():
             probability_tensors = self._model.probs(encoded)
         probabilities = probability_tensors[0].tolist()
-        probability_map = {key: float(value) for key, value in zip(ACTION_ORDER, probabilities)}
-        action = max(probability_map, key=probability_map.get)
+        probability_map = {key: float(value) for key, value in zip(self.order, probabilities)}
+        raw_action = max(probability_map, key=probability_map.get)
+        executed_action, override_reasons = (
+            reflex_override(obs, raw_action) if self.assist_mode == "reflex" else (raw_action, [])
+        )
         elapsed_ms = (time.perf_counter() - started) * 1000.0
+        rendered_state = record["state"]
+        rendered_state_bytes = rendered_state.encode("utf-8")
         from jev_platformer.controller.mock_agent import DecisionResult
 
         decision = DecisionResult(
-            action=action,
+            action=executed_action,
             probabilities=probability_map,
             danger_score=UnmeasuredMetric(),  # type: ignore[arg-type]
             jump_recommended=None,  # type: ignore[arg-type]
@@ -200,9 +333,24 @@ class KevDecisionAdapter:
                 "simulation_frame": simulation_frame,
                 "simulation_time_s": simulation_frame / FPS,
                 "inference_ms": elapsed_ms,
-                "action": action,
+                "raw_action": raw_action,
+                "executed_action": executed_action,
+                "action": executed_action,
+                "override": executed_action != raw_action,
+                "override_reasons": override_reasons,
                 "probabilities": probability_map,
-                "observation": obs.model_dump(mode="json"),
+                "observation": full_observation,
+                "state_used": state,
+                "representation": REPRESENTATION,
+                "question_variant": QUESTION_VARIANT,
+                "candidate_order": list(self.order),
+                "mapping_matches_candidate_order": meta[0].get("keys") == list(self.order),
+                "rendered_state": rendered_state,
+                "rendered_state_utf8_bytes": len(rendered_state_bytes),
+                "rendered_state_sha256": hashlib.sha256(rendered_state_bytes).hexdigest(),
+                "encoded_token_count": len(encoded["ids"]),
+                "state_token_count": encoded["seg"].count(0),
+                "branch_token_count": len(encoded["ids"]) - encoded["seg"].count(0),
                 "queried_outputs": ["action"],
                 "unqueried_outputs": {"danger_score": None, "jump_urgency": None},
             }
@@ -277,6 +425,7 @@ class KevDashboardRenderer:
         self.surface = surface
         self.offset_x = offset_x
         self.font_xs = self._original.font_xs
+        self.font_large = self._original.font_large
         self.last_obs = None
 
     def render(self, obs: Any, decision: Any, is_ai_mode: bool, fps: float) -> None:
@@ -460,6 +609,11 @@ def main() -> int:
         "terminal_hold_frames_requested": TERMINAL_HOLD_FRAMES,
         "video_time_basis": "simulation_frames_at_60fps; synchronous Kev inference waits are omitted from video time",
         "model_driven": True,
+        "model_only": ASSIST_MODE == "none",
+        "assist_mode": ASSIST_MODE,
+        "representation": REPRESENTATION,
+        "question_variant": QUESTION_VARIANT,
+        "candidate_order": list(ORDER_VARIANTS.get(ORDER_NAME, ())),
         "fallback_used": False,
         "errors": [],
     }
@@ -470,9 +624,11 @@ def main() -> int:
 
         kev_source = t4_inference.clone_upstream()
         model_sources = t4_inference.download_models()
+        adapter_dir = Path(os.environ.get("KEV_ADAPTER_PATH", str(t4_inference.ADAPTER_DIR)))
+        adapter_variant = "teacher_finetuned" if os.environ.get("KEV_ADAPTER_PATH") else "official_checkpoint"
         adapter = KevDecisionAdapter(
             t4_inference.UPSTREAM_DIR,
-            t4_inference.ADAPTER_DIR,
+            adapter_dir,
             t4_inference.BASE_DIR,
             model_sources,
         )
@@ -505,6 +661,12 @@ def main() -> int:
         simulation_frames = max(CURRENT_SIM_FRAME + 1, 0)
         upstream_terminal_frames = UPSTREAM_TERMINAL_HOLD_FRAMES.get(status, 0)
         expected_video_frames = simulation_frames + upstream_terminal_frames + TERMINAL_HOLD_FRAMES
+        raw_action_counts = Counter(item["raw_action"] for item in adapter.decisions)
+        executed_action_counts = Counter(item["executed_action"] for item in adapter.decisions)
+        override_reason_counts = Counter(
+            reason for item in adapter.decisions for reason in item.get("override_reasons", [])
+        )
+        override_count = sum(bool(item.get("override")) for item in adapter.decisions)
         result.update(
             {
                 "status": status,
@@ -517,6 +679,7 @@ def main() -> int:
                     "training_source": MODEL_TRAINING_SOURCE,
                     "implementation": kev_source,
                     "model_sources": model_sources,
+                    "adapter_variant": adapter_variant,
                     "gpu": adapter.gpu_name,
                     "device": "cuda",
                 },
@@ -529,6 +692,11 @@ def main() -> int:
                     "progress_pixels": LAST_GAME_STATE.get("progress_pixels"),
                     "score": LAST_GAME_STATE.get("score"),
                     "coins": LAST_GAME_STATE.get("coins"),
+                    "raw_action_counts": dict(raw_action_counts),
+                    "executed_action_counts": dict(executed_action_counts),
+                    "override_decision_count": override_count,
+                    "override_rate": override_count / record_count if record_count else 0.0,
+                    "override_reason_counts": dict(override_reason_counts),
                     "terminal_hold_frames_upstream_cli": upstream_terminal_frames,
                     "terminal_hold_frames_appended_by_adapter": getattr(LAST_RECORDER, "appended_terminal_frames", 0),
                     "expected_video_frames": expected_video_frames,
