@@ -43,13 +43,13 @@ ACTION_DESCRIPTIONS = {
 # NLI score is less sensitive to a candidate's wording than the legacy
 # verbose descriptions above.
 CARD_ACTION_PHRASES = {
-    "noop": "keep still",
-    "right": "walk right",
-    "right_run": "run right",
-    "right_jump": "walk right and jump",
-    "right_run_jump": "run right and jump",
-    "jump": "jump straight up",
-    "left": "move left",
+    "noop": "release horizontal control and do not jump",
+    "right": "move right without jumping",
+    "right_run": "run right without jumping",
+    "right_jump": "move right and jump with normal strength",
+    "right_run_jump": "run right and jump with full strength",
+    "jump": "jump without horizontal input",
+    "left": "move left without jumping",
 }
 CARD_ACTION_OPTIONS = tuple(ACTION_OPTIONS)
 
