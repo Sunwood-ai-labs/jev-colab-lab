@@ -137,9 +137,34 @@ Jevlike上流の`ByteCollator`は、コンテキストをUTF-8 byte列にして`
 - 27回すべて確率ベクトルが同一で、argmaxは`right_jump`。
 - 物理216 frames、simulation time 3.6秒でdeath。TinyScorerは合成badge選択512例などで学習しており、ゲーム学習はありません。
 
-従って、これは「ゲームを理解して常に同じ行動を選んだ」結果ではなく、状態情報が入力に届かなかった接続不備の記録です。presentation replayは元の軌跡とHUDを照合するだけで、この入力経路を修正したり追加推論したりしません。**今回の記事・変更でこの不備は修正済みとは扱いません。** Laya・Kev・SemIf・OpenJev NLIに同じ不具合があるとは確認していませんが、4件のゲーム接続妥当性を比較評価として完了したとも書きません。
+従って、これは「ゲームを理解して常に同じ行動を選んだ」結果ではなく、状態情報が入力に届かなかった接続不備の記録です。
 
-## 8. 再利用する際の境界
+## 8. JevDashクリアへの改良実験と原因究明の全貌
+
+初期実験の後、全モデルに対して原因の徹底究明と改良実験をColab実機（T4/L4）にて実施しました。その結果、**SemIf（モデル単独）、Jevlike（教師学習モデル単独）、Laya（2択制限＋補助付き）の3件でSTAGE CLEARを達成・実証**しました。
+
+| 対象 | 初回実験 | 改良後の実機結果 | 達成要因と実態 |
+|---|---|---|---|
+| **SemIf** (Qwen3.5-4B / L4) | 最初の土管 (x486) で停止 | **モデル単独CLEAR** (647 frames, 81判断) | `rules-v2` による物理ルール・距離意味の明示。実行時上書き 0。 |
+| **Jevlike** (TinyScorer / T4) | 入力欠落バグで即死 (x1454) | **モデル単独CLEAR** (647 frames, 81判断) | 入力欠落修正＋ゲーム教師データ学習（r2）。全判断が `right_run_jump` にコラプス。 |
+| **Laya** (ModernBERT / T4) | 通常ジャンプ偏りで死亡 | **クリア達成** (651 frames, 82判断) | 行動を2択（走る／ダッシュジャンプ）に制限＋毎frame reflex補助（60/651 frames上書き）。7択およびモデル単独は未クリア。 |
+| **Kev** (0.5B / T4) | 開始位置 (x96) から落下 | 未クリア (1800f timeout, x96) | `rules-v2` 適用でも全225判断が `jump` にコラプス。入力改善だけでは不十分。 |
+| **OpenJev NLI** (4B / L4) | 最初の土管 (x486) で停止 | 未クリア (1800f timeout / 落下死) | モデル単独は全判断 `right` にコラプス。補助付きでも歩行初速不足により388f (x2400) で落下。 |
+
+### 原因の切り分け
+
+1. **接続実装の不具合**: Jevlikeの初期失敗は、モデル能力ではなく192バイト制限で状態JSONが切り落とされていたことが原因。修正により正常に入力が伝達。
+2. **プロンプト表現と候補順依存**: SemIfの実L4監査（96条件）で、旧プロンプトは候補順依存が強いことが判明。距離や物理の意味を説明する `rules-v2` により判断が安定化しクリアへ。
+3. **教師データの偏り（Action Collapse）**: Jevlike r2の教師データは約97%がジャンプだったため、実機でも全ダッシュジャンプに固定化。Kevも全 `jump`、OpenJev NLIも全 `right` にコラプスしており、単なるプロンプト調整だけでは打破できない行動偏りの課題が浮き彫りになりました。
+4. **毎フレーム補助（Reflex Assist）の役割**: 本家JevDashの毎フレーム補助は、モデルが8フレームごとの大まかな方針（マクロ行動）を出しても微小な地形・敵を乗り越える補助輪として機能します。Layaではこの補助（60フレーム上書き）と2択制限の組み合わせでクリアを達成しました。一方、OpenJevのように基礎行動が低速歩行の場合は、補助がジャンプを発火させても穴を飛び越えられない物理的限界が存在します。
+
+### 独立した物理再生検証
+
+すべてのクリアエピソード（SemIf, Jevlike, Laya）は、ログの生アクション列から固定ゲーム環境（CPU）で全フレームを独立再実行する検証器（`experiments/control-audit/verify_episode_replay.py`）により、**全647〜651フレームの座標・速度・得点・勝敗状態が100%完全一致**することが確認されています。
+
+詳細は [JevDash 改良実験の検証記録 (IMPROVEMENT_REPORT.md)](https://github.com/Sunwood-ai-labs/jev-colab-lab/blob/main/experiments/control-audit/IMPROVEMENT_REPORT.md) を参照してください。
+
+## 9. 再利用する際の境界
 
 - notebookは固定revisionやrunnerを確認する入口です。Colabで再実行した結果は、既存JSONを上書きせず別名で保存してください。
 - `load`がdownload込みか、`first inference`がprocess-coldか、steady-stateが何を含むかは実験ごとに違います。
@@ -147,4 +172,4 @@ Jevlike上流の`ByteCollator`は、コンテキストをUTF-8 byte列にして`
 - 外部管理のMP4・代表フレーム・ゲームepisode JSONは、このリポジトリに公開URLを持たせていません。公開成果物はrunner、notebook、sanitized result、source manifestです。
 - 認証情報、OAuth link、session metadata、private input、model weightsは公開しません。
 
-次に読むなら、[実験一覧](experiments.md)、[再現性](reproducibility.md)、[出典とライセンス](sources-and-licenses.md)、または各実験のREADMEがおすすめです。
+次に読むなら、[改良実験の検証記録](https://github.com/Sunwood-ai-labs/jev-colab-lab/blob/main/experiments/control-audit/IMPROVEMENT_REPORT.md)、[実験一覧](experiments.md)、[再現性](reproducibility.md)、[出典とライセンス](sources-and-licenses.md)、または各実験のREADMEがおすすめです。
