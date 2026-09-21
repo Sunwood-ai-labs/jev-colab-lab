@@ -10,6 +10,9 @@ results/**/tiny_scorer.pt
 results/**/data/
 results/**/__pycache__/
 results/jevdash-clear/*.mp4
+results/jevdash-clear/*.png
 results/jevdash-clear/*.pt
+results/jevdash-clear/*.json
+!results/jevdash-clear/audit.json
 results/jevdash-clear/training-data/
 results/jevdash-clear/*-episode.json
