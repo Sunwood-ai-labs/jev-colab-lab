@@ -37,8 +37,14 @@ SEMIF_COMMIT = "ca3ba65f142967030ecb453346e94d6f476a69df"
 MODEL_ID = "Qwen/Qwen3.5-4B"
 MODEL_REPOSITORY = "https://huggingface.co/Qwen/Qwen3.5-4B"
 MODEL_REVISION = "851bf6e806efd8d0a36b00ddf55e13ccb7b8cd0a"
-SESSION_NAME = "jev-semif-jevdash"
+SESSION_NAME = "jev-semif-jevdash-clear"
 CLI_VERSION = "google-colab-cli 0.6.0"
+DEFAULT_CONTROLLER_PROMPT_VERSION = "jev-dash-rules-v2"
+CONTROLLER_PROMPT_VERSION = "jev-dash-rules-v3-physics"
+CONTROLLER_PROMPT_VERSIONS = (
+    DEFAULT_CONTROLLER_PROMPT_VERSION,
+    CONTROLLER_PROMPT_VERSION,
+)
 
 LEVEL = 1
 SEED = 42
@@ -59,20 +65,45 @@ ACTIONS = (
     "jump",
     "left",
 )
-ACTION_DESCRIPTIONS = {
-    "noop": "Do nothing and preserve the current horizontal momentum.",
-    "right": "Move right at walking speed.",
-    "right_run": "Move right at running speed.",
-    "right_jump": "Move right and jump.",
-    "right_run_jump": "Move right at running speed and jump.",
-    "jump": "Jump without selecting a horizontal direction.",
-    "left": "Move left at walking speed.",
+ACTION_DESCRIPTIONS_V2 = {
+    "noop": "NOOP: apply no directional or jump input; preserve momentum.",
+    "right": "RIGHT: hold right at walking speed without starting a jump.",
+    "right_run": "RIGHT_RUN: hold right at running speed without jumping; use only on clear flat ground.",
+    "right_jump": "RIGHT_JUMP: hold right and start a normal jump to clear a low obstacle or enemy.",
+    "right_run_jump": "RIGHT_RUN_JUMP: hold right at running speed and start a jump; use for a pipe, pit gap, approaching enemy, or a stalled wall, and keep this input while airborne until landing.",
+    "jump": "JUMP: start a vertical jump without choosing a horizontal direction.",
+    "left": "LEFT: hold left at walking speed to backtrack; do not use to advance toward the goal.",
 }
-PROMPT_QUESTION = (
-    "Choose exactly one action macro for the next 8 simulation frames based only "
-    "on the supplied JevDash Level 1 observation. Select the macro that best "
-    "advances the player to the goal while avoiding hazards."
+ACTION_DESCRIPTIONS_V3 = {
+    "noop": "NOOP: apply no directional or jump input; while grounded horizontal velocity decelerates, while airborne current horizontal velocity is retained.",
+    "right": "RIGHT: while grounded accelerate toward walking speed without jumping; while airborne apply full right run-speed control without starting a new jump.",
+    "right_run": "RIGHT_RUN: while grounded accelerate toward running speed without jumping; while airborne apply full right run-speed control; use only on clear ground or to preserve an existing jump.",
+    "right_jump": "RIGHT_JUMP: apply right control and start a normal jump only when grounded or in coyote time; while airborne keep full right run-speed control without re-jumping.",
+    "right_run_jump": "RIGHT_RUN_JUMP: apply full right run-speed control and start a run jump only when grounded or in coyote time; while airborne do not re-jump, keep the input through landing.",
+    "jump": "JUMP: start a vertical jump only when grounded or in coyote time; while airborne do not restart the jump and do not select horizontal control.",
+    "left": "LEFT: while grounded accelerate left toward walking speed; while airborne apply left walk-speed control after the air-control threshold; do not use to advance toward the goal.",
+}
+PROMPT_QUESTION_V2 = (
+    "Choose exactly one action macro for the next 8 simulation frames. Use the "
+    "telemetry literally and output only one listed option. Decision priority: "
+    "(1) if grounded and stalled_frames is at least 3, choose RIGHT_RUN_JUMP; "
+    "(2) if enemy_ahead and nearest_enemy distance_pixels is at most 160, or its "
+    "estimated_contact_frames is at most 18, choose RIGHT_RUN_JUMP or RIGHT_JUMP; "
+    "(3) if grounded and jump_must_start_now is true, obstacle_distance_tiles is "
+    "at most 2.5, or gap_distance_tiles is at most 3.5, choose RIGHT_RUN_JUMP or "
+    "RIGHT_JUMP; (4) if airborne and a hazard is near, keep RIGHT_RUN_JUMP so the "
+    "jump input is held through landing; (5) otherwise, on clear flat ground, "
+    "choose RIGHT_RUN. Do not choose RIGHT_RUN when blocked or when a jump is "
+    "needed. Obstacle/gap tile distances are coarse scan columns, not exact pixel "
+    "clearance. The option descriptions define the exact game input mapping."
 )
+PROMPT_QUESTION_V3 = PROMPT_QUESTION_V2
+
+
+PROMPT_CONFIGS = {
+    DEFAULT_CONTROLLER_PROMPT_VERSION: (PROMPT_QUESTION_V2, ACTION_DESCRIPTIONS_V2),
+    CONTROLLER_PROMPT_VERSION: (PROMPT_QUESTION_V3, ACTION_DESCRIPTIONS_V3),
+}
 
 
 def utc_now() -> str:
@@ -175,14 +206,55 @@ def gpu_metadata(torch: Any) -> dict[str, Any]:
     }
 
 
+def compact_state(state: dict[str, Any]) -> str:
+    """Serialize only ordered control fields with their physical meanings."""
+
+    player = state["player"]
+    hazard = state["hazard"]
+    terrain = state["terrain"]
+    episode = state["episode"]
+    enemy = hazard["nearest_enemy"]
+    enemy_text = "none"
+    if enemy is not None:
+        enemy_text = (
+            f"kind={enemy['kind']} distance_pixels={enemy['distance_pixels']} "
+            f"vertical_offset_pixels={enemy['vertical_offset_pixels']} "
+            f"relative_velocity_x={enemy['relative_velocity_x']} "
+            f"estimated_contact_frames={enemy['estimated_contact_frames']}"
+        )
+    return "\n".join(
+        (
+            "JevDash Level 1 control state:",
+            f"player x={player['x']} y={player['y']} vx={player['vx']} vy={player['vy']} grounded={player['grounded']} jumping={player['jumping']} running={player['running']}",
+            f"episode progress_pixels={episode['progress_pixels']} goal_distance_pixels={episode['goal_distance_pixels']} stalled_frames={episode['stalled_frames']} is_dead={episode['is_dead']} has_won={episode['has_won']}",
+            f"terrain obstacle_ahead={terrain['obstacle_ahead']} obstacle_distance_tiles={terrain['obstacle_distance_tiles']} obstacle_height_tiles={terrain['obstacle_height_tiles']} gap_ahead={terrain['gap_ahead']} gap_distance_tiles={terrain['gap_distance_tiles']} gap_width_tiles={terrain['gap_width_tiles']} clear_forward_tiles={terrain['clear_forward_tiles']}",
+            f"hazard enemy_ahead={hazard['enemy_ahead']} jump_must_start_now={hazard['jump_must_start_now']} in_danger_zone={hazard['in_danger_zone']} nearest_enemy=({enemy_text})",
+            "local_grid:",
+            *state["local_grid"],
+        )
+    )
+
+
 class SemIfActionAdapter:
     """Synchronous direct option-logit adapter with no fallback path."""
 
-    def __init__(self, model_id: str, revision: str, max_tokens: int, torch: Any):
+    def __init__(
+        self,
+        model_id: str,
+        revision: str,
+        max_tokens: int,
+        torch: Any,
+        controller_prompt_version: str,
+    ):
         from semif_phase1.core import load_causal_model
 
+        try:
+            self.question, self.action_descriptions = PROMPT_CONFIGS[controller_prompt_version]
+        except KeyError as error:
+            raise ValueError(f"unsupported controller prompt version: {controller_prompt_version}") from error
         self.torch = torch
         self.max_tokens = max_tokens
+        self.controller_prompt_version = controller_prompt_version
         self.model, self.tokenizer, self.loader_metadata = load_causal_model(model_id, revision)
         self.decision_count = 0
         self.total_inference_wall_seconds = 0.0
@@ -191,12 +263,13 @@ class SemIfActionAdapter:
         from semif_phase1.direct import score
 
         state = observation.model_dump(mode="json")
+        model_state = compact_state(state)
         row = {
             "id": f"jevdash-frame-{simulation_frame:06d}",
-            "state": state,
-            "question": PROMPT_QUESTION,
+            "state": model_state,
+            "question": self.question,
             "options": [
-                {"id": action, "description": ACTION_DESCRIPTIONS[action]}
+                {"id": action, "description": self.action_descriptions[action]}
                 for action in ACTIONS
             ],
         }
@@ -222,7 +295,8 @@ class SemIfActionAdapter:
             "simulation_frame": simulation_frame,
             "simulation_time_seconds": simulation_frame / FPS,
             "observation": state,
-            "question": PROMPT_QUESTION,
+            "model_input_state": model_state,
+            "question": self.question,
             "options": row["options"],
             "action": ACTIONS[selected_index],
             "selected_probability": probabilities[selected_index],
@@ -238,12 +312,17 @@ class SemIfActionAdapter:
             "prompt_version": result["prompt_version"],
             "readout": result["readout"],
             "probability_status": result["probability_status"],
+            "controller_prompt_version": self.controller_prompt_version,
             "auxiliary_judgments": {
                 "danger": "not_measured",
                 "urgency": "not_measured",
                 "note": "Only the seven-way action choice controls the game.",
             },
             "fallback_used": False,
+            "raw_action": ACTIONS[selected_index],
+            "executed_action": ACTIONS[selected_index],
+            "override_applied": False,
+            "override_reason": None,
         }
 
 
@@ -406,6 +485,8 @@ def base_payload(args: argparse.Namespace) -> dict[str, Any]:
             "max_simulation_frames": args.max_frames,
             "static_terminal_frames": args.static_terminal_frames,
             "action_order": list(ACTIONS),
+            "control_mode": "model_only",
+            "override_policy": "none",
             "physics_source": "unmodified JevDash fixed checkout; runner mirrors cli.run_play order",
         },
         "source": {
@@ -417,6 +498,8 @@ def base_payload(args: argparse.Namespace) -> dict[str, Any]:
             "model_revision": args.revision,
             "model_license": "Apache-2.0 (upstream model card)",
             "training_source": "upstream Qwen/Qwen3.5-4B checkpoint; no local fine-tuning",
+            "controller_prompt_version": args.controller_prompt_version,
+            "input_representation": "ordered compact telemetry with explicit grounded/stall/hazard semantics; full observation retained in audit JSON",
             "fallback_used": False,
             "mock_agent_used": False,
             "auxiliary_judgments": {
@@ -484,7 +567,13 @@ def run(args: argparse.Namespace) -> tuple[dict[str, Any], int]:
             raise RuntimeError(f"expected an L4 GPU, got {gpu['name']!r}")
 
         load_started = time.perf_counter()
-        adapter = SemIfActionAdapter(args.model, args.revision, args.max_tokens, torch)
+        adapter = SemIfActionAdapter(
+            args.model,
+            args.revision,
+            args.max_tokens,
+            torch,
+            args.controller_prompt_version,
+        )
         torch.cuda.synchronize(0)
         payload["runtime"]["model_load_seconds"] = time.perf_counter() - load_started
         payload["runtime"]["load_memory"] = cuda_memory_snapshot(torch)
@@ -564,6 +653,10 @@ def run(args: argparse.Namespace) -> tuple[dict[str, Any], int]:
                     "frame": frame_count,
                     "simulation_time_seconds": frame_count / FPS,
                     "action": current_action,
+                    "raw_action": current_action,
+                    "executed_action": current_action,
+                    "override_applied": False,
+                    "override_reason": None,
                     "decision_index": current_decision["decision_index"] if current_decision else None,
                     "x": round(float(player.x), 3),
                     "y": round(float(player.y), 3),
@@ -612,6 +705,9 @@ def run(args: argparse.Namespace) -> tuple[dict[str, Any], int]:
             "decision_count": adapter.decision_count,
             "action_counts": dict(action_counts),
             "total_inference_wall_seconds": adapter.total_inference_wall_seconds,
+            "override_frames": 0,
+            "override_rate": 0.0,
+            "control_mode": "model_only",
             "peak_vram": payload["runtime"]["inference_peak_memory"],
         }
         return payload, 0
@@ -645,6 +741,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output-json", type=Path, default=Path("/content/semif-jevdash-episode.json"))
     parser.add_argument("--model", default=MODEL_ID)
     parser.add_argument("--revision", default=MODEL_REVISION)
+    parser.add_argument(
+        "--controller-prompt-version",
+        choices=CONTROLLER_PROMPT_VERSIONS,
+        default=DEFAULT_CONTROLLER_PROMPT_VERSION,
+        help="v2 reproduces the verified clear run; v3 is physics-text-only and has no GPU evidence here",
+    )
     parser.add_argument("--max-tokens", type=int, default=4096)
     parser.add_argument("--level", type=int, default=LEVEL)
     parser.add_argument("--seed", type=int, default=SEED)

@@ -1,6 +1,6 @@
 # 実験一覧
 
-5つの実験を <code>main</code> に統合しています。答える問いが異なるため、独立した実験として読みます。
+5つの実験を <code>main</code> に統合しています。答える問いが異なるため、独立した実験として読みます。notebookのリンク、通常の選択推論の実測値、Colab CLIの実行方法は[日本語まとめ記事](/ja/guide/jev-clone-colab)に整理しています。
 
 | 実験 | GPU | runnerの処理 | 結果 |
 | --- | --- | --- | --- |
@@ -24,17 +24,19 @@ catalogには失敗記録も残しています。
 
 ## JevDash録画の証跡
 
-5つのモデル経路でJevDash Level 1の録画セットをGit外に完成させています。以下の実験ページがrunnerとコミット済み証跡の公開導線です。MP4本体は意図的に外部管理であり、ここでは公開動画URLを主張しません。
+5つのモデル経路でJevDash Level 1の録画セットをGit外に保存しています。以下の実験ページがrunnerとコミット済み証跡の公開導線です。MP4本体は意図的に外部管理であり、ここでは公開動画URLを主張しません。
 
 | モデル経路 | 公開導線 | 確認するもの |
 | --- | --- | --- |
 | Laya | [実験README](https://github.com/Sunwood-ai-labs/jev-colab-lab/blob/main/experiments/laya/README.md) | 固定game revision、実T4 adapter経路、simulation-time表示。 |
 | Kev | [実験README](https://github.com/Sunwood-ai-labs/jev-colab-lab/blob/main/experiments/kev/README.md) | T4軌跡、状態維持presentation replay、sanitized manifest。 |
-| Jevlike | [録画ガイド](https://github.com/Sunwood-ai-labs/jev-colab-lab/blob/main/experiments/jevlike/jevdash-capture.md) | 追加推論をしない、状態照合済みHUD-only replay。 |
+| Jevlike | [録画ガイド](https://github.com/Sunwood-ai-labs/jev-colab-lab/blob/main/experiments/jevlike/jevdash-capture.md) | 入力欠落を検出したため、ゲーム能力評価には無効。replayはHUD-only。 |
 | SemIf | [実験README](https://github.com/Sunwood-ai-labs/jev-colab-lab/blob/main/experiments/semif/README.md) | 実L4 option-logit制御、固定game marker。 |
 | OpenJev NLI | [実験READMEと証跡](https://github.com/Sunwood-ai-labs/jev-colab-lab/blob/main/experiments/openjev-nli/README.md) | L4 NLI制御、manifest、judgment log、代表フレーム、decode証跡。 |
 
 これはモデルランキングではなく、独立した単一episodeです。動画時間は同期推論の待ち時間を除くsimulation timeです。KevとJevlikeのpresentation replayは記録済みの軌跡・状態を維持し、HUD描画だけを変更します。
+
+Jevlikeでは、`context_tokens=192` のByteCollatorが先頭192 bytesだけを渡し、定型指示の後ろにある状態情報を落としていました。外部管理のsanitized episode JSONで全27判断の先頭192 bytes・確率・`right_jump`が同一であることを確認しています。Laya、Kev、SemIf、OpenJev NLIに同じ不具合があるとは確認していませんが、4件を含むゲーム能力比較が完了したとは扱いません。
 
 ## 比較の境界
 

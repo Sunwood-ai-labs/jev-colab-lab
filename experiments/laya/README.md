@@ -69,9 +69,9 @@ wsl.exe -d Ubuntu-24.04 -- $colab --config /tmp/jev-laya-colab-session.json stop
 
 ## JevDash実モデル録画
 
-`adapter/runner.py` は、`Sunwood-ai-labs/jevdash` の固定commit `eb2f92617bab5d5021a5e3cf5ef2bdaf8207d480` を変更せずに参照し、Level 1をseed 42で実行します。LayaはCUDA上で同期的に8シミュレーションフレームごとに1回だけ呼び、7候補のargmax actionだけをゲームへ渡します。モック、live Jev、ルールfallback、成功プレイの選別はありません。
+`adapter/runner.py` は、`Sunwood-ai-labs/jevdash` の固定commit `eb2f92617bab5d5021a5e3cf5ef2bdaf8207d480` を変更せずに参照し、Level 1をseed 42で実行します。LayaはCUDA上で同期的に8シミュレーションフレームごとに1回だけ呼び、7候補のargmax actionを記録します。`--control-mode model_only` ではそのraw actionをそのままゲームへ渡し、`--control-mode reflex_assisted` では本家AsyncJevAgent相当の狭いreflexを物理フレームごとに適用します。後者は必ずraw/executed action、override理由、率を記録し、model-only成功とは別に扱います。モック、live Jev、成功プレイの選別はありません。
 
-Layaへ渡すstateは固定ゲームの `JevObservation.model_dump()` 全体です。各判断のJSONに観測、候補、全確率、入力token数、512-token context内の保持token数、truncation有無、推論時間を記録します。danger/urgencyはLayaのaction-only questionでは計測せず、HUD/JSONでも `UNMEASURED` と表示します。
+Layaへ渡すstateは `--state-encoding full_json` の元JSONと、全フィールドを意味付きで一行圧縮する `semantic_v1` の2系統を比較できます。`--prompt-profile platformer_guided` は、土管・pit・敵・stalled条件、grounded、空中の右方向慣性、telemetry距離が粗いtile-column値であることを質問文に明示します。`platformer_rules_v2` は同じ状態を使い、grounded/obstacle_ahead/gap_ahead/enemy_ahead/stalled_framesの順序付き条件を短い質問headに明示します。各判断のJSONに観測、候補順、全確率、raw model choice、argmax一致、入力token/byte/hash、512-token context内の保持token数、truncation有無、推論時間を記録します。候補順はモデル入力の一部なのでmanifestへ固定します。danger/urgencyはLayaのaction-only questionでは計測せず、HUD/JSONでも `UNMEASURED` と表示します。
 
 動画はゲームの60 FPSシミュレーションフレームを録画します。Laya推論待ちを含むwall-clock実時間ではありません。死亡・クリア・1800フレーム上限の後に120フレームの静止終端を追加します。録画時の画面にはモデル名、GPU、`MODEL DECISION`、`SIM TIME ... inference waits omitted` を表示します。
 
@@ -92,3 +92,11 @@ wsl.exe -d Ubuntu-24.04 -- $colab --auth adc --config $cfg stop --session jev-la
 ```
 
 FFmpegの `ffprobe`、全フレームdecode、代表3フレームの目視確認を実行結果に添えます。重み・認証情報・session metadataは成果物へコピーしません。
+
+### JevDashクリア原因監査
+
+`scripts/physics_audit.py` は固定ゲームの物理だけを比較し、constant action、constant `right_run_jump`、本家相当の毎物理フレームreflexを区別します。これはモデルやColab GPUの成功証拠ではありません。`scripts/prompt_audit.py` は同じゲーム状態が変わる4 fixtureに対して、baseline/guided/state encoding/候補順の実Laya CUDA出力を比較します。
+
+新しい録画・監査成果物は、過去の参照用 `C:\Prj\jev-colab-lab\.local\jevdash-videos` を変更せず、`experiments/laya/results/jevdash-clear/` に保存します。
+
+`right_run,right_run_jump` の2候補variantは、7候補モデルの成功と混同しないため `forward_binary` と明記します。これは候補制限したモデル単独実験であり、通常の7候補実験とは別の入力条件です。

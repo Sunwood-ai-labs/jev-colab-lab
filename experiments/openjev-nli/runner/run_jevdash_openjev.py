@@ -76,6 +76,8 @@ def parse_args(argv: Sequence[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--terminal-frames", type=int, default=TERMINAL_FRAMES)
     parser.add_argument("--seed", type=int, default=SEED)
     parser.add_argument("--max-length", type=int, default=512)
+    parser.add_argument("--profile", choices=("legacy", "card", "rules-v2", "applicability", "conditioned-two"), default="legacy")
+    parser.add_argument("--execution-mode", choices=("model-only", "assisted"), default="model-only")
     return parser.parse_args(argv)
 
 
@@ -153,8 +155,15 @@ def initial_result(args: argparse.Namespace, seeds: dict[str, Any]) -> dict[str,
             "resolution": [SCREEN_WIDTH, SCREEN_HEIGHT],
             "video_time_basis": "60 FPS simulation frames; synchronous model wait wall-clock time is omitted from video time",
             "control_mode": "synchronous model decision every frames_per_decision frames",
+            "input_profile": args.profile,
+            "execution_mode": args.execution_mode,
             "action_selection": "argmax over NLI entailment probability across the fixed seven JevDash actions",
             "fallback": "none; model or runtime failure is recorded as error",
+            "assistance": (
+                "none; raw model action is applied exactly"
+                if args.execution_mode == "model-only"
+                else "every-physics-frame safety reflex; raw and executed actions are both recorded"
+            ),
         },
         "action_options": [
             "noop",
@@ -188,7 +197,17 @@ class OpenJevHUD:
     def _text(self, text: str, pos: tuple[int, int], color: Any, font: Any | None = None) -> None:
         self.surface.blit((font or self.font_xs).render(text, True, color), pos)
 
-    def render(self, obs: Any, decision: dict[str, Any] | None, simulation_frame: int, status: str, gpu_name: str) -> None:
+    def render(
+        self,
+        obs: Any,
+        decision: dict[str, Any] | None,
+        simulation_frame: int,
+        status: str,
+        gpu_name: str,
+        raw_action: str,
+        executed_action: str,
+        override_reason: str | None,
+    ) -> None:
         pygame = self.pygame
         c = self.colors
         x = self.offset_x + 20
@@ -206,17 +225,23 @@ class OpenJevHUD:
         self._text(f"GPU: {gpu_name[:31]}", (x, y), c["muted"], self.font_xs)
         y += 18
 
-        card = pygame.Rect(x, y, self.hud_width - 40, 74)
+        card = pygame.Rect(x, y, self.hud_width - 40, 92)
         pygame.draw.rect(self.surface, c["card"], card, border_radius=8)
         pygame.draw.rect(self.surface, c["accent"], card, 1, border_radius=8)
-        self._text("MODEL DECISION", (x + 12, y + 9), c["muted"], self.font_xs)
-        self._text(decision["action"] if decision else "waiting", (x + 12, y + 27), c["accent"], self.font_large)
+        self._text("RAW MODEL ACTION", (x + 12, y + 8), c["muted"], self.font_xs)
+        self._text(raw_action if decision else "waiting", (x + 12, y + 23), c["accent"], self.font_large)
+        self._text(f"EXECUTED: {executed_action}", (x + 12, y + 50), c["primary"], self.font_xs)
         sim_time = simulation_frame / 60.0
-        self._text(f"SIMULATION TIME  {sim_time:6.2f}s  (INFERENCE WAITS OMITTED)", (x + 12, y + 56), c["primary"], self.font_xs)
-        y += 88
+        self._text(f"SIM TIME {sim_time:6.2f}s (INFERENCE WAITS OMITTED)", (x + 12, y + 68), c["primary"], self.font_xs)
+        y += 106
 
         self._text(f"STATUS: {status.upper()}", (x, y), c["success"] if status == "clear" else c["danger"] if status == "dead" else c["primary"], self.font_base)
         y += 24
+        if override_reason:
+            self._text(f"ASSIST OVERRIDE: {override_reason}", (x, y), c["accent"], self.font_xs)
+        else:
+            self._text("ASSIST OVERRIDE: none", (x, y), c["muted"], self.font_xs)
+        y += 20
         self._text(f"SIM FRAME {simulation_frame:04d} / {MAX_SIMULATION_FRAMES}", (x, y), c["muted"], self.font_xs)
         y += 20
 
@@ -283,12 +308,78 @@ def update_world(player: Any, level: Any, action: str) -> None:
         player.has_won = True
 
 
-def trajectory_row(frame: int, decision_index: int, action: str, player: Any, status: str = "running") -> dict[str, Any]:
+def _count_actions(rows: list[dict[str, Any]], key: str) -> dict[str, int]:
+    counts: dict[str, int] = {}
+    for row in rows:
+        action = str(row[key])
+        counts[action] = counts.get(action, 0) + 1
+    return counts
+
+
+def _count_reasons(rows: list[dict[str, Any]]) -> dict[str, int]:
+    counts: dict[str, int] = {}
+    for row in rows:
+        reason = row.get("override_reason")
+        if reason:
+            counts[str(reason)] = counts.get(str(reason), 0) + 1
+    return counts
+
+
+def assisted_action(observation: Any, raw_action: str) -> tuple[str, str | None]:
+    """Apply only the fixed game's documented safety reflex, with a reason."""
+
+    reasons: list[str] = []
+    terrain = observation.terrain
+    hazard = observation.hazard
+    episode = observation.episode
+    if terrain.gap_ahead and (terrain.gap_distance_tiles or 99) <= 3.8:
+        reasons.append("gap_ahead")
+    if terrain.obstacle_ahead and (terrain.obstacle_distance_tiles or 99) <= 2.2:
+        reasons.append("obstacle_ahead")
+    if (
+        hazard.enemy_ahead
+        and hazard.nearest_enemy is not None
+        and (
+            hazard.nearest_enemy.distance_pixels <= 130.0
+            or hazard.jump_must_start_now
+        )
+    ):
+        reasons.append("enemy_threat")
+    if episode.stalled_frames >= 3:
+        reasons.append("stalled")
+
+    if reasons and observation.player.grounded:
+        return "right_run_jump", "+".join(reasons)
+
+    if (
+        not observation.player.grounded
+        and terrain.gap_ahead
+        and terrain.gap_distance_tiles is not None
+        and terrain.gap_distance_tiles <= 1.5
+    ):
+        return "right_run_jump", "airborne_gap"
+
+    return raw_action, None
+
+
+def trajectory_row(
+    frame: int,
+    decision_index: int,
+    raw_action: str,
+    executed_action: str,
+    override_reason: str | None,
+    player: Any,
+    status: str = "running",
+) -> dict[str, Any]:
     return {
         "simulation_frame": frame,
         "simulation_time_s": round(frame / FPS, 6),
         "decision_index": decision_index,
-        "action_applied": action,
+        "raw_action": raw_action,
+        "executed_action": executed_action,
+        "action_applied": executed_action,
+        "override_reason": override_reason,
+        "overridden": override_reason is not None,
         "x": round(float(player.x), 4),
         "y": round(float(player.y), 4),
         "vx": round(float(player.vx), 4),
@@ -384,6 +475,7 @@ def main(argv: Sequence[str] | None = None) -> int:
         current_obs = None
         current_decision: dict[str, Any] | None = None
         current_action = "noop"
+        model_decision: dict[str, Any] | None = None
         frame_count = 0
         decision_index = -1
         end_status = "timeout"
@@ -391,11 +483,13 @@ def main(argv: Sequence[str] | None = None) -> int:
 
         while frame_count < args.max_frames and not player.is_dead and not player.has_won:
             pygame.event.pump()
+            frame_obs = TelemetryExtractor.extract(player, level)
             if frame_count % args.frames_per_decision == 0:
-                current_obs = TelemetryExtractor.extract(player, level)
+                current_obs = frame_obs
                 decision_index += 1
-                model_decision = adapter.decide(current_obs)
+                model_decision = adapter.decide(current_obs, profile=args.profile)
                 current_action = model_decision["action"]
+                model_decision["raw_action"] = current_action
                 model_decision["decision_index"] = decision_index
                 model_decision["simulation_frame"] = frame_count
                 model_decision["simulation_time_s"] = round(frame_count / FPS, 6)
@@ -403,9 +497,22 @@ def main(argv: Sequence[str] | None = None) -> int:
                 result["model_decisions"].append(model_decision)
                 current_decision = model_decision
 
-            update_world(player, level, current_action)
+            executed_action = current_action
+            override_reason = None
+            if args.execution_mode == "assisted":
+                executed_action, override_reason = assisted_action(frame_obs, current_action)
+            update_world(player, level, executed_action)
             game_renderer.render(player, level)
-            hud.render(current_obs, current_decision or model_decision, frame_count, "running", adapter.gpu["name"])
+            hud.render(
+                frame_obs,
+                current_decision or model_decision,
+                frame_count,
+                "running",
+                adapter.gpu["name"],
+                current_action,
+                executed_action,
+                override_reason,
+            )
             pygame.display.flip()
             if frame_count == 0:
                 surface_samples.append(("initial", screen.copy()))
@@ -414,7 +521,16 @@ def main(argv: Sequence[str] | None = None) -> int:
             if frame_count % args.frames_per_decision == 0:
                 last_regular_surface = screen.copy()
             recorder.record_frame(screen)
-            result["trajectory"].append(trajectory_row(frame_count, decision_index, current_action, player))
+            result["trajectory"].append(
+                trajectory_row(
+                    frame_count,
+                    decision_index,
+                    current_action,
+                    executed_action,
+                    override_reason,
+                    player,
+                )
+            )
             frame_count += 1
 
             if player.has_won:
@@ -428,10 +544,21 @@ def main(argv: Sequence[str] | None = None) -> int:
             end_status = "dead"
 
         terminal_obs = TelemetryExtractor.extract(player, level)
+        terminal_raw_action = current_action
+        terminal_executed_action = current_action
         for terminal_index in range(args.terminal_frames):
             pygame.event.pump()
             game_renderer.render(player, level)
-            hud.render(terminal_obs, current_decision or model_decision, frame_count, end_status, adapter.gpu["name"])
+            hud.render(
+                terminal_obs,
+                current_decision or model_decision,
+                frame_count,
+                end_status,
+                adapter.gpu["name"],
+                terminal_raw_action,
+                terminal_executed_action,
+                None,
+            )
             pygame.display.flip()
             recorder.record_frame(screen)
             if terminal_index == 0:
@@ -467,6 +594,14 @@ def main(argv: Sequence[str] | None = None) -> int:
             "is_dead": bool(player.is_dead),
             "has_won": bool(player.has_won),
             "decision_count": len(result["model_decisions"]),
+            "raw_action_counts": _count_actions(result["trajectory"], "raw_action"),
+            "executed_action_counts": _count_actions(result["trajectory"], "executed_action"),
+            "override_frames": sum(1 for row in result["trajectory"] if row["overridden"]),
+            "override_rate": round(
+                sum(1 for row in result["trajectory"] if row["overridden"]) / max(1, frame_count),
+                8,
+            ),
+            "override_reason_counts": _count_reasons(result["trajectory"]),
         }
         result["video"] = {
             "path": str(Path(args.video)),

@@ -57,9 +57,9 @@ The checked-in JSON is the canonical evidence. Jevlike timing fields retain thei
 
 ## 🎮 JevDash capture set
 
-The five model paths now have a completed JevDash Level 1 capture set outside Git. The public experiment pages link to the runners and sanitized evidence that can be reviewed here; the MP4 files themselves have no public URL in this repository and are intentionally kept out of Git.
+The five model paths have a JevDash Level 1 capture set outside Git. This is an independent single-episode observation set, not a completed comparative game-ability evaluation; the Jevlike path has a confirmed input-truncation defect. The public experiment pages link to the runners and sanitized evidence that can be reviewed here; the MP4 files themselves have no public URL in this repository and are intentionally kept out of Git.
 
-These are independent single-episode demonstrations, not a model ranking. Video time is simulation time with synchronous inference waits omitted. The Kev and Jevlike presentation replays preserve the recorded model trajectory and state, changing only the HUD rendering.
+These are independent single-episode demonstrations, not a model ranking. Video time is simulation time with synchronous inference waits omitted. The Kev and Jevlike presentation replays preserve the recorded model trajectory and state, changing only the HUD rendering. See the [Japanese Colab summary](docs/ja/guide/jev-clone-colab.md) for the measured selection results and limitations.
 
 Start from the [public capture evidence index](experiments/README.md#jevdash-capture-evidence) for the five experiment-specific conduits.
 

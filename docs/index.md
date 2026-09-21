@@ -35,7 +35,7 @@ features:
   <div class="lab-card"><strong>3 × T4</strong><p>Laya, Kev-0.5B, and Jevlike short training/inference.</p></div>
   <div class="lab-card"><strong>2 × L4</strong><p>SemIf direct option readout and OpenJev NLI.</p></div>
   <div class="lab-card"><strong>5 result sets</strong><p>Each result is linked to a checked-in JSON record and experiment README.</p></div>
-  <div class="lab-card"><strong>5 JevDash captures</strong><p>Independent single-episode video set; MP4 files remain outside Git.</p></div>
+  <div class="lab-card"><strong>5 JevDash captures</strong><p>Independent single-episode observations; not a completed ability comparison.</p></div>
 </div>
 
 The five experiments are intentionally heterogeneous. This site is a reproducibility index, not a leaderboard: fixtures, readouts, model sizes, and probability semantics differ.

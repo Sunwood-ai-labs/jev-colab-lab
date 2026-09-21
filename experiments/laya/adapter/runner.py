@@ -12,7 +12,7 @@ import sys
 import time
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, Sequence
 
 os.environ.setdefault("SDL_VIDEODRIVER", "dummy")
 os.environ.setdefault("SDL_AUDIODRIVER", "dummy")
@@ -44,11 +44,15 @@ from jev_platformer.engine.world import Level
 from jev_platformer.telemetry.extractor import TelemetryExtractor
 from jev_platformer.ui.renderer import GameRenderer
 from jev_platformer.ui.video_recorder import VideoRecorder
+try:
+    from .control import CONTROL_MODES, select_executed_action
+except ImportError:
+    from control import CONTROL_MODES, select_executed_action
 
 try:
-    from .laya_agent import ACTION_QUESTION, GAME_ACTIONS, LayaActionAdapter
+    from .laya_agent import GAME_ACTIONS, LayaActionAdapter, PROMPT_PROFILES, STATE_ENCODINGS
 except ImportError:
-    from laya_agent import ACTION_QUESTION, GAME_ACTIONS, LayaActionAdapter
+    from laya_agent import GAME_ACTIONS, LayaActionAdapter, PROMPT_PROFILES, STATE_ENCODINGS
 
 
 GAME_COMMIT = "eb2f92617bab5d5021a5e3cf5ef2bdaf8207d480"
@@ -142,19 +146,22 @@ class LayaHud:
         self._text(f"GPU: {self.gpu_name}", (x, y), COLOR_TEXT_MUTED, self.font_xs)
         y += 24
 
-        card = pygame.Rect(x, y, HUD_WIDTH - 40, 88)
+        card = pygame.Rect(x, y, HUD_WIDTH - 40, 105)
         pygame.draw.rect(self.surface, COLOR_HUD_CARD, card, border_radius=8)
         pygame.draw.rect(self.surface, COLOR_HUD_BORDER, card, 1, border_radius=8)
-        action = (decision or {}).get("action", "waiting")
+        action = (decision or {}).get("raw_model_action", "waiting")
+        executed_action = (decision or {}).get("executed_action", action)
         latency = (decision or {}).get("inference_ms")
         self._text("MODEL DECISION (ARGMAX)", (x + 11, y + 8), COLOR_TEXT_MUTED, self.font_xs)
         self._text(action, (x + 11, y + 23), COLOR_ACCENT, self.font_large)
-        self._text("INFERENCE", (x + 205, y + 8), COLOR_TEXT_MUTED, self.font_xs)
-        self._text("--" if latency is None else f"{latency:.1f} ms", (x + 205, y + 23), COLOR_TEXT_PRIMARY, self.font_base)
+        self._text("EXECUTED", (x + 205, y + 8), COLOR_TEXT_MUTED, self.font_xs)
+        self._text(executed_action, (x + 205, y + 23), COLOR_SUCCESS if executed_action != action else COLOR_TEXT_PRIMARY, self.font_base)
+        self._text("INFERENCE", (x + 11, y + 58), COLOR_TEXT_MUTED, self.font_xs)
+        self._text("--" if latency is None else f"{latency:.1f} ms", (x + 78, y + 58), COLOR_TEXT_PRIMARY, self.font_xs)
         sim_time = sim_frame / FPS
-        self._text(f"SIM TIME {sim_time:06.2f}s @ {FPS} FPS", (x + 11, y + 57), COLOR_TEXT_PRIMARY, self.font_xs)
-        self._text("inference waits omitted", (x + 205, y + 57), COLOR_TEXT_MUTED, self.font_xs)
-        y += 99
+        self._text(f"SIM TIME {sim_time:06.2f}s @ {FPS} FPS", (x + 11, y + 76), COLOR_TEXT_PRIMARY, self.font_xs)
+        self._text("inference waits omitted", (x + 205, y + 76), COLOR_TEXT_MUTED, self.font_xs)
+        y += 116
 
         self._text("Choice Probability Distribution", (x, y), font=self.font_base)
         y += 22
@@ -228,28 +235,80 @@ def _update_world(player: Player, level: Level, action: str) -> None:
         player.has_won = True
 
 
-def _decision_record(frame: int, observation: Any, decision: Any) -> Dict[str, Any]:
+def _decision_record(
+    frame: int,
+    observation: Any,
+    decision: Any,
+    executed_action: str,
+    override_reasons: Sequence[str],
+) -> Dict[str, Any]:
     return {
         "simulation_frame": frame,
         "simulation_time_seconds": frame / FPS,
         "observation": _safe(observation.model_dump(mode="json")),
-        "candidate_actions": list(GAME_ACTIONS),
+        "candidate_actions": list(decision.candidate_order),
         "action": decision.action,
+        "raw_model_action": decision.action,
+        "executed_action_at_decision": executed_action,
         "model_reported_choice": decision.model_choice,
+        "argmax_action": decision.argmax_action,
+        "choice_matches_argmax": decision.choice_matches_argmax,
+        "override_reasons_at_decision": list(override_reasons),
         "probabilities": _safe(decision.probabilities),
         "confidence": decision.confidence,
         "inference_ms": decision.inference_ms,
         "input_tokens": decision.input_tokens,
         "prompt_stats": _safe(decision.prompt_stats),
         "raw_answer": _safe(decision.raw_answer),
+        "prompt_profile": decision.prompt_profile,
+        "state_encoding": decision.state_encoding,
         "danger_score": None,
         "jump_urgency": None,
     }
 
 
-def run_capture(video_path: Path, json_path: Path) -> Dict[str, Any]:
+def _frame_control_record(
+    frame: int,
+    observation: Any,
+    raw_model_action: str,
+    executed_action: str,
+    override_reasons: Sequence[str],
+) -> Dict[str, Any]:
+    return {
+        "simulation_frame": frame,
+        "raw_model_action": raw_model_action,
+        "executed_action": executed_action,
+        "override_applied": executed_action != raw_model_action,
+        "override_reasons": list(override_reasons),
+        "player": _safe(observation.player.model_dump(mode="json")),
+        "hazard": _safe(observation.hazard.model_dump(mode="json")),
+        "terrain": _safe(observation.terrain.model_dump(mode="json")),
+        "stalled_frames": observation.episode.stalled_frames,
+    }
+
+
+def run_capture(
+    video_path: Path,
+    json_path: Path,
+    *,
+    prompt_profile: str = "platformer_guided",
+    state_encoding: str = "semantic_v1",
+    control_mode: str = "model_only",
+    candidate_order: Sequence[str] = GAME_ACTIONS,
+) -> Dict[str, Any]:
+    if prompt_profile not in PROMPT_PROFILES:
+        raise ValueError(f"Unknown prompt profile: {prompt_profile!r}")
+    if state_encoding not in STATE_ENCODINGS:
+        raise ValueError(f"Unknown state encoding: {state_encoding!r}")
+    if control_mode not in CONTROL_MODES:
+        raise ValueError(f"Unknown control mode: {control_mode!r}")
     seed_evidence = seed_everything(SEED)
-    adapter = LayaActionAdapter(device="cuda")
+    adapter = LayaActionAdapter(
+        device="cuda",
+        prompt_profile=prompt_profile,
+        state_encoding=state_encoding,
+        candidate_order=candidate_order,
+    )
     pygame.init()
     pygame.display.set_caption(f"{GAME_TITLE} - Laya")
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
@@ -263,11 +322,14 @@ def run_capture(video_path: Path, json_path: Path) -> Dict[str, Any]:
     decisions = []
     current_decision = None
     current_action = Action.NOOP.value
+    raw_model_action = Action.NOOP.value
+    current_override_reasons: list[str] = []
     simulation_frame = 0
     terminal_reason: Optional[str] = None
     episode_started = time.perf_counter()
     quit_requested = False
     video_frame_count = 0
+    control_trace = []
 
     try:
         while simulation_frame < MAX_SIMULATION_FRAMES and terminal_reason is None:
@@ -284,14 +346,43 @@ def run_capture(video_path: Path, json_path: Path) -> Dict[str, Any]:
             observation = TelemetryExtractor.extract(player, level)
             if simulation_frame % FRAMES_PER_DECISION == 0:
                 laya_decision = adapter.decide(observation)
-                current_action = laya_decision.action
+                raw_model_action = laya_decision.action
+            current_action, current_override_reasons = select_executed_action(
+                observation,
+                raw_model_action,
+                control_mode,
+            )
+            if simulation_frame % FRAMES_PER_DECISION == 0:
                 current_decision = {
                     "action": laya_decision.action,
+                    "raw_model_action": laya_decision.action,
+                    "executed_action": current_action,
+                    "candidate_actions": list(laya_decision.candidate_order),
                     "probabilities": laya_decision.probabilities,
                     "confidence": laya_decision.confidence,
                     "inference_ms": laya_decision.inference_ms,
                 }
-                decisions.append(_decision_record(simulation_frame, observation, laya_decision))
+                decisions.append(
+                    _decision_record(
+                        simulation_frame,
+                        observation,
+                        laya_decision,
+                        current_action,
+                        current_override_reasons,
+                    )
+                )
+
+            current_decision["executed_action"] = current_action
+            current_decision["override_reasons"] = list(current_override_reasons)
+            control_trace.append(
+                _frame_control_record(
+                    simulation_frame,
+                    observation,
+                    raw_model_action,
+                    current_action,
+                    current_override_reasons,
+                )
+            )
 
             _update_world(player, level, current_action)
             if player.has_won:
@@ -339,15 +430,30 @@ def run_capture(video_path: Path, json_path: Path) -> Dict[str, Any]:
             "terminal_hold_frames": TERMINAL_HOLD_FRAMES,
             "screen": {"width": SCREEN_WIDTH, "height": SCREEN_HEIGHT},
             "fixed_physics_and_collision_order": True,
-            "control_mode": "synchronous real Laya argmax only",
+            "control_mode": control_mode,
+            "prompt_profile": prompt_profile,
+            "state_encoding": state_encoding,
+            "candidate_order": list(candidate_order),
             "mock_fallback": False,
-            "model_driven_replay": False,
+            "model_driven_replay": control_mode == "model_only",
+            "assisted_control": control_mode == "reflex_assisted",
+            "reflex_policy": {
+                "evaluated_every_physics_frame": control_mode == "reflex_assisted",
+                "action": "right_run_jump",
+                "coarse_thresholds": {
+                    "gap_tiles": 3.8,
+                    "obstacle_tiles": 2.2,
+                    "enemy_pixels": 130.0,
+                    "stalled_frames": 3,
+                    "airborne_gap_tiles": 1.5,
+                },
+            },
         },
         "model": adapter.metadata(),
         "reproducibility": {
             "python_seed_calls": seed_evidence,
             "candidate_actions": list(GAME_ACTIONS),
-            "action_question": _safe(ACTION_QUESTION),
+            "action_question": _safe(adapter.action_question),
             "observation_schema": "JevObservation.model_dump() from fixed JevDash commit",
             "state_summary_or_control_rules_inserted": False,
             "danger_and_urgency_model_outputs": "unmeasured; Laya action-only question",
@@ -368,8 +474,24 @@ def run_capture(video_path: Path, json_path: Path) -> Dict[str, Any]:
             "is_dead": player.is_dead,
             "has_won": player.has_won,
             "video_file": video_path.name,
+            "raw_action_counts": {
+                action: sum(1 for item in control_trace if item["raw_model_action"] == action)
+                for action in GAME_ACTIONS
+            },
+            "executed_action_counts": {
+                action: sum(1 for item in control_trace if item["executed_action"] == action)
+                for action in GAME_ACTIONS
+            },
+            "reflex_trigger_frames": sum(1 for item in control_trace if item["override_reasons"]),
+            "override_frames": sum(1 for item in control_trace if item["override_applied"]),
+            "override_rate_of_physics_frames": (
+                sum(1 for item in control_trace if item["override_applied"]) / len(control_trace)
+                if control_trace
+                else 0.0
+            ),
         },
         "decisions": decisions,
+        "control_trace": control_trace,
     }
     json_path.parent.mkdir(parents=True, exist_ok=True)
     json_path.write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
@@ -382,13 +504,29 @@ def parse_args(argv: Optional[list[str]] = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--video", type=Path, required=True)
     parser.add_argument("--json", type=Path, required=True)
+    parser.add_argument("--prompt-profile", choices=PROMPT_PROFILES, default="platformer_guided")
+    parser.add_argument("--state-encoding", choices=STATE_ENCODINGS, default="semantic_v1")
+    parser.add_argument("--control-mode", choices=CONTROL_MODES, default="model_only")
+    parser.add_argument(
+        "--candidate-order",
+        default=",".join(GAME_ACTIONS),
+        help="comma-separated JevDash action candidates; order is part of the model input",
+    )
     return parser.parse_args(argv)
 
 
 def main(argv: Optional[list[str]] = None) -> int:
     args = parse_args(argv)
+    candidate_order = tuple(item.strip() for item in args.candidate_order.split(",") if item.strip())
     try:
-        result = run_capture(args.video, args.json)
+        result = run_capture(
+            args.video,
+            args.json,
+            prompt_profile=args.prompt_profile,
+            state_encoding=args.state_encoding,
+            control_mode=args.control_mode,
+            candidate_order=candidate_order,
+        )
     except Exception as exc:
         args.json.parent.mkdir(parents=True, exist_ok=True)
         failure = {
@@ -396,6 +534,10 @@ def main(argv: Optional[list[str]] = None) -> int:
             "created_at_utc": utc_now(),
             "game_commit": GAME_COMMIT,
             "model_revision": "1c5edc17a7acd8701df6fc341c0d179f1c62c982",
+            "prompt_profile": args.prompt_profile,
+            "state_encoding": args.state_encoding,
+            "control_mode": args.control_mode,
+            "candidate_order": list(candidate_order),
             "error": _error(exc),
         }
         args.json.write_text(json.dumps(failure, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
