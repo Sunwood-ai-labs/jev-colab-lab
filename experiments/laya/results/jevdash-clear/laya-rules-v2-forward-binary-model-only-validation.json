@@ -1,0 +1,44 @@
+{
+  "status": "ok",
+  "video": "laya-rules-v2-forward-binary-model-only.mp4",
+  "video_bytes": 498218,
+  "video_sha256": "92753c7aeb3b128dcf61946f28e8694ba6242e9c47fe70432910e20b819c0677",
+  "ffprobe_returncode": 0,
+  "ffmpeg_full_decode_returncode": 0,
+  "ffmpeg_full_decode_stderr": "",
+  "decoded_video_frames": 1920,
+  "expected_video_frames_from_episode_json": 1920,
+  "frame_count_matches": true,
+  "ffprobe": {
+    "codec_name": "h264",
+    "width": 1280,
+    "height": 720,
+    "pix_fmt": "yuv420p",
+    "r_frame_rate": "60/1",
+    "duration": "32.000000",
+    "nb_frames": "1920",
+    "nb_read_frames": "1920"
+  },
+  "episode_terminal_reason": "max_simulation_frames",
+  "episode_has_won": false,
+  "representative_frames": {
+    "frame-000000.png": {
+      "index": 0,
+      "path": "frame-000000.png",
+      "returncode": 0,
+      "bytes": 114761
+    },
+    "frame-middle.png": {
+      "index": 960,
+      "path": "frame-middle.png",
+      "returncode": 0,
+      "bytes": 114045
+    },
+    "frame-last.png": {
+      "index": 1919,
+      "path": "frame-last.png",
+      "returncode": 0,
+      "bytes": 116127
+    }
+  }
+}

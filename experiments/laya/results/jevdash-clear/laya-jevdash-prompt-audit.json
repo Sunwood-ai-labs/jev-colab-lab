@@ -1,0 +1,858 @@
+{
+  "status": "ok",
+  "created_at_utc": "2026-09-21T12:13:07.391122Z",
+  "experiment": "jev-colab-lab/laya/jevdash-prompt-audit",
+  "game": {
+    "repository": "https://github.com/Sunwood-ai-labs/jevdash",
+    "commit": "eb2f92617bab5d5021a5e3cf5ef2bdaf8207d480",
+    "level": 1,
+    "seed": 42
+  },
+  "model": {
+    "model_id": "convaiinnovations/laya",
+    "model_revision": "1c5edc17a7acd8701df6fc341c0d179f1c62c982",
+    "laya_source_commit": "d113dca2512fb3eaca313534bc54c7162d87c1d4",
+    "actual_device": "cuda",
+    "gpu": "Tesla T4",
+    "load_seconds": 8.48668745000009,
+    "packages": {
+      "laya": "0.3.4",
+      "torch": "2.11.0+cu128",
+      "transformers": "5.16.1",
+      "huggingface-hub": "1.29.0"
+    }
+  },
+  "variants": {
+    "baseline_json_canonical": {
+      "prompt_profile": "baseline",
+      "state_encoding": "full_json",
+      "candidate_order": [
+        "noop",
+        "right",
+        "right_run",
+        "right_jump",
+        "right_run_jump",
+        "jump",
+        "left"
+      ],
+      "fixtures": [
+        {
+          "fixture": "start",
+          "state_summary": {
+            "player_x": 96.0,
+            "grounded": true,
+            "stalled_frames": 0,
+            "obstacle_ahead": false,
+            "obstacle_distance_tiles": null,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "enemy_ahead": false
+          },
+          "choice": "right_run",
+          "probabilities": {
+            "noop": 0.0192,
+            "right": 0.0626,
+            "right_run": 0.6089,
+            "right_jump": 0.2209,
+            "right_run_jump": 0.0425,
+            "jump": 0.0211,
+            "left": 0.0249
+          },
+          "confidence": 0.3872,
+          "input_tokens": 416,
+          "inference_ms": 62.62267800002519,
+          "prompt_stats": {
+            "state_input_chars": 789,
+            "state_input_bytes": 789,
+            "state_input_sha256": "72f18c7daccf88ed6e5e5289aab78e3b5aac84d980f31e6b3ea6c3af6bb01347",
+            "raw_state_tokens": 290,
+            "sequence_tokens": 416,
+            "marker_count": 7,
+            "max_context_tokens": 512,
+            "state_room_tokens": 386,
+            "retained_state_tokens": 290,
+            "truncated": false,
+            "omitted_state_tokens": 0
+          }
+        },
+        {
+          "fixture": "enemy_ahead",
+          "state_summary": {
+            "player_x": 560.0,
+            "grounded": true,
+            "stalled_frames": 0,
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 3.0,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "enemy_ahead": true
+          },
+          "choice": "right_run",
+          "probabilities": {
+            "noop": 0.0189,
+            "right": 0.0696,
+            "right_run": 0.5019,
+            "right_jump": 0.2951,
+            "right_run_jump": 0.0607,
+            "jump": 0.0251,
+            "left": 0.0287
+          },
+          "confidence": 0.3159,
+          "input_tokens": 473,
+          "inference_ms": 66.07817600001908,
+          "prompt_stats": {
+            "state_input_chars": 918,
+            "state_input_bytes": 918,
+            "state_input_sha256": "a3e0cb324a7dbf8e4308794b284a4e2fcb6f20163af3f0044f9eb4ad4b08a82a",
+            "raw_state_tokens": 347,
+            "sequence_tokens": 473,
+            "marker_count": 7,
+            "max_context_tokens": 512,
+            "state_room_tokens": 386,
+            "retained_state_tokens": 347,
+            "truncated": false,
+            "omitted_state_tokens": 0
+          }
+        },
+        {
+          "fixture": "gap_edge",
+          "state_summary": {
+            "player_x": 2070.0,
+            "grounded": true,
+            "stalled_frames": 0,
+            "obstacle_ahead": false,
+            "obstacle_distance_tiles": null,
+            "gap_ahead": true,
+            "gap_distance_tiles": 2.0,
+            "enemy_ahead": true
+          },
+          "choice": "right_run",
+          "probabilities": {
+            "noop": 0.0202,
+            "right": 0.0644,
+            "right_run": 0.5711,
+            "right_jump": 0.2456,
+            "right_run_jump": 0.0527,
+            "jump": 0.0211,
+            "left": 0.0249
+          },
+          "confidence": 0.3583,
+          "input_tokens": 472,
+          "inference_ms": 55.514080999955695,
+          "prompt_stats": {
+            "state_input_chars": 921,
+            "state_input_bytes": 921,
+            "state_input_sha256": "4272dc6b27f29bffb00b6cba575639b5fdd229d801ccf489dbd4cd3497b9b5ac",
+            "raw_state_tokens": 346,
+            "sequence_tokens": 472,
+            "marker_count": 7,
+            "max_context_tokens": 512,
+            "state_room_tokens": 386,
+            "retained_state_tokens": 346,
+            "truncated": false,
+            "omitted_state_tokens": 0
+          }
+        },
+        {
+          "fixture": "pipe_stalled",
+          "state_summary": {
+            "player_x": 2470.0,
+            "grounded": true,
+            "stalled_frames": 1414,
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 1.0,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "enemy_ahead": false
+          },
+          "choice": "right_run",
+          "probabilities": {
+            "noop": 0.0181,
+            "right": 0.0576,
+            "right_run": 0.6181,
+            "right_jump": 0.2278,
+            "right_run_jump": 0.0411,
+            "jump": 0.0167,
+            "left": 0.0207
+          },
+          "confidence": 0.4086,
+          "input_tokens": 423,
+          "inference_ms": 44.419054000172764,
+          "prompt_stats": {
+            "state_input_chars": 794,
+            "state_input_bytes": 794,
+            "state_input_sha256": "bb31d2269013db952962fd398c82157891b29aa1f9b089850680c4dcba8f6fa1",
+            "raw_state_tokens": 297,
+            "sequence_tokens": 423,
+            "marker_count": 7,
+            "max_context_tokens": 512,
+            "state_room_tokens": 386,
+            "retained_state_tokens": 297,
+            "truncated": false,
+            "omitted_state_tokens": 0
+          }
+        }
+      ]
+    },
+    "guided_semantic_canonical": {
+      "prompt_profile": "platformer_guided",
+      "state_encoding": "semantic_v1",
+      "candidate_order": [
+        "noop",
+        "right",
+        "right_run",
+        "right_jump",
+        "right_run_jump",
+        "jump",
+        "left"
+      ],
+      "fixtures": [
+        {
+          "fixture": "start",
+          "state_summary": {
+            "player_x": 96.0,
+            "grounded": true,
+            "stalled_frames": 0,
+            "obstacle_ahead": false,
+            "obstacle_distance_tiles": null,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "enemy_ahead": false
+          },
+          "choice": "right_jump",
+          "probabilities": {
+            "noop": 0.0213,
+            "right": 0.0763,
+            "right_run": 0.2279,
+            "right_jump": 0.5762,
+            "right_run_jump": 0.0371,
+            "jump": 0.0295,
+            "left": 0.0317
+          },
+          "confidence": 0.3481,
+          "input_tokens": 451,
+          "inference_ms": 47.15325199981635,
+          "prompt_stats": {
+            "state_input_chars": 735,
+            "state_input_bytes": 735,
+            "state_input_sha256": "6e08fecfb80731ce7644aea6409613b43c8646ffb0477289ad10acd58940d93a",
+            "raw_state_tokens": 255,
+            "sequence_tokens": 451,
+            "marker_count": 7,
+            "max_context_tokens": 512,
+            "state_room_tokens": 316,
+            "retained_state_tokens": 255,
+            "truncated": false,
+            "omitted_state_tokens": 0
+          }
+        },
+        {
+          "fixture": "enemy_ahead",
+          "state_summary": {
+            "player_x": 560.0,
+            "grounded": true,
+            "stalled_frames": 0,
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 3.0,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "enemy_ahead": true
+          },
+          "choice": "right_jump",
+          "probabilities": {
+            "noop": 0.0265,
+            "right": 0.0947,
+            "right_run": 0.3202,
+            "right_jump": 0.4267,
+            "right_run_jump": 0.0594,
+            "jump": 0.035,
+            "left": 0.0375
+          },
+          "confidence": 0.252,
+          "input_tokens": 493,
+          "inference_ms": 49.019070999975156,
+          "prompt_stats": {
+            "state_input_chars": 815,
+            "state_input_bytes": 815,
+            "state_input_sha256": "9281530e2311dc6c3fb9a2e2e5140f3c36f4a276c5d3eb34df8281134889f738",
+            "raw_state_tokens": 297,
+            "sequence_tokens": 493,
+            "marker_count": 7,
+            "max_context_tokens": 512,
+            "state_room_tokens": 316,
+            "retained_state_tokens": 297,
+            "truncated": false,
+            "omitted_state_tokens": 0
+          }
+        },
+        {
+          "fixture": "gap_edge",
+          "state_summary": {
+            "player_x": 2070.0,
+            "grounded": true,
+            "stalled_frames": 0,
+            "obstacle_ahead": false,
+            "obstacle_distance_tiles": null,
+            "gap_ahead": true,
+            "gap_distance_tiles": 2.0,
+            "enemy_ahead": true
+          },
+          "choice": "right_jump",
+          "probabilities": {
+            "noop": 0.0226,
+            "right": 0.0926,
+            "right_run": 0.3237,
+            "right_jump": 0.4467,
+            "right_run_jump": 0.0488,
+            "jump": 0.0299,
+            "left": 0.0358
+          },
+          "confidence": 0.2793,
+          "input_tokens": 490,
+          "inference_ms": 46.13690900009715,
+          "prompt_stats": {
+            "state_input_chars": 818,
+            "state_input_bytes": 818,
+            "state_input_sha256": "a7e02d4d2d30221b2f5d6115bd501dc8241510943cef29d94b8231a9a994d4a7",
+            "raw_state_tokens": 294,
+            "sequence_tokens": 490,
+            "marker_count": 7,
+            "max_context_tokens": 512,
+            "state_room_tokens": 316,
+            "retained_state_tokens": 294,
+            "truncated": false,
+            "omitted_state_tokens": 0
+          }
+        },
+        {
+          "fixture": "pipe_stalled",
+          "state_summary": {
+            "player_x": 2470.0,
+            "grounded": true,
+            "stalled_frames": 1414,
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 1.0,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "enemy_ahead": false
+          },
+          "choice": "right_jump",
+          "probabilities": {
+            "noop": 0.0227,
+            "right": 0.0719,
+            "right_run": 0.2536,
+            "right_jump": 0.5637,
+            "right_run_jump": 0.0349,
+            "jump": 0.0231,
+            "left": 0.0301
+          },
+          "confidence": 0.3547,
+          "input_tokens": 459,
+          "inference_ms": 45.78394100008154,
+          "prompt_stats": {
+            "state_input_chars": 740,
+            "state_input_bytes": 740,
+            "state_input_sha256": "e627a906cd6850b446a79ddf1be5583fae1e0e5d2ed8d503b08fcfcaa422dac8",
+            "raw_state_tokens": 263,
+            "sequence_tokens": 459,
+            "marker_count": 7,
+            "max_context_tokens": 512,
+            "state_room_tokens": 316,
+            "retained_state_tokens": 263,
+            "truncated": false,
+            "omitted_state_tokens": 0
+          }
+        }
+      ]
+    },
+    "rules_v2_semantic_canonical": {
+      "prompt_profile": "platformer_rules_v2",
+      "state_encoding": "semantic_v1",
+      "candidate_order": [
+        "noop",
+        "right",
+        "right_run",
+        "right_jump",
+        "right_run_jump",
+        "jump",
+        "left"
+      ],
+      "fixtures": [
+        {
+          "fixture": "start",
+          "state_summary": {
+            "player_x": 96.0,
+            "grounded": true,
+            "stalled_frames": 0,
+            "obstacle_ahead": false,
+            "obstacle_distance_tiles": null,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "enemy_ahead": false
+          },
+          "choice": "right_jump",
+          "probabilities": {
+            "noop": 0.0286,
+            "right": 0.1276,
+            "right_run": 0.2246,
+            "right_jump": 0.5031,
+            "right_run_jump": 0.0569,
+            "jump": 0.0279,
+            "left": 0.0313
+          },
+          "confidence": 0.2719,
+          "input_tokens": 451,
+          "inference_ms": 52.517091000026994,
+          "prompt_stats": {
+            "state_input_chars": 735,
+            "state_input_bytes": 735,
+            "state_input_sha256": "6e08fecfb80731ce7644aea6409613b43c8646ffb0477289ad10acd58940d93a",
+            "raw_state_tokens": 255,
+            "sequence_tokens": 451,
+            "marker_count": 7,
+            "max_context_tokens": 512,
+            "state_room_tokens": 316,
+            "retained_state_tokens": 255,
+            "truncated": false,
+            "omitted_state_tokens": 0
+          }
+        },
+        {
+          "fixture": "enemy_ahead",
+          "state_summary": {
+            "player_x": 560.0,
+            "grounded": true,
+            "stalled_frames": 0,
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 3.0,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "enemy_ahead": true
+          },
+          "choice": "right_jump",
+          "probabilities": {
+            "noop": 0.0367,
+            "right": 0.1286,
+            "right_run": 0.3152,
+            "right_jump": 0.3751,
+            "right_run_jump": 0.0817,
+            "jump": 0.0303,
+            "left": 0.0324
+          },
+          "confidence": 0.2094,
+          "input_tokens": 493,
+          "inference_ms": 54.96536000009655,
+          "prompt_stats": {
+            "state_input_chars": 815,
+            "state_input_bytes": 815,
+            "state_input_sha256": "9281530e2311dc6c3fb9a2e2e5140f3c36f4a276c5d3eb34df8281134889f738",
+            "raw_state_tokens": 297,
+            "sequence_tokens": 493,
+            "marker_count": 7,
+            "max_context_tokens": 512,
+            "state_room_tokens": 316,
+            "retained_state_tokens": 297,
+            "truncated": false,
+            "omitted_state_tokens": 0
+          }
+        },
+        {
+          "fixture": "gap_edge",
+          "state_summary": {
+            "player_x": 2070.0,
+            "grounded": true,
+            "stalled_frames": 0,
+            "obstacle_ahead": false,
+            "obstacle_distance_tiles": null,
+            "gap_ahead": true,
+            "gap_distance_tiles": 2.0,
+            "enemy_ahead": true
+          },
+          "choice": "right_jump",
+          "probabilities": {
+            "noop": 0.0261,
+            "right": 0.1308,
+            "right_run": 0.2967,
+            "right_jump": 0.4177,
+            "right_run_jump": 0.0678,
+            "jump": 0.0276,
+            "left": 0.0333
+          },
+          "confidence": 0.2388,
+          "input_tokens": 490,
+          "inference_ms": 43.421621000106825,
+          "prompt_stats": {
+            "state_input_chars": 818,
+            "state_input_bytes": 818,
+            "state_input_sha256": "a7e02d4d2d30221b2f5d6115bd501dc8241510943cef29d94b8231a9a994d4a7",
+            "raw_state_tokens": 294,
+            "sequence_tokens": 490,
+            "marker_count": 7,
+            "max_context_tokens": 512,
+            "state_room_tokens": 316,
+            "retained_state_tokens": 294,
+            "truncated": false,
+            "omitted_state_tokens": 0
+          }
+        },
+        {
+          "fixture": "pipe_stalled",
+          "state_summary": {
+            "player_x": 2470.0,
+            "grounded": true,
+            "stalled_frames": 1414,
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 1.0,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "enemy_ahead": false
+          },
+          "choice": "right_jump",
+          "probabilities": {
+            "noop": 0.0293,
+            "right": 0.1092,
+            "right_run": 0.2154,
+            "right_jump": 0.5458,
+            "right_run_jump": 0.0529,
+            "jump": 0.0204,
+            "left": 0.0271
+          },
+          "confidence": 0.3119,
+          "input_tokens": 459,
+          "inference_ms": 44.1165560000627,
+          "prompt_stats": {
+            "state_input_chars": 740,
+            "state_input_bytes": 740,
+            "state_input_sha256": "e627a906cd6850b446a79ddf1be5583fae1e0e5d2ed8d503b08fcfcaa422dac8",
+            "raw_state_tokens": 263,
+            "sequence_tokens": 459,
+            "marker_count": 7,
+            "max_context_tokens": 512,
+            "state_room_tokens": 316,
+            "retained_state_tokens": 263,
+            "truncated": false,
+            "omitted_state_tokens": 0
+          }
+        }
+      ]
+    },
+    "guided_semantic_jump_first": {
+      "prompt_profile": "platformer_guided",
+      "state_encoding": "semantic_v1",
+      "candidate_order": [
+        "right_run_jump",
+        "right_jump",
+        "right_run",
+        "right",
+        "jump",
+        "noop",
+        "left"
+      ],
+      "fixtures": [
+        {
+          "fixture": "start",
+          "state_summary": {
+            "player_x": 96.0,
+            "grounded": true,
+            "stalled_frames": 0,
+            "obstacle_ahead": false,
+            "obstacle_distance_tiles": null,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "enemy_ahead": false
+          },
+          "choice": "right_run",
+          "probabilities": {
+            "right_run_jump": 0.0803,
+            "right_jump": 0.2735,
+            "right_run": 0.4388,
+            "right": 0.1183,
+            "jump": 0.0326,
+            "noop": 0.0326,
+            "left": 0.0238
+          },
+          "confidence": 0.2378,
+          "input_tokens": 451,
+          "inference_ms": 42.817747000071904,
+          "prompt_stats": {
+            "state_input_chars": 735,
+            "state_input_bytes": 735,
+            "state_input_sha256": "6e08fecfb80731ce7644aea6409613b43c8646ffb0477289ad10acd58940d93a",
+            "raw_state_tokens": 255,
+            "sequence_tokens": 451,
+            "marker_count": 7,
+            "max_context_tokens": 512,
+            "state_room_tokens": 316,
+            "retained_state_tokens": 255,
+            "truncated": false,
+            "omitted_state_tokens": 0
+          }
+        },
+        {
+          "fixture": "enemy_ahead",
+          "state_summary": {
+            "player_x": 560.0,
+            "grounded": true,
+            "stalled_frames": 0,
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 3.0,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "enemy_ahead": true
+          },
+          "choice": "right_run",
+          "probabilities": {
+            "right_run_jump": 0.0826,
+            "right_jump": 0.2882,
+            "right_run": 0.4464,
+            "right": 0.1115,
+            "jump": 0.03,
+            "noop": 0.0231,
+            "left": 0.0182
+          },
+          "confidence": 0.2629,
+          "input_tokens": 493,
+          "inference_ms": 44.13171700002749,
+          "prompt_stats": {
+            "state_input_chars": 815,
+            "state_input_bytes": 815,
+            "state_input_sha256": "9281530e2311dc6c3fb9a2e2e5140f3c36f4a276c5d3eb34df8281134889f738",
+            "raw_state_tokens": 297,
+            "sequence_tokens": 493,
+            "marker_count": 7,
+            "max_context_tokens": 512,
+            "state_room_tokens": 316,
+            "retained_state_tokens": 297,
+            "truncated": false,
+            "omitted_state_tokens": 0
+          }
+        },
+        {
+          "fixture": "gap_edge",
+          "state_summary": {
+            "player_x": 2070.0,
+            "grounded": true,
+            "stalled_frames": 0,
+            "obstacle_ahead": false,
+            "obstacle_distance_tiles": null,
+            "gap_ahead": true,
+            "gap_distance_tiles": 2.0,
+            "enemy_ahead": true
+          },
+          "choice": "right_run",
+          "probabilities": {
+            "right_run_jump": 0.087,
+            "right_jump": 0.3028,
+            "right_run": 0.4286,
+            "right": 0.107,
+            "jump": 0.0309,
+            "noop": 0.0226,
+            "left": 0.0211
+          },
+          "confidence": 0.2544,
+          "input_tokens": 490,
+          "inference_ms": 44.29374000005737,
+          "prompt_stats": {
+            "state_input_chars": 818,
+            "state_input_bytes": 818,
+            "state_input_sha256": "a7e02d4d2d30221b2f5d6115bd501dc8241510943cef29d94b8231a9a994d4a7",
+            "raw_state_tokens": 294,
+            "sequence_tokens": 490,
+            "marker_count": 7,
+            "max_context_tokens": 512,
+            "state_room_tokens": 316,
+            "retained_state_tokens": 294,
+            "truncated": false,
+            "omitted_state_tokens": 0
+          }
+        },
+        {
+          "fixture": "pipe_stalled",
+          "state_summary": {
+            "player_x": 2470.0,
+            "grounded": true,
+            "stalled_frames": 1414,
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 1.0,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "enemy_ahead": false
+          },
+          "choice": "right_run",
+          "probabilities": {
+            "right_run_jump": 0.0874,
+            "right_jump": 0.2941,
+            "right_run": 0.4346,
+            "right": 0.1064,
+            "jump": 0.0257,
+            "noop": 0.0319,
+            "left": 0.0199
+          },
+          "confidence": 0.252,
+          "input_tokens": 459,
+          "inference_ms": 42.673121000007086,
+          "prompt_stats": {
+            "state_input_chars": 740,
+            "state_input_bytes": 740,
+            "state_input_sha256": "e627a906cd6850b446a79ddf1be5583fae1e0e5d2ed8d503b08fcfcaa422dac8",
+            "raw_state_tokens": 263,
+            "sequence_tokens": 459,
+            "marker_count": 7,
+            "max_context_tokens": 512,
+            "state_room_tokens": 316,
+            "retained_state_tokens": 263,
+            "truncated": false,
+            "omitted_state_tokens": 0
+          }
+        }
+      ]
+    },
+    "rules_v2_semantic_forward_binary": {
+      "prompt_profile": "platformer_rules_v2",
+      "state_encoding": "semantic_v1",
+      "candidate_order": [
+        "right_run",
+        "right_run_jump"
+      ],
+      "fixtures": [
+        {
+          "fixture": "start",
+          "state_summary": {
+            "player_x": 96.0,
+            "grounded": true,
+            "stalled_frames": 0,
+            "obstacle_ahead": false,
+            "obstacle_distance_tiles": null,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "enemy_ahead": false
+          },
+          "choice": "right_run",
+          "probabilities": {
+            "right_run": 0.5151,
+            "right_run_jump": 0.4849
+          },
+          "confidence": 0.0007,
+          "input_tokens": 430,
+          "inference_ms": 41.40142000005653,
+          "prompt_stats": {
+            "state_input_chars": 735,
+            "state_input_bytes": 735,
+            "state_input_sha256": "6e08fecfb80731ce7644aea6409613b43c8646ffb0477289ad10acd58940d93a",
+            "raw_state_tokens": 255,
+            "sequence_tokens": 430,
+            "marker_count": 2,
+            "max_context_tokens": 512,
+            "state_room_tokens": 337,
+            "retained_state_tokens": 255,
+            "truncated": false,
+            "omitted_state_tokens": 0
+          }
+        },
+        {
+          "fixture": "enemy_ahead",
+          "state_summary": {
+            "player_x": 560.0,
+            "grounded": true,
+            "stalled_frames": 0,
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 3.0,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "enemy_ahead": true
+          },
+          "choice": "right_run",
+          "probabilities": {
+            "right_run": 0.5214,
+            "right_run_jump": 0.4786
+          },
+          "confidence": 0.0013,
+          "input_tokens": 472,
+          "inference_ms": 44.25556899991534,
+          "prompt_stats": {
+            "state_input_chars": 815,
+            "state_input_bytes": 815,
+            "state_input_sha256": "9281530e2311dc6c3fb9a2e2e5140f3c36f4a276c5d3eb34df8281134889f738",
+            "raw_state_tokens": 297,
+            "sequence_tokens": 472,
+            "marker_count": 2,
+            "max_context_tokens": 512,
+            "state_room_tokens": 337,
+            "retained_state_tokens": 297,
+            "truncated": false,
+            "omitted_state_tokens": 0
+          }
+        },
+        {
+          "fixture": "gap_edge",
+          "state_summary": {
+            "player_x": 2070.0,
+            "grounded": true,
+            "stalled_frames": 0,
+            "obstacle_ahead": false,
+            "obstacle_distance_tiles": null,
+            "gap_ahead": true,
+            "gap_distance_tiles": 2.0,
+            "enemy_ahead": true
+          },
+          "choice": "right_run",
+          "probabilities": {
+            "right_run": 0.5133,
+            "right_run_jump": 0.4867
+          },
+          "confidence": 0.0005,
+          "input_tokens": 469,
+          "inference_ms": 49.312482999994245,
+          "prompt_stats": {
+            "state_input_chars": 818,
+            "state_input_bytes": 818,
+            "state_input_sha256": "a7e02d4d2d30221b2f5d6115bd501dc8241510943cef29d94b8231a9a994d4a7",
+            "raw_state_tokens": 294,
+            "sequence_tokens": 469,
+            "marker_count": 2,
+            "max_context_tokens": 512,
+            "state_room_tokens": 337,
+            "retained_state_tokens": 294,
+            "truncated": false,
+            "omitted_state_tokens": 0
+          }
+        },
+        {
+          "fixture": "pipe_stalled",
+          "state_summary": {
+            "player_x": 2470.0,
+            "grounded": true,
+            "stalled_frames": 1414,
+            "obstacle_ahead": true,
+            "obstacle_distance_tiles": 1.0,
+            "gap_ahead": false,
+            "gap_distance_tiles": null,
+            "enemy_ahead": false
+          },
+          "choice": "right_run",
+          "probabilities": {
+            "right_run": 0.5195,
+            "right_run_jump": 0.4805
+          },
+          "confidence": 0.0011,
+          "input_tokens": 438,
+          "inference_ms": 48.74077999988913,
+          "prompt_stats": {
+            "state_input_chars": 740,
+            "state_input_bytes": 740,
+            "state_input_sha256": "e627a906cd6850b446a79ddf1be5583fae1e0e5d2ed8d503b08fcfcaa422dac8",
+            "raw_state_tokens": 263,
+            "sequence_tokens": 438,
+            "marker_count": 2,
+            "max_context_tokens": 512,
+            "state_room_tokens": 337,
+            "retained_state_tokens": 263,
+            "truncated": false,
+            "omitted_state_tokens": 0
+          }
+        }
+      ]
+    }
+  },
+  "note": "Real Laya CUDA prompt audit; no game control or fallback was applied."
+}

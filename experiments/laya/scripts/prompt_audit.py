@@ -9,6 +9,7 @@ import os
 import random
 import sys
 import time
+import traceback
 from datetime import datetime, timezone
 from importlib.metadata import PackageNotFoundError, version
 from pathlib import Path
@@ -91,6 +92,14 @@ def prompt_stats(agent: Any, state_payload: Any, question: dict[str, Any]) -> di
     )
     serialized = serialize_state(state_payload)
     raw_tokens = len(agent.tok(serialized, add_special_tokens=False)["input_ids"])
+    empty_sequence, _ = build_sequence(
+        agent.tok,
+        "",
+        internal,
+        max_len=int(agent.cfg.get("max_len", 512)),
+        head_max_len=int(agent.cfg.get("head_max_len", 192)),
+    )
+    state_room = max(0, int(agent.cfg.get("max_len", 512)) - (len(empty_sequence) - 1) - 1)
     return {
         "state_input_chars": len(serialized),
         "state_input_bytes": len(serialized.encode("utf-8")),
@@ -99,7 +108,10 @@ def prompt_stats(agent: Any, state_payload: Any, question: dict[str, Any]) -> di
         "sequence_tokens": len(sequence),
         "marker_count": len(markers),
         "max_context_tokens": int(agent.cfg.get("max_len", 512)),
-        "truncated": len(sequence) >= int(agent.cfg.get("max_len", 512)) and raw_tokens > len(sequence),
+        "state_room_tokens": state_room,
+        "retained_state_tokens": min(raw_tokens, state_room),
+        "truncated": raw_tokens > state_room,
+        "omitted_state_tokens": max(0, raw_tokens - state_room),
     }
 
 
@@ -110,7 +122,10 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
     from huggingface_hub import snapshot_download
     import laya
 
-    from adapter.laya_agent import build_action_question, encode_state
+    try:
+        from adapter.laya_agent import build_action_question, encode_state
+    except ImportError:
+        from laya_agent import build_action_question, encode_state
 
     random.seed(42)
     np.random.seed(42)
@@ -145,6 +160,12 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
             "candidate_order": GAME_ACTIONS,
         },
         {
+            "name": "rules_v2_semantic_canonical",
+            "prompt_profile": "platformer_rules_v2",
+            "state_encoding": "semantic_v1",
+            "candidate_order": GAME_ACTIONS,
+        },
+        {
             "name": "guided_semantic_jump_first",
             "prompt_profile": "platformer_guided",
             "state_encoding": "semantic_v1",
@@ -157,6 +178,12 @@ def run(args: argparse.Namespace) -> dict[str, Any]:
                 "noop",
                 "left",
             ),
+        },
+        {
+            "name": "rules_v2_semantic_forward_binary",
+            "prompt_profile": "platformer_rules_v2",
+            "state_encoding": "semantic_v1",
+            "candidate_order": ("right_run", "right_run_jump"),
         },
     )
 
@@ -227,7 +254,14 @@ def main() -> int:
     try:
         result = run(args)
     except Exception as exc:
-        result = {"status": "error", "error": {"type": type(exc).__name__, "message": str(exc)[:1200]}}
+        result = {
+            "status": "error",
+            "error": {
+                "type": type(exc).__name__,
+                "message": str(exc)[:1200],
+                "traceback": traceback.format_exc()[-4000:],
+            },
+        }
         exit_code = 1
     else:
         exit_code = 0
