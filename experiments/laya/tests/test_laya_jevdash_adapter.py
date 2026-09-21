@@ -1,19 +1,28 @@
 from __future__ import annotations
 
+import importlib.util
 import sys
 from pathlib import Path
 from types import SimpleNamespace
 
 import pytest
 
-sys.path.insert(0, str(Path(__file__).parents[1]))
 
-from adapter.laya_agent import (  # noqa: E402
-    GAME_ACTIONS,
-    build_action_question,
-    semantic_state_text,
-)
-from adapter.control import select_executed_action  # noqa: E402
+def _load_module(name: str, path: Path):
+    spec = importlib.util.spec_from_file_location(name, path)
+    assert spec is not None and spec.loader is not None
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[name] = module
+    spec.loader.exec_module(module)
+    return module
+
+
+_laya_agent = _load_module("laya_adapter_under_test", Path(__file__).parents[1] / "adapter" / "laya_agent.py")
+_control = _load_module("laya_control_under_test", Path(__file__).parents[1] / "adapter" / "control.py")
+GAME_ACTIONS = _laya_agent.GAME_ACTIONS
+build_action_question = _laya_agent.build_action_question
+semantic_state_text = _laya_agent.semantic_state_text
+select_executed_action = _control.select_executed_action
 
 
 def _observation(**overrides):
