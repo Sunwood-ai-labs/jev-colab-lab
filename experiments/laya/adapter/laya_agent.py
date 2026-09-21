@@ -24,7 +24,7 @@ GAME_ACTIONS = (
     "jump",
     "left",
 )
-PROMPT_PROFILES = ("baseline", "platformer_guided")
+PROMPT_PROFILES = ("baseline", "platformer_guided", "platformer_rules_v2")
 STATE_ENCODINGS = ("full_json", "semantic_v1")
 MODEL_FILES = (
     "encoder/config.json",
@@ -35,29 +35,13 @@ MODEL_FILES = (
 )
 
 _ACTION_CRITERIA = {
-    "noop": (
-        "Give no directional or jump input; slow down while grounded and keep "
-        "existing horizontal momentum while airborne."
-    ),
-    "right": (
-        "Move right at walking speed while grounded; while airborne, hold right "
-        "with the game's full forward air-control speed."
-    ),
-    "right_run": (
-        "Sprint right while grounded; while airborne, hold right with the game's "
-        "full forward air-control speed."
-    ),
-    "right_jump": (
-        "While grounded, move right and start a normal jump over a low obstacle or "
-        "enemy; while airborne, hold right without starting another jump."
-    ),
-    "right_run_jump": (
-        "While grounded, sprint right and start a strong forward jump over a pipe, "
-        "pit, enemy, or blocked path; while airborne, hold right without starting "
-        "another jump."
-    ),
-    "jump": "While grounded, start a vertical jump without directional movement; airborne input cannot double-jump.",
-    "left": "Move left at walking speed; airborne left control reverses toward walking speed.",
+    "noop": "No input; brake when grounded, keep air momentum.",
+    "right": "Walk right grounded; right air control.",
+    "right_run": "Run right grounded; right air control.",
+    "right_jump": "Normal right jump when grounded; right air control in air.",
+    "right_run_jump": "Strong right jump when grounded; right air control in air.",
+    "jump": "Vertical jump when grounded; no double jump.",
+    "left": "Walk left; airborne control reverses.",
 }
 
 
@@ -70,14 +54,14 @@ def build_action_question(
     if profile not in PROMPT_PROFILES:
         raise ValueError(f"Unknown Laya prompt profile: {profile!r}")
     order = tuple(candidate_order)
-    if set(order) != set(GAME_ACTIONS) or len(order) != len(GAME_ACTIONS):
-        raise ValueError("candidate_order must contain each JevDash action exactly once")
+    if not order or len(order) != len(set(order)) or not set(order).issubset(set(GAME_ACTIONS)):
+        raise ValueError("candidate_order must contain one or more unique JevDash actions")
     if profile == "baseline":
         instructions = (
             "Choose exactly one action macro for the current observed game state. "
             "Use only the candidate action names provided below."
         )
-    else:
+    elif profile == "platformer_guided":
         instructions = (
             "Choose exactly one action macro for a 60 FPS side-scrolling platformer. "
             "Preserve forward progress. If the grounded player has a nearby pipe, "
@@ -86,6 +70,17 @@ def build_action_question(
             "rightward momentum. The obstacle and gap distances are coarse tile-column "
             "estimates, not exact front-edge distances. Use only the candidate action "
             "names provided below."
+        )
+    else:
+        instructions = (
+            "Choose exactly one action macro for this 60 FPS platformer. Apply these "
+            "rules to the provided state in order: (1) if grounded=true and "
+            "obstacle_ahead=true, gap_ahead=true, enemy_ahead=true, or "
+            "stalled_frames>=3, choose right_run_jump; (2) if grounded=true and "
+            "none of those conditions hold, choose right_run; (3) if grounded=false, "
+            "choose right_run_jump when a gap or hazard is ahead, otherwise choose "
+            "right_run. Distances are coarse player-left tile-column estimates, not "
+            "exact front-edge distances. Use only the candidate names below."
         )
     return {
         "type": "choice",
@@ -202,6 +197,7 @@ class LayaDecision:
     raw_answer: Dict[str, Any]
     prompt_profile: str
     state_encoding: str
+    candidate_order: tuple[str, ...]
 
 
 class LayaActionAdapter:
@@ -223,6 +219,10 @@ class LayaActionAdapter:
         self.prompt_profile = prompt_profile
         self.state_encoding = state_encoding
         self.candidate_order = tuple(candidate_order)
+        if not self.candidate_order or len(self.candidate_order) != len(set(self.candidate_order)):
+            raise ValueError("candidate_order must contain one or more unique actions")
+        if not set(self.candidate_order).issubset(set(GAME_ACTIONS)):
+            raise ValueError("candidate_order contains an unknown JevDash action")
         self.action_question = build_action_question(prompt_profile, self.candidate_order)
 
         os.environ.setdefault("USE_TF", "0")
@@ -340,10 +340,10 @@ class LayaActionAdapter:
 
         answer = result.get("answers", {}).get("action", {})
         raw_probabilities = answer.get("probabilities", {})
-        missing = [name for name in GAME_ACTIONS if name not in raw_probabilities]
+        missing = [name for name in self.candidate_order if name not in raw_probabilities]
         if missing:
             raise RuntimeError(f"Laya omitted required action candidates: {missing}")
-        probabilities = {name: float(raw_probabilities[name]) for name in GAME_ACTIONS}
+        probabilities = {name: float(raw_probabilities[name]) for name in self.candidate_order}
         if not all(math.isfinite(value) and value >= 0.0 for value in probabilities.values()):
             raise RuntimeError("Laya returned a non-finite or negative action probability")
         total = sum(probabilities.values())
@@ -376,6 +376,7 @@ class LayaActionAdapter:
             raw_answer=_json_safe(answer),
             prompt_profile=self.prompt_profile,
             state_encoding=self.state_encoding,
+            candidate_order=self.candidate_order,
         )
 
     def metadata(self) -> Dict[str, Any]:

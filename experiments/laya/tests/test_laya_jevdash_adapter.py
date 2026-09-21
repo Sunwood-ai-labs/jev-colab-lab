@@ -52,10 +52,10 @@ def _observation(**overrides):
 
 
 def test_question_profiles_keep_all_actions_and_describe_strong_jump():
-    question = build_action_question("platformer_guided")
+    question = build_action_question("platformer_rules_v2")
     assert tuple(question["criteria"]) == GAME_ACTIONS
-    assert "strong forward jump" in question["criteria"]["right_run_jump"]
-    assert "coarse tile-column" in question["instructions"]
+    assert "Strong right jump" in question["criteria"]["right_run_jump"]
+    assert "stalled_frames>=3" in question["instructions"]
 
 
 def test_semantic_state_retains_all_observation_sections():
@@ -116,4 +116,11 @@ def test_reflex_assistance_protects_airborne_gap():
 
 def test_invalid_candidate_order_is_rejected():
     with pytest.raises(ValueError):
-        build_action_question("baseline", GAME_ACTIONS[:-1])
+        build_action_question("baseline", ())
+    with pytest.raises(ValueError):
+        build_action_question("baseline", ("right_run", "right_run"))
+
+
+def test_forward_only_candidate_subset_is_supported_for_a_separate_audit():
+    question = build_action_question("platformer_rules_v2", ("right_run", "right_run_jump"))
+    assert tuple(question["criteria"]) == ("right_run", "right_run_jump")

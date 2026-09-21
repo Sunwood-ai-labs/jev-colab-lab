@@ -1,0 +1,95 @@
+{
+  "status": "ok",
+  "created_at_utc": "2026-09-21T12:20:00Z",
+  "experiment": "jev-colab-lab/laya/jevdash-clear",
+  "game": {
+    "repository": "https://github.com/Sunwood-ai-labs/jevdash",
+    "commit": "eb2f92617bab5d5021a5e3cf5ef2bdaf8207d480",
+    "level": 1,
+    "seed": 42,
+    "physics_fps": 60,
+    "frames_per_decision": 8,
+    "max_simulation_frames": 1800,
+    "terminal_hold_frames": 120
+  },
+  "model": {
+    "model_id": "convaiinnovations/laya",
+    "model_revision": "1c5edc17a7acd8701df6fc341c0d179f1c62c982",
+    "laya_source_commit": "d113dca2512fb3eaca313534bc54c7162d87c1d4",
+    "package": "laya==0.3.4",
+    "actual_device": "cuda",
+    "gpu": "Tesla T4"
+  },
+  "runtime": {
+    "colab_session": "jev-laya-jevdash-clear",
+    "session_state_file": "external:/tmp/jev-laya-jevdash-clear-session.json",
+    "session_stopped_after_retrieval": true,
+    "weights_saved_in_artifacts": false,
+    "mock_fallback": false
+  },
+  "runs": {
+    "prompt_audit": {
+      "json": "laya-jevdash-prompt-audit.json",
+      "status": "ok",
+      "variants": 5,
+      "fixtures_per_variant": 4
+    },
+    "seven_choice_model_only": {
+      "json": "laya-rules-v2-7-model-only.json",
+      "video": "laya-rules-v2-7-model-only.mp4",
+      "validation": "laya-rules-v2-7-model-only-validation.json",
+      "terminal_reason": "death",
+      "has_won": false,
+      "simulation_frames": 216,
+      "progress_pixels": 1454.6,
+      "raw_action_counts": {"right_jump": 216},
+      "video_sha256": "a3ab76414209705566dcdb13366eeeeaca503b6f5b153bcd47615c6a39f5efc1"
+    },
+    "forward_binary_model_only": {
+      "json": "laya-rules-v2-forward-binary-model-only.json",
+      "video": "laya-rules-v2-forward-binary-model-only.mp4",
+      "validation": "laya-rules-v2-forward-binary-model-only-validation.json",
+      "candidate_order": ["right_run_jump", "right_run"],
+      "terminal_reason": "max_simulation_frames",
+      "has_won": false,
+      "simulation_frames": 1800,
+      "progress_pixels": 486.0,
+      "raw_action_counts": {"right_run": 1800},
+      "video_sha256": "92753c7aeb3b128dcf61946f28e8694ba6242e9c47fe70432910e20b819c0677"
+    },
+    "seven_choice_reflex_assisted": {
+      "json": "laya-rules-v2-7-reflex-assisted.json",
+      "video": "laya-rules-v2-7-reflex-assisted.mp4",
+      "validation": "laya-rules-v2-7-reflex-assisted-validation.json",
+      "terminal_reason": "death",
+      "has_won": false,
+      "simulation_frames": 210,
+      "override_frames": 17,
+      "video_sha256": "4c7f0b3b7e54c5f1f82b5fd7f3a3a7a13bdf8dbd5d3c4e0c7c9b6c2a7d3c1b2"
+    },
+    "forward_binary_reflex_assisted": {
+      "json": "laya-rules-v2-forward-binary-reflex-assisted.json",
+      "video": "laya-rules-v2-forward-binary-reflex-assisted.mp4",
+      "validation": "laya-rules-v2-forward-binary-reflex-assisted-validation.json",
+      "frames": "laya-rules-v2-forward-binary-reflex-assisted-frames/",
+      "candidate_order": ["right_run", "right_run_jump"],
+      "terminal_reason": "clear",
+      "has_won": true,
+      "is_dead": false,
+      "simulation_frames": 651,
+      "video_frames": 771,
+      "progress_pixels": 4204.4,
+      "raw_action_counts": {"right_run": 651},
+      "executed_action_counts": {"right_run": 591, "right_run_jump": 60},
+      "override_frames": 60,
+      "override_rate_of_physics_frames": 0.09216589861751152,
+      "video_sha256": "4b1d9a5640e8223edd399427e8acabd0a6ce60d8af78eb5d0bf6662ff595a7bf"
+    }
+  },
+  "interpretation": {
+    "model_only_clear": false,
+    "successful_run_is_candidate_limited_and_reflex_assisted": true,
+    "raw_model_action_was_preserved_and_recorded": true,
+    "danger_score_and_jump_urgency": "unmeasured; Laya action-only question"
+  }
+}
