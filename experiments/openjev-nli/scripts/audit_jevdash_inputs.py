@@ -229,6 +229,12 @@ def main(argv: Sequence[str] | None = None) -> int:
                 "candidate_order": applicability_decision["candidate_order"],
                 "decision": applicability_decision,
             })
+            conditioned_decision = adapter.decide(observation, profile="conditioned-two")
+            profiles.append({
+                "profile": "conditioned-two",
+                "candidate_order": conditioned_decision["candidate_order"],
+                "decision": conditioned_decision,
+            })
             by_state[state_name] = {
                 "observation": observation,
                 "profiles": profiles,
@@ -245,6 +251,10 @@ def main(argv: Sequence[str] | None = None) -> int:
         ]
         applicability_decisions = [
             entry["profiles"][2 + len(orders)]["decision"]
+            for entry in by_state.values()
+        ]
+        conditioned_decisions = [
+            entry["profiles"][3 + len(orders)]["decision"]
             for entry in by_state.values()
         ]
         payload = {
@@ -264,7 +274,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                 "seed": SEED,
                 "fps": FPS,
                 "max_length": args.max_length,
-                "profiles": ["legacy", "card", "rules-v2", "applicability"],
+                "profiles": ["legacy", "card", "rules-v2", "applicability", "conditioned-two"],
                 "candidate_order_trials": len(orders),
                 "execution": "audit only; no game action was executed",
             },
@@ -281,6 +291,7 @@ def main(argv: Sequence[str] | None = None) -> int:
                 "card_actions": sorted({decision["action"] for decision in compact_decisions}),
                 "rules_v2_actions": sorted({decision["action"] for decision in rules_decisions}),
                 "applicability_actions": sorted({decision["action"] for decision in applicability_decisions}),
+                "conditioned_two_actions": sorted({decision["action"] for decision in conditioned_decisions}),
                 "card_premise_byte_min": min(decision["premise_byte_count_utf8"] for decision in compact_decisions),
                 "card_premise_byte_max": max(decision["premise_byte_count_utf8"] for decision in compact_decisions),
                 "card_sequence_length_min": min(decision["sequence_length"] for decision in compact_decisions),
@@ -293,6 +304,10 @@ def main(argv: Sequence[str] | None = None) -> int:
                 "applicability_premise_byte_max": max(decision["premise_byte_count_utf8"] for decision in applicability_decisions),
                 "applicability_sequence_length_min": min(decision["sequence_length"] for decision in applicability_decisions),
                 "applicability_sequence_length_max": max(decision["sequence_length"] for decision in applicability_decisions),
+                "conditioned_two_premise_byte_min": min(decision["premise_byte_count_utf8"] for decision in conditioned_decisions),
+                "conditioned_two_premise_byte_max": max(decision["premise_byte_count_utf8"] for decision in conditioned_decisions),
+                "conditioned_two_sequence_length_min": min(decision["sequence_length"] for decision in conditioned_decisions),
+                "conditioned_two_sequence_length_max": max(decision["sequence_length"] for decision in conditioned_decisions),
                 "card_order_comparisons": {
                     name: entry["card_order_comparison"] for name, entry in by_state.items()
                 },

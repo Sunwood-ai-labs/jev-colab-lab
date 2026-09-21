@@ -61,6 +61,7 @@ APPLICABILITY_HYPOTHESES = {
     "jump": "The player should jump without horizontal input to clear a nearby hazard.",
     "left": "The player should move left without jumping because forward movement is unsafe.",
 }
+TWO_ACTION_OPTIONS = ("right_run", "right_run_jump")
 
 
 def _get(mapping: Mapping[str, Any], *path: str, default: Any = None) -> Any:
@@ -178,6 +179,42 @@ def build_applicability_hypotheses(actions: Sequence[str] | None = None) -> list
             "hypothesis": APPLICABILITY_HYPOTHESES[action],
         }
         for action in selected
+    ]
+
+
+def build_conditioned_premise(observation: Mapping[str, Any]) -> str:
+    """Normalize raw hazard flags into facts without selecting an action."""
+
+    hazards: list[str] = []
+    if _get(observation, "terrain", "gap_ahead"):
+        hazards.append("gap")
+    if _get(observation, "terrain", "obstacle_ahead"):
+        hazards.append("obstacle")
+    if _get(observation, "hazard", "enemy_ahead"):
+        hazards.append("enemy")
+    immediate_hazard = "+".join(hazards) if hazards else "none"
+    path_clear = "no" if hazards else "yes"
+    grounded = "yes" if _get(observation, "player", "grounded") else "no"
+    stalled = "yes" if (_get(observation, "episode", "stalled_frames", default=0) or 0) >= 3 else "no"
+    return (
+        build_rules_v2_premise(observation)
+        + f" Normalized facts: path_clear={path_clear}; immediate_hazard={immediate_hazard}; "
+        f"grounded={grounded}; stalled={stalled}."
+    )
+
+
+def build_conditioned_two_action_hypotheses() -> list[dict[str, str]]:
+    """Return the explicitly restricted run-versus-running-jump comparison."""
+
+    return [
+        {
+            "action": "right_run",
+            "hypothesis": "The forward path is clear, so the player should run right without jumping.",
+        },
+        {
+            "action": "right_run_jump",
+            "hypothesis": "A nearby gap, obstacle, or enemy is present, so the player should run right and start a strong jump.",
+        },
     ]
 
 
@@ -310,17 +347,22 @@ class OpenJevNLIAdapter:
         if profile == "legacy":
             hypotheses = build_hypotheses()
             premise = build_premise(observation_dict)
-        elif profile in ("card", "rules-v2", "applicability"):
+        elif profile in ("card", "rules-v2", "applicability", "conditioned-two"):
             hypotheses = (
                 build_applicability_hypotheses(candidate_order)
                 if profile == "applicability"
-                else build_card_hypotheses(candidate_order)
+                else (
+                    build_conditioned_two_action_hypotheses()
+                    if profile == "conditioned-two"
+                    else build_card_hypotheses(candidate_order)
+                )
             )
-            premise = (
-                build_compact_premise(observation_dict)
-                if profile == "card"
-                else build_rules_v2_premise(observation_dict)
-            )
+            if profile == "card":
+                premise = build_compact_premise(observation_dict)
+            elif profile == "conditioned-two":
+                premise = build_conditioned_premise(observation_dict)
+            else:
+                premise = build_rules_v2_premise(observation_dict)
         else:
             raise ValueError(f"unknown OpenJev input profile: {profile}")
         pair_texts = [

@@ -11,9 +11,12 @@ from adapter.openjev_nli import (  # noqa: E402
     ACTION_OPTIONS,
     ACTION_DESCRIPTIONS,
     APPLICABILITY_HYPOTHESES,
+    TWO_ACTION_OPTIONS,
     CARD_ACTION_OPTIONS,
     build_card_hypotheses,
     build_applicability_hypotheses,
+    build_conditioned_premise,
+    build_conditioned_two_action_hypotheses,
     build_compact_premise,
     build_rules_v2_premise,
     build_hypotheses,
@@ -79,3 +82,16 @@ class OpenJevActionMappingTest(unittest.TestCase):
         self.assertEqual([item["action"] for item in hypotheses], list(ACTION_OPTIONS))
         self.assertEqual(len(APPLICABILITY_HYPOTHESES), len(ACTION_OPTIONS))
         self.assertTrue(all(item["hypothesis"] == APPLICABILITY_HYPOTHESES[item["action"]] for item in hypotheses))
+
+    def test_conditioned_two_action_variant_is_explicitly_restricted(self):
+        hypotheses = build_conditioned_two_action_hypotheses()
+        self.assertEqual([item["action"] for item in hypotheses], list(TWO_ACTION_OPTIONS))
+        premise = build_conditioned_premise({
+            "player": {"grounded": True},
+            "terrain": {"gap_ahead": True, "obstacle_ahead": False},
+            "hazard": {"enemy_ahead": False},
+            "episode": {"stalled_frames": 0},
+            "local_grid": [],
+        })
+        self.assertIn("path_clear=no", premise)
+        self.assertIn("immediate_hazard=gap", premise)
